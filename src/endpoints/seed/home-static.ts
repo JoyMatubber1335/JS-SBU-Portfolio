@@ -61,7 +61,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: ' to make your account and seed content for your website.',
+                text: ' to make your account and seed content for your website. to make your account and seed content for your website.to make your account and seed content for your website.to make your account and seed content for your website.to make your account and seed content for your website.to make your account and seed content for your website.to make your account and seed content for your website.to make your account and seed content for your website.',
                 version: 1,
               },
             ],

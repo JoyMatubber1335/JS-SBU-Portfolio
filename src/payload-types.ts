@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -624,6 +625,7 @@ export interface Form {
             label?: string | null;
             width?: number | null;
             defaultValue?: string | null;
+            placeholder?: string | null;
             options?:
               | {
                   label: string;
@@ -1355,6 +1357,7 @@ export interface FormsSelect<T extends boolean = true> {
               label?: T;
               width?: T;
               defaultValue?: T;
+              placeholder?: T;
               options?:
                 | T
                 | {
@@ -1533,6 +1536,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  menuAnimation?: ('None' | 'Underline' | 'Fade' | 'Scale') | null;
+  enableHoverEffect?: boolean | null;
+  transparentHeader?: boolean | null;
+  blurAmount?: number | null;
+  showSearch?: boolean | null;
+  stickyBehavior?: ('None' | 'Sticky') | null;
+  /**
+   * Pick a background color for the header
+   */
+  headerBgColor?: string | null;
+  /**
+   * Pick a text color for the header
+   */
+  headerTextColor?: string | null;
+  /**
+   * Set the font size for the header text (in px)
+   */
+  headerFontSize?: number | null;
+  headerPaddingTop?: number | null;
+  headerPaddingBottom?: number | null;
   navItems?:
     | {
         link: {
@@ -1590,6 +1613,17 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  menuAnimation?: T;
+  enableHoverEffect?: T;
+  transparentHeader?: T;
+  blurAmount?: T;
+  showSearch?: T;
+  stickyBehavior?: T;
+  headerBgColor?: T;
+  headerTextColor?: T;
+  headerFontSize?: T;
+  headerPaddingTop?: T;
+  headerPaddingBottom?: T;
   navItems?:
     | T
     | {

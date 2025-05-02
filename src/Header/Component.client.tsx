@@ -19,6 +19,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
 
+  // Dynamically fetch header settings
+  const {
+    stickyBehavior,
+    headerBgColor,
+    headerTextColor,
+    headerFontSize,
+    headerPaddingTop,
+    headerPaddingBottom,
+    blurAmount,
+  } = data
+
   useEffect(() => {
     setHeaderTheme(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -30,7 +41,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
+    <header
+      className="container relative z-20 "
+      style={{
+        backgroundColor: headerBgColor || 'transparent',
+        color: headerTextColor || '#000',
+        fontSize: `${headerFontSize || 16}px`,
+        paddingTop: `${headerPaddingTop || 10}px`,
+        paddingBottom: `${headerPaddingBottom || 10}px`,
+        backdropFilter: blurAmount ? `blur(${blurAmount}px)` : 'none',
+        WebkitBackdropFilter: blurAmount ? `blur(${blurAmount}px)` : 'none',
+        position: stickyBehavior === 'Sticky' ? 'sticky' : 'relative',
+        top: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        zIndex: 50,
+      }}
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
       <div className="py-8 flex justify-between">
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
