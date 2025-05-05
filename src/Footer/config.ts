@@ -1,5 +1,4 @@
 import type { GlobalConfig } from 'payload'
-
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
 
@@ -16,6 +15,20 @@ export const Footer: GlobalConfig = {
         link({
           appearances: false,
         }),
+        {
+          name: 'subLinks',
+          type: 'array',
+          label: 'Sub Links',
+          maxRows: 10,
+          fields: [
+            link({
+              appearances: false,
+            }),
+          ],
+          admin: {
+            initCollapsed: true,
+          },
+        },
       ],
       maxRows: 6,
       admin: {
@@ -23,6 +36,15 @@ export const Footer: GlobalConfig = {
         components: {
           RowLabel: '@/Footer/RowLabel#RowLabel',
         },
+      },
+    },
+    {
+      name: 'footerContent',
+      label: 'Footer Content',
+      type: 'richText', // Added rich text field
+      required: false,
+      admin: {
+        // You can customize the rich text editor appearance here if needed
       },
     },
   ],
