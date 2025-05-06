@@ -319,7 +319,7 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
   }
 
   return (
-    <div className="bg-green-500">
+    <div>
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
