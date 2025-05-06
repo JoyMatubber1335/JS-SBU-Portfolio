@@ -44,9 +44,9 @@ export default function Services({ tabs }) {
         <path
           d="M7 12h8m0 0l-3-3m3 3l-3 3"
           stroke="#ffffff"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
     </svg>
