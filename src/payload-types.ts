@@ -153,7 +153,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'teamImpact';
     richText?: {
       root: {
         type: string;
@@ -194,6 +194,41 @@ export interface Page {
         }[]
       | null;
     media?: (string | null) | Media;
+    teamContent?: {
+      heading?: string | null;
+      description?: string | null;
+      headingSize?: ('3xl' | '4xl' | '5xl' | '6xl') | null;
+      headingColor?: string | null;
+      descriptionSize?: ('sm' | 'base' | 'lg' | 'xl') | null;
+      descriptionColor?: string | null;
+      buttonType?: ('solid' | 'outline') | null;
+      buttonBgColor?: string | null;
+      buttonTextColor?: string | null;
+      buttonFontSize?: ('text-sm' | 'text-base' | 'text-lg' | 'text-xl') | null;
+      buttonBorderRadius?:
+        | ('rounded-none' | 'rounded-sm' | 'rounded-md' | 'rounded-lg' | 'rounded-xl' | 'rounded-full')
+        | null;
+      buttonHoverBgColor?: string | null;
+      buttonBorderColor?: string | null;
+      fontFamily?: ('font-sans' | 'font-serif' | 'font-mono') | null;
+    };
+    testimonials?:
+      | {
+          text: string;
+          author: string;
+          id?: string | null;
+        }[]
+      | null;
+    testimonialStyle?: {
+      textSize?: ('sm' | 'base' | 'lg' | 'xl') | null;
+      textColor?: string | null;
+      authorColor?: string | null;
+      borderColor?: string | null;
+      backgroundColor?: string | null;
+      transitionDuration?: ('300' | '500' | '800' | '1200') | null;
+      autoplay?: boolean | null;
+      interval?: number | null;
+    };
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   meta?: {
@@ -1012,6 +1047,43 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
             };
         media?: T;
+        teamContent?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              headingSize?: T;
+              headingColor?: T;
+              descriptionSize?: T;
+              descriptionColor?: T;
+              buttonType?: T;
+              buttonBgColor?: T;
+              buttonTextColor?: T;
+              buttonFontSize?: T;
+              buttonBorderRadius?: T;
+              buttonHoverBgColor?: T;
+              buttonBorderColor?: T;
+              fontFamily?: T;
+            };
+        testimonials?:
+          | T
+          | {
+              text?: T;
+              author?: T;
+              id?: T;
+            };
+        testimonialStyle?:
+          | T
+          | {
+              textSize?: T;
+              textColor?: T;
+              authorColor?: T;
+              borderColor?: T;
+              backgroundColor?: T;
+              transitionDuration?: T;
+              autoplay?: T;
+              interval?: T;
+            };
       };
   layout?:
     | T
