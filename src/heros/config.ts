@@ -358,6 +358,56 @@ export const hero: Field = {
             },
           }),
         },
+        {
+          name: 'servicesTitle',
+          type: 'text',
+          label: 'Services Title',
+          defaultValue: 'Our Services',
+          required: true,
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'services',
+          },
+        },
+        {
+          name: 'techStacks',
+          type: 'array',
+          label: 'Technology Stacks',
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'services',
+          },
+          fields: [
+            {
+              name: 'stackName',
+              type: 'text',
+              label: 'Stack Name',
+              required: true,
+            },
+            {
+              name: 'stackDescription',
+              type: 'textarea',
+              label: 'Short Description',
+              required: true,
+            },
+            {
+              name: 'technologies',
+              type: 'text',
+              label: 'Technologies (comma separated)',
+              required: true,
+            },
+          ],
+          defaultValue: [
+            {
+              stackName: 'Frontend Development',
+              stackDescription: 'Modern, responsive interfaces with the latest frameworks',
+              technologies: 'React, Angular, Vue, Next.js, TypeScript',
+            },
+            {
+              stackName: 'Backend Development',
+              stackDescription: 'Scalable and secure server solutions',
+              technologies: 'Node.js, Python, Java, .NET, PHP',
+            },
+          ],
+        },
       ],
       defaultValue: [
         {

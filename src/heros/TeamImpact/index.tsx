@@ -19,6 +19,12 @@ type SlideData = {
   productDescription?: string | null
   productImage?: string | any
   servicesContent?: any
+  servicesTitle?: string | null
+  techStacks?: Array<{
+    stackName: string
+    stackDescription: string
+    technologies: string
+  }> | null
 }
 
 // Processed slide for internal use
@@ -29,6 +35,12 @@ type Slide = {
   productDescription?: string
   productImage?: any
   servicesContent?: any
+  servicesTitle?: string
+  techStacks?: Array<{
+    stackName: string
+    stackDescription: string
+    technologies: string
+  }>
 }
 
 export const TeamImpactHero: React.FC<Page['hero']> = ({
@@ -96,6 +108,8 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
             baseSlide.productImage = slide.productImage
           } else if (slide.slideType === 'services') {
             baseSlide.servicesContent = slide.servicesContent
+            baseSlide.servicesTitle = slide.servicesTitle || 'Our Services'
+            baseSlide.techStacks = slide.techStacks || []
           }
 
           return baseSlide
@@ -433,13 +447,65 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
             max-width: 800px;
             margin: 0 auto;
           }
+
+          /* Tech Stack styles */
+          .tech-stacks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+          }
+
+          .tech-stack-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition:
+              transform 0.2s ease,
+              box-shadow 0.2s ease;
+          }
+
+          .tech-stack-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          .stack-name {
+            color: ${textColor};
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+          }
+
+          .stack-description {
+            color: ${textColor};
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+          }
+
+          .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+          }
+
+          .tech-tag {
+            display: inline-block;
+            background-color: rgba(0, 0, 0, 0.05);
+            color: ${textColor};
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            white-space: nowrap;
+          }
         `}</style>
 
         {/* Top section with heading, description, CTA, and image */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
           {/* Left side - Text Content */}
           <div className="flex flex-col justify-center">
-            <div className="max-w-xl">
+            <div className="max-w-xl p-4">
               <h1 className={`hero-heading ${fontFamily}`}>{heading}</h1>
               <p
                 className={`${getTextSizeClass(descriptionSize)} mb-10 ${fontFamily}`}
@@ -496,9 +562,34 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
                       </div>
                     )}
 
-                    {currentSlide.slideType === 'services' && currentSlide.servicesContent && (
+                    {currentSlide.slideType === 'services' && (
                       <div className={`services-content ${fontFamily}`}>
-                        {renderRichTextContent(currentSlide.servicesContent)}
+                        <h3 className="services-heading">
+                          {currentSlide.servicesTitle || 'Our Services'}
+                        </h3>
+
+                        {Array.isArray(currentSlide.techStacks) &&
+                        currentSlide.techStacks.length > 0 ? (
+                          <div className="tech-stacks-grid">
+                            {currentSlide.techStacks.map((stack, stackIndex) => (
+                              <div key={stackIndex} className="tech-stack-card">
+                                <h4 className="stack-name">{stack.stackName}</h4>
+                                <p className="stack-description">{stack.stackDescription}</p>
+                                <div className="tech-tags">
+                                  {stack.technologies.split(',').map((tech, techIndex) => (
+                                    <span key={techIndex} className="tech-tag">
+                                      {tech.trim()}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : currentSlide.servicesContent ? (
+                          renderRichTextContent(currentSlide.servicesContent)
+                        ) : (
+                          <p>No services information available.</p>
+                        )}
                       </div>
                     )}
                   </div>

@@ -234,6 +234,15 @@ export interface Page {
             };
             [k: string]: unknown;
           } | null;
+          servicesTitle?: string | null;
+          techStacks?:
+            | {
+                stackName: string;
+                stackDescription: string;
+                technologies: string;
+                id?: string | null;
+              }[]
+            | null;
           id?: string | null;
         }[]
       | null;
@@ -1091,6 +1100,15 @@ export interface PagesSelect<T extends boolean = true> {
               productDescription?: T;
               productImage?: T;
               servicesContent?: T;
+              servicesTitle?: T;
+              techStacks?:
+                | T
+                | {
+                    stackName?: T;
+                    stackDescription?: T;
+                    technologies?: T;
+                    id?: T;
+                  };
               id?: T;
             };
         testimonialStyle?:
