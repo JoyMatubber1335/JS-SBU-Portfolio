@@ -17,6 +17,7 @@ import { Settings } from './Settings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { Copyright } from './Copyright/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -70,7 +71,7 @@ export default buildConfig({
     defaultLocale: 'en', // required
   },
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, Settings],
+  globals: [Header, Footer, Settings, Copyright],
   plugins: [
     ...plugins,
     // storage-adapter-placeholder

@@ -12,15 +12,21 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 
 interface HeaderClientProps {
   data: Header
-  settingsdata: settingsdata
+  settingsData: {
+    logo?: {
+      url?: string
+      filename?: string
+      alt?: string
+    }
+  }
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsdata }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }) => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
-  const logo = settingsdata?.logo
+  const logo = settingsData?.logo
   const logoUrl =
     logo?.url ||
     (logo?.filename ? `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/media/${logo.filename}` : null)

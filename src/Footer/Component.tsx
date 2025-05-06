@@ -13,6 +13,7 @@ export async function Footer() {
   const footerData: FooterType = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
   const footerContent = footerData?.footerContent?.children || []
+  const copyrightData = footerData?.copyright
 
   console.log('footerData', footerData)
 
@@ -155,6 +156,7 @@ export async function Footer() {
           </a>
         )}
       </div>
+      
     </footer>
   )
 }

@@ -1,3 +1,4 @@
+import { fields } from './../blocks/Form/fields'
 import type { GlobalConfig } from 'payload'
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
@@ -47,6 +48,7 @@ export const Footer: GlobalConfig = {
         // You can customize the rich text editor appearance here if needed
       },
     },
+    
   ],
   hooks: {
     afterChange: [revalidateFooter],

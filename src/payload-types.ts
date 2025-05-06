@@ -104,11 +104,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     settings: Setting;
+    copyright: Copyright;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
+    copyright: CopyrightSelect<false> | CopyrightSelect<true>;
   };
   locale: 'en' | 'es' | 'de';
   user: User & {
@@ -1658,6 +1660,39 @@ export interface Setting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "copyright".
+ */
+export interface Copyright {
+  id: string;
+  /**
+   * Copyright text (e.g., "All rights reserved")
+   */
+  text: string;
+  copyrightLinks?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1746,6 +1781,30 @@ export interface SettingsSelect<T extends boolean = true> {
         twitter?: T;
         snapchat?: T;
         pinterest?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "copyright_select".
+ */
+export interface CopyrightSelect<T extends boolean = true> {
+  text?: T;
+  copyrightLinks?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
       };
   updatedAt?: T;
   createdAt?: T;
