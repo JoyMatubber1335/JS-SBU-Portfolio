@@ -276,37 +276,150 @@ export const hero: Field = {
       admin: {
         condition: (_, { type } = {}) => type === 'teamImpact',
       },
-      label: 'Testimonials',
+      label: 'Slides',
       labels: {
-        singular: 'Testimonial',
-        plural: 'Testimonials',
+        singular: 'Slide',
+        plural: 'Slides',
       },
       fields: [
         {
-          name: 'text',
-          type: 'textarea',
-          label: 'Testimonial Text',
+          name: 'slideType',
+          type: 'select',
+          label: 'Slide Type',
           required: true,
+          defaultValue: 'motto',
+          options: [
+            {
+              label: 'Motto',
+              value: 'motto',
+            },
+            {
+              label: 'Product Highlight',
+              value: 'product',
+            },
+            {
+              label: 'Services',
+              value: 'services',
+            },
+          ],
         },
         {
-          name: 'author',
+          name: 'motto',
           type: 'text',
-          label: 'Author Name and Title',
+          label: 'Motto Text',
           required: true,
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'motto',
+          },
+        },
+        {
+          name: 'productTitle',
+          type: 'text',
+          label: 'Product Title',
+          required: true,
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'product',
+          },
+        },
+        {
+          name: 'productDescription',
+          type: 'textarea',
+          label: 'Product Description',
+          required: true,
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'product',
+          },
+        },
+        {
+          name: 'productImage',
+          type: 'upload',
+          label: 'Product Image',
+          relationTo: 'media',
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'product',
+          },
+        },
+        {
+          name: 'servicesContent',
+          type: 'richText',
+          label: 'Services Content',
+          required: true,
+          admin: {
+            condition: (_, { slideType } = {}) => slideType === 'services',
+          },
+          editor: lexicalEditor({
+            features: ({ rootFeatures }) => {
+              return [
+                ...rootFeatures,
+                HeadingFeature({ enabledHeadingSizes: ['h3', 'h4'] }),
+                FixedToolbarFeature(),
+                InlineToolbarFeature(),
+              ]
+            },
+          }),
         },
       ],
       defaultValue: [
         {
-          text: 'Cefalo´s business model was what we needed to give it a try. It has worked beyond belief for us!',
-          author: 'Leif Arild Åsheim, CEO | Promineo',
+          slideType: 'motto',
+          motto: 'Empowering Your Business with Top Talent',
         },
         {
-          text: "Cefalo understood what we were looking for and found skilled developers for us. We gained quick access to the right qualifications for the project we were about to start. It's worth its weight in gold!",
-          author: 'Eivind Olsen, Director of Customer Deliveries at Prokom',
+          slideType: 'product',
+          productTitle: 'Custom Software Development',
+          productDescription:
+            'Build tailored software solutions to meet your unique business needs.',
         },
         {
-          text: 'Working with Cefalo has been a game-changer for our development needs. Their team consistently delivers high-quality work on time and within budget.',
-          author: 'Anna Johnson, VP of Engineering | TechSolutions',
+          slideType: 'services',
+          servicesContent: {
+            root: {
+              children: [
+                {
+                  children: [
+                    {
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: 'Our Services',
+                      type: 'text',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'heading',
+                  version: 1,
+                  tag: 'h3',
+                },
+                {
+                  children: [
+                    {
+                      detail: 0,
+                      format: 0,
+                      mode: 'normal',
+                      style: '',
+                      text: 'We offer a wide range of services including web development, mobile app development, and cloud solutions.',
+                      type: 'text',
+                      version: 1,
+                    },
+                  ],
+                  direction: 'ltr',
+                  format: '',
+                  indent: 0,
+                  type: 'paragraph',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              type: 'root',
+              version: 1,
+            },
+          },
         },
       ],
     },
@@ -347,12 +460,6 @@ export const hero: Field = {
           type: 'text',
           label: 'Text Color (Hex code, e.g. #374151)',
           defaultValue: '#374151',
-        },
-        {
-          name: 'authorColor',
-          type: 'text',
-          label: 'Author Text Color (Hex code, e.g. #1f2937)',
-          defaultValue: '#1f2937',
         },
         {
           name: 'borderColor',

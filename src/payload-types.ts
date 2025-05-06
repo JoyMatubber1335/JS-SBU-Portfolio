@@ -214,15 +214,32 @@ export interface Page {
     };
     testimonials?:
       | {
-          text: string;
-          author: string;
+          slideType: 'motto' | 'product' | 'services';
+          motto?: string | null;
+          productTitle?: string | null;
+          productDescription?: string | null;
+          productImage?: (string | null) | Media;
+          servicesContent?: {
+            root: {
+              type: string;
+              children: {
+                type: string;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
           id?: string | null;
         }[]
       | null;
     testimonialStyle?: {
       textSize?: ('sm' | 'base' | 'lg' | 'xl') | null;
       textColor?: string | null;
-      authorColor?: string | null;
       borderColor?: string | null;
       backgroundColor?: string | null;
       transitionDuration?: ('300' | '500' | '800' | '1200') | null;
@@ -1068,8 +1085,12 @@ export interface PagesSelect<T extends boolean = true> {
         testimonials?:
           | T
           | {
-              text?: T;
-              author?: T;
+              slideType?: T;
+              motto?: T;
+              productTitle?: T;
+              productDescription?: T;
+              productImage?: T;
+              servicesContent?: T;
               id?: T;
             };
         testimonialStyle?:
@@ -1077,7 +1098,6 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               textSize?: T;
               textColor?: T;
-              authorColor?: T;
               borderColor?: T;
               backgroundColor?: T;
               transitionDuration?: T;

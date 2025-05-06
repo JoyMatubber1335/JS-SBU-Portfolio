@@ -7,9 +7,28 @@ import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 
-type Testimonial = {
-  text: string
-  author: string
+// Define slide types
+type SlideType = 'motto' | 'product' | 'services'
+
+// Slide data type from CMS
+type SlideData = {
+  id?: string | null
+  slideType: SlideType
+  motto?: string | null
+  productTitle?: string | null
+  productDescription?: string | null
+  productImage?: string | any
+  servicesContent?: any
+}
+
+// Processed slide for internal use
+type Slide = {
+  slideType: SlideType
+  motto?: string
+  productTitle?: string
+  productDescription?: string
+  productImage?: any
+  servicesContent?: any
 }
 
 export const TeamImpactHero: React.FC<Page['hero']> = ({
@@ -43,35 +62,51 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
   // Font styling options
   const fontFamily = teamContentExt?.fontFamily || 'font-sans'
 
-  // Default testimonial style values
+  // Default styling values
   const textSize = testimonialStyle?.textSize || 'base'
   const textColor = testimonialStyle?.textColor || '#374151'
-  const authorColor = testimonialStyle?.authorColor || '#1f2937'
-  const borderColor = testimonialStyle?.borderColor || '#1e3a8a'
   const backgroundColor = testimonialStyle?.backgroundColor || '#ffffff'
+  const borderColor = testimonialStyle?.borderColor || '#1e3a8a'
   const transitionDuration = testimonialStyle?.transitionDuration || '500'
   const autoplay = testimonialStyle?.autoplay ?? true
   const interval = (testimonialStyle?.interval || 5) * 1000
 
-  // Define default testimonial that will always be available
-  const defaultTestimonial: Testimonial = {
-    text: 'Cefalo´s business model was what we needed to give it a try. It has worked beyond belief for us!',
-    author: 'Leif Arild Åsheim, CEO | Promineo',
+  // Define default slide
+  const defaultSlide: Slide = {
+    slideType: 'motto',
+    motto: 'Empowering Your Business with Top Talent',
   }
 
-  // Prepare testimonials array with type safety
-  const allTestimonials: Testimonial[] = React.useMemo(() => {
+  // Prepare slides array
+  const allSlides: Slide[] = React.useMemo(() => {
     if (Array.isArray(testimonials) && testimonials.length > 0) {
-      const validTestimonials = testimonials
-        .filter((t) => t && typeof t.text === 'string' && typeof t.author === 'string')
-        .map((t) => ({ text: t.text, author: t.author }))
+      const validSlides = testimonials
+        .filter((slide: any) => slide && slide.slideType)
+        .map((slide: SlideData) => {
+          const baseSlide = {
+            slideType: slide.slideType || 'motto',
+          } as Slide
 
-      return validTestimonials.length > 0 ? validTestimonials : [defaultTestimonial]
+          // Add type-specific properties
+          if (slide.slideType === 'motto' && slide.motto) {
+            baseSlide.motto = slide.motto
+          } else if (slide.slideType === 'product') {
+            baseSlide.productTitle = slide.productTitle || ''
+            baseSlide.productDescription = slide.productDescription || ''
+            baseSlide.productImage = slide.productImage
+          } else if (slide.slideType === 'services') {
+            baseSlide.servicesContent = slide.servicesContent
+          }
+
+          return baseSlide
+        })
+
+      return validSlides.length > 0 ? validSlides : [defaultSlide]
     }
-    return [defaultTestimonial]
+    return [defaultSlide]
   }, [testimonials])
 
-  // State for the current testimonial index and animation
+  // State for the current slide index and animation
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -80,12 +115,12 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
 
   // Always ensure the current index is valid
   useEffect(() => {
-    if (currentIndex >= allTestimonials.length) {
+    if (currentIndex >= allSlides.length) {
       setCurrentIndex(0)
     }
-  }, [allTestimonials, currentIndex])
+  }, [allSlides, currentIndex])
 
-  // Get the proper text size class for testimonial
+  // Get the proper text size class for text
   const getTextSizeClass = (size: string) => {
     switch (size) {
       case 'sm':
@@ -133,27 +168,27 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
     }
   }
 
-  // Handle changing to next testimonial with animation
-  const handleNextTestimonial = useCallback(() => {
-    if (isAnimating || allTestimonials.length <= 1) return
+  // Handle changing to next slide with animation
+  const handleNextSlide = useCallback(() => {
+    if (isAnimating || allSlides.length <= 1) return
 
     setIsAnimating(true)
 
     // Wait for fade out before changing content
     timeoutRef.current = setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % allTestimonials.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % allSlides.length)
       setIsAnimating(false)
     }, parseInt(transitionDuration))
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [allTestimonials.length, isAnimating, transitionDuration])
+  }, [allSlides.length, isAnimating, transitionDuration])
 
-  // Go to a specific testimonial
-  const goToTestimonial = useCallback(
+  // Go to a specific slide
+  const goToSlide = useCallback(
     (index: number) => {
-      if (isAnimating || index === currentIndex || allTestimonials.length <= 1) return
+      if (isAnimating || index === currentIndex || allSlides.length <= 1) return
 
       setIsAnimating(true)
 
@@ -167,19 +202,22 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
       }
     },
-    [currentIndex, allTestimonials.length, isAnimating, transitionDuration],
+    [currentIndex, allSlides.length, isAnimating, transitionDuration],
   )
 
-  // Auto-advance testimonials if autoplay is enabled
+  // Auto-advance slides if autoplay is enabled
   useEffect(() => {
-    if (!autoplay || allTestimonials.length <= 1) return
+    if (!autoplay || allSlides.length <= 1) return
 
     const timer = setInterval(() => {
-      handleNextTestimonial()
+      handleNextSlide()
     }, interval)
 
     return () => clearInterval(timer)
-  }, [autoplay, interval, handleNextTestimonial, allTestimonials.length])
+  }, [autoplay, interval, handleNextSlide, allSlides.length])
+
+  // Current slide is guaranteed to be defined now
+  const currentSlide = allSlides[currentIndex] || defaultSlide
 
   // Add this useEffect to ensure heading color is applied after render
   useEffect(() => {
@@ -192,12 +230,82 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
     }
   }, [headingColor, headingSize])
 
-  // Current testimonial is guaranteed to be defined now
-  const currentTestimonial = allTestimonials[currentIndex] || defaultTestimonial
-  console.log('Current heading color:', headingColor)
+  // Helper function to render rich text content
+  const renderRichTextContent = (content: any) => {
+    if (!content) return <p>No services information available.</p>
+
+    // Check if the content has the expected rich text structure
+    if (
+      content &&
+      typeof content === 'object' &&
+      content.root &&
+      Array.isArray(content.root.children)
+    ) {
+      // Process the rich text content
+      const htmlContent = content.root.children.map((node: any, index: number) => {
+        if (node.type === 'heading') {
+          const headingLevel = parseInt(node.tag.replace('h', ''), 10) || 3
+          const headingText = node.children?.map((child: any) => child.text || '').join('') || ''
+
+          if (headingLevel === 1)
+            return (
+              <h1 key={index} className="services-heading">
+                {headingText}
+              </h1>
+            )
+          if (headingLevel === 2)
+            return (
+              <h2 key={index} className="services-heading">
+                {headingText}
+              </h2>
+            )
+          if (headingLevel === 3)
+            return (
+              <h3 key={index} className="services-heading">
+                {headingText}
+              </h3>
+            )
+          if (headingLevel === 4)
+            return (
+              <h4 key={index} className="services-heading">
+                {headingText}
+              </h4>
+            )
+          if (headingLevel === 5)
+            return (
+              <h5 key={index} className="services-heading">
+                {headingText}
+              </h5>
+            )
+          return (
+            <h6 key={index} className="services-heading">
+              {headingText}
+            </h6>
+          )
+        } else if (node.type === 'paragraph') {
+          const paragraphText = node.children?.map((child: any) => child.text || '').join('') || ''
+          return (
+            <p key={index} className="services-paragraph">
+              {paragraphText}
+            </p>
+          )
+        }
+        return null
+      })
+
+      return <div className="rich-text-content">{htmlContent}</div>
+    }
+
+    // Fallback for simple text
+    if (typeof content === 'string') {
+      return <p>{content}</p>
+    }
+
+    return <p>Services information is in an unexpected format.</p>
+  }
 
   return (
-    <div className="py-16">
+    <div className="bg-green-500">
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
@@ -215,17 +323,7 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
             overflow: hidden;
             color: ${buttonTextColor};
             font-weight: 500;
-          }
-          .custom-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background-color: ${buttonType === 'outline' ? 'transparent' : buttonBgColor};
-            z-index: -1;
-            transition: background-color 0.3s ease;
           }
           .custom-button:hover::before {
             background-color: ${buttonHoverBgColor};
@@ -235,23 +333,71 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
             border: ${buttonType === 'outline' ? `2px solid ${buttonBorderColor}` : 'none'};
           }
 
-          /* Testimonial styles */
-          .testimonial-card {
+          /* Slide styles */
+          .slide-card {
             position: relative;
-            min-height: 130px;
+            min-height: 150px;
             padding: 1.5rem;
             margin-bottom: 1rem;
             background-color: ${backgroundColor};
             border-left: 4px solid ${borderColor};
           }
-          .testimonial-text {
+
+          /* Motto styles */
+          .slide-motto {
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-style: italic;
+            color: ${textColor};
+            line-height: 1.4;
+          }
+
+          /* Product styles */
+          .product-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: ${textColor};
+            margin-bottom: 0.75rem;
+          }
+
+          .product-description {
+            color: ${textColor};
             margin-bottom: 1rem;
+          }
+
+          .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+          }
+
+          .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            overflow: hidden;
+          }
+
+          .product-content {
+            flex: 1;
+            min-width: 200px;
+          }
+
+          /* Services styles */
+          .services-content h3 {
+            color: ${textColor};
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+          }
+
+          .services-content p {
             color: ${textColor};
           }
-          .testimonial-author {
-            font-weight: 600;
-            color: ${authorColor};
-          }
+
+          /* Dot indicator styles */
           .dot-indicator {
             width: 12px;
             height: 12px;
@@ -267,6 +413,25 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
           .dot-inactive {
             background-color: ${buttonBgColor};
             opacity: 0.4;
+          }
+
+          .services-heading {
+            color: ${buttonBgColor};
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+          }
+
+          .services-paragraph {
+            color: ${textColor};
+            margin-bottom: 1rem;
+            font-family: inherit;
+          }
+
+          .rich-text-content {
+            text-align: left;
+            max-width: 800px;
+            margin: 0 auto;
           }
         `}</style>
 
@@ -294,33 +459,62 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
                 </div>
               )}
 
-              {/* Testimonial slideshow */}
+              {/* Slide content */}
               <div className="mt-10">
-                <div className="testimonial-card">
+                <div className="slide-card">
                   <div
                     className={`${isAnimating ? 'opacity-0' : 'opacity-100'} transition-opacity`}
                     style={{ transitionDuration: `${transitionDuration}ms` }}
                   >
-                    <p className={`testimonial-text ${getTextSizeClass(textSize)} ${fontFamily}`}>
-                      {currentTestimonial.text}
-                    </p>
-                    <p className={`testimonial-author ${fontFamily}`}>
-                      {currentTestimonial.author}
-                    </p>
+                    {/* Render appropriate content based on slide type */}
+                    {currentSlide.slideType === 'motto' && currentSlide.motto && (
+                      <div className={`slide-motto ${fontFamily}`}>
+                        &ldquo;{currentSlide.motto}&rdquo;
+                      </div>
+                    )}
+
+                    {currentSlide.slideType === 'product' && (
+                      <div className="product-container">
+                        {currentSlide.productImage && (
+                          <div className="product-image">
+                            <Media
+                              imgClassName="w-full h-full object-cover"
+                              resource={currentSlide.productImage}
+                            />
+                          </div>
+                        )}
+                        <div className="product-content">
+                          <h3 className={`product-title ${fontFamily}`}>
+                            {currentSlide.productTitle}
+                          </h3>
+                          <p
+                            className={`product-description ${getTextSizeClass(textSize)} ${fontFamily}`}
+                          >
+                            {currentSlide.productDescription}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {currentSlide.slideType === 'services' && currentSlide.servicesContent && (
+                      <div className={`services-content ${fontFamily}`}>
+                        {renderRichTextContent(currentSlide.servicesContent)}
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                {/* Indicator Dots (only when multiple testimonials) */}
-                {allTestimonials.length > 1 && (
+                {/* Indicator Dots (only when multiple slides) */}
+                {allSlides.length > 1 && (
                   <div className="flex items-center gap-2 mt-4">
-                    {allTestimonials.map((_, index) => {
+                    {allSlides.map((_, index) => {
                       const isActive = index === currentIndex
                       return (
                         <button
                           key={index}
-                          onClick={() => goToTestimonial(index)}
+                          onClick={() => goToSlide(index)}
                           className={`dot-indicator ${isActive ? 'dot-active' : 'dot-inactive'}`}
-                          aria-label={`Go to testimonial ${index + 1}`}
+                          aria-label={`Go to slide ${index + 1}`}
                           disabled={isAnimating}
                         />
                       )
