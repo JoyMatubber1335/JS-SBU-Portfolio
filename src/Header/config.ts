@@ -113,12 +113,44 @@ export const Header: GlobalConfig = {
         {
           name: 'navItems',
           type: 'array',
-          fields: [
-            link({
-              appearances: false,
-            }),
-          ],
           maxRows: 6,
+          fields: [
+            link({ appearances: false }),
+            {
+              name: 'subNavItems',
+              type: 'array',
+              label: 'Sub Navigation Items',
+              admin: {
+                initCollapsed: true,
+              },
+              fields: [
+                link({ appearances: false }),
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media', // make sure you have a 'media' collection
+                  label: 'Sub Menu Image',
+                },
+                {
+                  name: 'subSubNavItems',
+                  type: 'array',
+                  label: 'Sub-Sub Navigation Items',
+                  admin: {
+                    initCollapsed: true,
+                  },
+                  fields: [
+                    link({ appearances: false }),
+                    {
+                      name: 'image',
+                      type: 'upload',
+                      relationTo: 'media',
+                      label: 'Sub-Sub Menu Image',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
           admin: {
             initCollapsed: true,
             components: {
