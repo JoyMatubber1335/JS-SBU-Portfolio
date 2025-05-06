@@ -619,7 +619,7 @@ export const TeamImpactHero: React.FC<Page['hero']> = ({
           {/* Right side - Image */}
           <div>
             {media && typeof media === 'object' && (
-              <div className="rounded-lg overflow-hidden shadow-xl bg-gray-100">
+              <div className="rounded-lg flex h-full overflow-hidden shadow-xl bg-gray-100">
                 <Media imgClassName="w-full h-full object-cover" priority resource={media} />
               </div>
             )}
