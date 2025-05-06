@@ -103,12 +103,16 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    settings: Setting;
+    copyright: Copyright;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    settings: SettingsSelect<false> | SettingsSelect<true>;
+    copyright: CopyrightSelect<false> | CopyrightSelect<true>;
   };
-  locale: null;
+  locale: 'en' | 'es' | 'de';
   user: User & {
     collection: 'users';
   };
@@ -1602,6 +1606,105 @@ export interface Footer {
           url?: string | null;
           label: string;
         };
+        subLinks?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  footerContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: string;
+  logo?: (string | null) | Media;
+  colorScheme?: {
+    primaryColor?: string | null;
+    secondaryColor?: string | null;
+    backgroundColor?: string | null;
+  };
+  fontSettings?: {
+    fontFamily?: string | null;
+    baseFontSize?: number | null;
+    headingFontSize?: number | null;
+  };
+  /**
+   * Add links to your social media profiles.
+   */
+  socialMediaLinks?: {
+    facebook?: string | null;
+    instagram?: string | null;
+    tiktok?: string | null;
+    twitter?: string | null;
+    snapchat?: string | null;
+    pinterest?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "copyright".
+ */
+export interface Copyright {
+  id: string;
+  /**
+   * Copyright text (e.g., "All rights reserved")
+   */
+  text: string;
+  copyrightLinks?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
         id?: string | null;
       }[]
     | null;
@@ -1648,6 +1751,79 @@ export interface HeaderSelect<T extends boolean = true> {
  */
 export interface FooterSelect<T extends boolean = true> {
   navItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        subLinks?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  footerContent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  logo?: T;
+  colorScheme?:
+    | T
+    | {
+        primaryColor?: T;
+        secondaryColor?: T;
+        backgroundColor?: T;
+      };
+  fontSettings?:
+    | T
+    | {
+        fontFamily?: T;
+        baseFontSize?: T;
+        headingFontSize?: T;
+      };
+  socialMediaLinks?:
+    | T
+    | {
+        facebook?: T;
+        instagram?: T;
+        tiktok?: T;
+        twitter?: T;
+        snapchat?: T;
+        pinterest?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "copyright_select".
+ */
+export interface CopyrightSelect<T extends boolean = true> {
+  text?: T;
+  copyrightLinks?:
     | T
     | {
         link?:
