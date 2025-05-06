@@ -12,6 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import Services from '@/components/ui/Services'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -65,6 +66,18 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
 
+  // Type guard for services block
+  function isServicesBlock(block: any): block is { blockType: string; tabs: any[] } {
+    return (
+      (block.blockType === 'services' || block.blockType === 'services-style-block') &&
+      Array.isArray(block.tabs)
+    )
+  }
+
+  // Find the services block in the layout
+  const servicesBlock = layout?.find(isServicesBlock)
+  const tabs = (servicesBlock as any)?.tabs || []
+
   return (
     <article className="pt-16 pb-24">
       <PageClient />
@@ -74,6 +87,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
+      {slug === 'home' && <Services tabs={tabs} />}
       <RenderBlocks blocks={layout} />
     </article>
   )

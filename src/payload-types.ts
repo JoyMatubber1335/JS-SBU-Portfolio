@@ -195,7 +195,35 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | {
+        tabs?:
+          | {
+              label: string;
+              key: string;
+              title: string;
+              description: string;
+              links?:
+                | {
+                    text: string;
+                    href: string;
+                    id?: string | null;
+                  }[]
+                | null;
+              image?: (string | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'services';
+      }
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -1016,6 +1044,29 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        services?:
+          | T
+          | {
+              tabs?:
+                | T
+                | {
+                    label?: T;
+                    key?: T;
+                    title?: T;
+                    description?: T;
+                    links?:
+                      | T
+                      | {
+                          text?: T;
+                          href?: T;
+                          id?: T;
+                        };
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
