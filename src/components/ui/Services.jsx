@@ -6,6 +6,7 @@ import './Services.css'
 export default function Services({ tabs }) {
   const panelRefs = useRef([])
   const [activeTab, setActiveTab] = useState(0)
+  const [scrollToTabIdx, setScrollToTabIdx] = useState(null)
 
   // Scroll to panel on tab click, with offset for sticky tab bar
   const STICKY_TAB_HEIGHT = 64
@@ -54,64 +55,66 @@ export default function Services({ tabs }) {
 
   return (
     <div className="marketing-tabs__container">
-      <h2 className="marketing-tabs__headline">
-        Solutions tailored for your success, <span>all in one place</span>
-      </h2>
-      <div className="marketing-tabs__tablist sticky">
-        {tabs.map((t, idx) => (
-          <button
-            key={t.key || t.label || idx}
-            className={`marketing-tabs__tab${activeTab === idx ? ' active' : ''}`}
-            onClick={() => handleTabClick(idx)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-      <div className="marketing-tabs__panels">
-        {tabs.map((tab, idx) => (
-          <div
-            key={tab.key || tab.label || idx}
-            id={`marketing-tab-panel-${tab.key || idx}`}
-            className="marketing-tabs__panel"
-            ref={(el) => (panelRefs.current[idx] = el)}
-          >
-            <div className="services__panel-content">
-              <div className="services__panel-text">
-                <h3>{tab.title}</h3>
-                <p>{tab.description}</p>
-                <ul>
-                  {tab.links &&
-                    tab.links.map((link) => (
-                      <li key={link.text}>
-                        <a href={link.href} className="services__link">
-                          <span className="services__icon">
-                            <ArrowIcon />
-                          </span>
-                          <span>{link.text}</span>
-                        </a>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-              <div className="services__image">
-                {tab.image && (
-                  <img
-                    src={
-                      typeof tab.image === 'string'
-                        ? tab.image
-                        : tab.image?.url ||
-                          tab.image?.sizes?.large?.url ||
-                          tab.image?.sizes?.thumbnail?.url ||
-                          ''
-                    }
-                    alt={tab.title}
-                  />
-                )}
+      <div className="marketing-tabs__inner">
+        <h2 className="marketing-tabs__headline">
+          Solutions tailored for your success, <span>all in one place</span>
+        </h2>
+        <div className="marketing-tabs__tablist sticky">
+          {tabs.map((t, idx) => (
+            <button
+              key={t.key || t.label || idx}
+              className={`marketing-tabs__tab${activeTab === idx ? ' active' : ''}`}
+              onClick={() => handleTabClick(idx)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <div className="marketing-tabs__panels">
+          {tabs.map((tab, idx) => (
+            <div
+              key={tab.key || tab.label || idx}
+              id={`marketing-tab-panel-${tab.key || idx}`}
+              className="marketing-tabs__panel"
+              ref={(el) => (panelRefs.current[idx] = el)}
+            >
+              <div className="services__panel-content">
+                <div className="services__panel-text">
+                  <h3>{tab.title}</h3>
+                  <p>{tab.description}</p>
+                  <ul>
+                    {tab.links &&
+                      tab.links.map((link) => (
+                        <li key={link.text}>
+                          <a href={link.href} className="services__link">
+                            <span className="services__icon">
+                              <ArrowIcon />
+                            </span>
+                            <span>{link.text}</span>
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+                <div className="services__image">
+                  {tab.image && (
+                    <img
+                      src={
+                        typeof tab.image === 'string'
+                          ? tab.image
+                          : tab.image?.url ||
+                            tab.image?.sizes?.large?.url ||
+                            tab.image?.sizes?.thumbnail?.url ||
+                            ''
+                      }
+                      alt={tab.title}
+                    />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
