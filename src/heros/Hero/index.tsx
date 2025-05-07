@@ -326,7 +326,7 @@ export const Hero: React.FC<Page['hero']> = ({
           /* Heading styles */
           .hero-heading {
             font-weight: bold;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
           }
 
           /* Button styles */
@@ -508,7 +508,7 @@ export const Hero: React.FC<Page['hero']> = ({
             <div className="max-w-xl p-4">
               <h1 className={`hero-heading ${fontFamily}`}>{heading}</h1>
               <p
-                className={`${getTextSizeClass(descriptionSize)} mb-10 ${fontFamily}`}
+                className={`${getTextSizeClass(descriptionSize)} mb-5 ${fontFamily}`}
                 style={{ color: descriptionColor }}
               >
                 {description}
@@ -619,8 +619,8 @@ export const Hero: React.FC<Page['hero']> = ({
           {/* Right side - Image */}
           <div>
             {media && typeof media === 'object' && (
-              <div className="rounded-lg flex h-full overflow-hidden shadow-xl bg-gray-100">
-                <Media imgClassName="w-full h-full object-cover" priority resource={media} />
+              <div className="rounded-lg flex h-full overflow-hidden shadow-xl">
+                <Media imgClassName="w-full h-screen object-cover" priority resource={media} />
               </div>
             )}
           </div>
