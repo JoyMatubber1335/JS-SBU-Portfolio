@@ -24,6 +24,7 @@ export const featuredPortfolioBlock: Block = {
     {
       name: 'description',
       type: 'textarea',
+      required: false,
       defaultValue:
         'Check out our spotlighted case studies that showcase our expertise and capabilities.',
     },
@@ -53,7 +54,7 @@ export const featuredPortfolioBlock: Block = {
           name: 'description',
           label: 'Short Description',
           type: 'textarea',
-          required: true,
+          required: false,
         },
         {
           name: 'image',
@@ -151,12 +152,6 @@ export const featuredPortfolioBlock: Block = {
           label: 'Card Background Color',
           type: 'text',
           defaultValue: '#ffffff',
-        },
-        {
-          name: 'badgeBackgroundColor',
-          label: 'Category Badge Color',
-          type: 'text',
-          defaultValue: 'rgba(0, 0, 0, 0.7)',
         },
         {
           name: 'accentColor',

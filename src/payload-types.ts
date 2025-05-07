@@ -269,7 +269,7 @@ export interface Page {
           | {
               title: string;
               category: string;
-              description: string;
+              description?: string | null;
               image: string | Media;
               link: {
                 type?: ('reference' | 'custom') | null;
@@ -289,7 +289,6 @@ export interface Page {
           textColor?: string | null;
           firstItemTextColor?: string | null;
           cardBackgroundColor?: string | null;
-          badgeBackgroundColor?: string | null;
           accentColor?: string | null;
         };
         id?: string | null;
@@ -1201,7 +1200,6 @@ export interface PagesSelect<T extends boolean = true> {
                     textColor?: T;
                     firstItemTextColor?: T;
                     cardBackgroundColor?: T;
-                    badgeBackgroundColor?: T;
                     accentColor?: T;
                   };
               id?: T;
