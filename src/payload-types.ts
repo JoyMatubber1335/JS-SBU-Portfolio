@@ -318,6 +318,37 @@ export interface Page {
         blockType: 'featuredPortfolio';
       }
     | {
+        blogItems?:
+          | {
+              title: string;
+              description: string;
+              tag: string;
+              image?: (string | null) | Media;
+              date?: string | null;
+              author?: string | null;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'blog';
+      }
+    | {
         heading: string;
         brands?:
           | {
@@ -1266,6 +1297,32 @@ export interface PagesSelect<T extends boolean = true> {
                     firstItemTextColor?: T;
                     cardBackgroundColor?: T;
                     accentColor?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        blog?:
+          | T
+          | {
+              blogItems?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    tag?: T;
+                    image?: T;
+                    date?: T;
+                    author?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    id?: T;
                   };
               id?: T;
               blockName?: T;

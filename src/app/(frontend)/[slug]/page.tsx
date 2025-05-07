@@ -14,6 +14,8 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import Services from '@/components/ui/Services'
 import { AboutUs } from '@/components/ui/AboutUs'
+import { Blog } from '@/components/ui/Blog'
+import { Media } from '@/payload-types'
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -65,7 +67,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
-  console.log('page', layout)
 
   // Type guard for services block
   function isServicesBlock(block: any): block is { blockType: string; tabs: any[] } {
@@ -90,10 +91,24 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // Find the services block in the layout
   const servicesBlock = layout?.find(isServicesBlock)
-  console.log('servicesBlock', servicesBlock)
   const tabs = (servicesBlock as any)?.tabs || []
   const aboutUsBlock = layout?.find(isAboutUsBlock)
-  console.log('aboutUsBlock', aboutUsBlock)
+
+  function isBlogBlock(block: any): block is {
+    blockType: 'blog'
+    blogItems: {
+      title: string
+      description: string
+      tag: string
+      image?: Media
+      date?: string
+      author?: string
+    }[]
+  } {
+    return block.blockType === 'blog'
+  }
+
+  const blogBlock = layout?.find(isBlogBlock)
 
   return (
     <article className="pb-24">
@@ -111,7 +126,15 @@ export default async function Page({ params: paramsPromise }: Args) {
           heading={aboutUsBlock?.heading}
           description={aboutUsBlock?.description}
           features={aboutUsBlock?.features || []}
-          logo={aboutUsBlock?.logo}
+        />
+      )}
+
+      {blogBlock && (
+        <Blog
+          blogs={blogBlock.blogItems.map((item) => ({
+            ...item,
+            image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
+          }))}
         />
       )}
 

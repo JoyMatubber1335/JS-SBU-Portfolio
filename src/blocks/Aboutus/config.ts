@@ -17,18 +17,19 @@ export const AboutUs: Block = {
       name: 'features',
       type: 'array',
       minRows: 3,
-      fields: [ {
-        name: 'icon',
-        type: 'upload',
-        relationTo: 'media', // or your media collection name
-        required: true,
-      },],
-    },
-    {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media',
-      required: false,
+      fields: [
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media', // or your media collection name
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'richText',
+          required: true,
+        },
+      ],
     },
   ],
 }

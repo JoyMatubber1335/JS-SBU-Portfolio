@@ -14,6 +14,8 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { featuredPortfolioBlock, trustedByBlock } from '../../blocks/config'
 import { Services } from '../../blocks/Services/config'
+import { AboutUs } from '@/blocks/Aboutus/config'
+import { Blog } from '@/blocks/Blog/config'
 
 import {
   MetaDescriptionField,
@@ -85,6 +87,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 Archive,
                 FormBlock,
                 featuredPortfolioBlock,
+                Blog,
+                AboutUs,
                 trustedByBlock,
               ],
               required: true,

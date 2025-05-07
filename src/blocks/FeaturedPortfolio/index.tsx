@@ -45,7 +45,6 @@ export const FeaturedPortfolio: React.FC<Props> = ({
     accentColor = '#3b82f6',
   } = appearance || {}
 
-  console.log('FeaturedPortfolio rendered with projects:', projects.length)
 
   if (!projects || projects.length === 0) {
     return (
