@@ -284,6 +284,20 @@ export interface Page {
     | MediaBlock
     | ArchiveBlock
     | FormBlock
+    | {
+        heading: string;
+        description: string;
+        features?:
+          | {
+              icon: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        logo?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'aboutus';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -1182,6 +1196,21 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        aboutus?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    id?: T;
+                  };
+              logo?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T

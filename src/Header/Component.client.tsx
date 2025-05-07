@@ -37,6 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
     headerPaddingTop,
     headerPaddingBottom,
     blurAmount,
+    transparentHeader,
   } = data
 
   useEffect(() => {
@@ -54,20 +55,23 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
         ${stickyBehavior === 'Sticky' ? 'sticky top-0 backdrop-blur-sm' : ''}
       `}
       style={{
-        backgroundColor: headerBgColor || 'white',
-        color: headerTextColor || 'black',
-        paddingTop: headerPaddingTop ? `${headerPaddingTop}px` : '1rem',
-        paddingBottom: headerPaddingBottom ? `${headerPaddingBottom}px` : '1rem',
-        backdropFilter: blurAmount ? `blur(${blurAmount}px)` : undefined,
+        background: 'rgba(0,0,0,0.3)',
+        color: '#fff',
+        paddingTop: '0.25rem',
+        paddingBottom: '0.25rem',
+        fontSize: '16px',
       }}
       {...(theme ? { 'data-theme': theme } : {})}
     >
-      <div className="container mx-auto flex items-center  px-4 ">
-        <Link className="flex items-center gap-2 w-[20%]" href="/">
+      <div
+        className="w-full max-w-screen-xl mx-auto flex items-center p-4"
+        style={{ minHeight: 48 }}
+      >
+        <Link href="/" className="flex items-center gap-2 mr-8 w-[10%]">
           {logoUrl ? (
-            <Logo src={logoUrl} alt={logo?.alt || 'Logo'} className="h-16 w-auto" />
+            <Logo src={logoUrl} alt={logo?.alt || 'Logo'} className="h-[60px] w-auto" />
           ) : (
-            <span className="text-xl font-bold">Logo</span>
+            <span className="text-2xl font-bold">Logo</span>
           )}
         </Link>
         <HeaderNav data={data} />
