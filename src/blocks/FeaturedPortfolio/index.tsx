@@ -55,6 +55,11 @@ export const FeaturedPortfolio: React.FC<Props> = ({
     )
   }
 
+  // Function to determine if the project should use the featured layout
+  const isFeaturedLayout = (index: number) => {
+    return index === 0 || index >= 3 // First item or 4th/5th items
+  }
+
   return (
     <div id={id}>
       <div className="container mx-auto px-4 max-w-7xl">
@@ -73,139 +78,167 @@ export const FeaturedPortfolio: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="flex flex-wrap -mx-4 flex items-center" style={{ height: '100vh' }}>
-          <div className="flex w-full">
-            {projects.slice(0, 3).map((project, index) => (
-              <div
-                key={index}
-                className={`px-2 ${index === 0 ? 'w-full md:w-1/2' : 'w-full md:w-1/4'}`}
-              >
-                {index === 0 ? (
-                  // First item with overlay (50% width)
-                  <div className="relative h-[460px] rounded-lg overflow-hidden">
-                    <Link
-                      href={
-                        project.link?.type === 'custom'
-                          ? project.link.url || '#'
-                          : `/${
-                              typeof project.link?.reference === 'string'
-                                ? project.link.reference
-                                : project.link?.reference?.id || '#'
-                            }`
-                      }
-                      className="block h-full"
-                    >
-                      {project.image && (
-                        <div className="absolute inset-0">
-                          <img
-                            src={
-                              typeof project.image === 'string' ? project.image : project.image.url
-                            }
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                            width="auto"
-                            height="auto"
-                          />
-                        </div>
-                      )}
-                      {/* Gradient overlay for better text visibility */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
+        <div className="flex flex-wrap -mx-4 flex items-start" style={{ height: '100vh' }}>
+          <div className="flex w-full flex-wrap">
+            {projects.slice(0, 5).map((project, index) => {
+              // For 4th and 5th items, we need to adjust the layout
+              const isSecondRow = index >= 3
+              const adjustedIndex = isSecondRow ? index - 3 : index
 
-                      {/* Content */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
-                        <div className="mb-3">
-                          <span
-                            className="text-sm font-semibold py-1 rounded-md"
-                            style={{
-                              color: firstItemTextColor,
-                            }}
-                          >
-                            {project.category || 'Theme'}
-                          </span>
-                        </div>
-                        <h3
-                          className="text-xl md:text-2xl font-bold mb-2"
-                          style={{ color: firstItemTextColor }}
-                        >
-                          {project.title}
-                        </h3>
-                        {project.description && (
-                          <p
-                            style={{ color: firstItemTextColor, opacity: 0.8 }}
-                            className="text-base mb-4"
-                          >
-                            {project.description}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  </div>
-                ) : (
-                  // Second & third items with content below (25% width each)
-                  <div
-                    className="h-full rounded-lg overflow-hidden shadow-sm"
-                    style={{ backgroundColor: cardBackgroundColor }}
-                  >
-                    <Link
-                      href={
-                        project.link?.type === 'custom'
-                          ? project.link.url || '#'
-                          : `/${
-                              typeof project.link?.reference === 'string'
-                                ? project.link.reference
-                                : project.link?.reference?.id || '#'
-                            }`
-                      }
-                      className="block h-full"
+              return (
+                <div
+                  key={index}
+                  className={`px-2 ${
+                    isFeaturedLayout(index)
+                      ? isSecondRow
+                        ? 'w-full md:w-1/2 mb-4' // 4th & 5th in second row
+                        : 'w-full md:w-1/2 mb-4' // 1st item
+                      : 'w-full md:w-1/4 mb-4' // 2nd & 3rd items
+                  }`}
+                >
+                  {isFeaturedLayout(index) ? (
+                    // Featured layout (1st, 4th, 5th items)
+                    <div
+                      className="relative h-[360px] rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl border"
+                      style={{
+                        borderRadius: '12px',
+                        borderWidth: '1px',
+                        borderColor: '#e5e7eb',
+                        borderStyle: 'solid',
+                      }}
                     >
-                      {/* Image section */}
-                      <div className="relative h-64 overflow-hidden">
+                      <Link
+                        href={
+                          project.link?.type === 'custom'
+                            ? project.link.url || '#'
+                            : `/${
+                                typeof project.link?.reference === 'string'
+                                  ? project.link.reference
+                                  : project.link?.reference?.id || '#'
+                              }`
+                        }
+                        className="block h-full"
+                      >
                         {project.image && (
-                          <img
-                            src={
-                              typeof project.image === 'string' ? project.image : project.image.url
-                            }
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                            width="auto"
-                            height="auto"
-                          />
-                        )}
-                        {/* Global tag if needed */}
-                        {project.isGlobal && (
-                          <div className="absolute top-4 left-4 z-30 bg-white py-1 px-3 rounded-full flex items-center">
-                            <span className="text-xs font-medium">GLOBAL</span>
+                          <div className="absolute inset-0">
+                            <img
+                              src={
+                                typeof project.image === 'string'
+                                  ? project.image
+                                  : project.image.url
+                              }
+                              alt={project.title}
+                              className="w-full h-full object-cover"
+                              width="auto"
+                              height="auto"
+                            />
                           </div>
                         )}
-                      </div>
+                        {/* Gradient overlay for better text visibility */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
 
-                      {/* Content section */}
-                      <div className="p-5">
-                        {/* Category badge - Now above title */}
-                        <div className="mb-3">
-                          <span
-                            className="text-xs font-semibold py-1 rounded-md"
-                            style={{ color: textColor }}
+                        {/* Content */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                          <div className="mb-3">
+                            <span
+                              className="text-sm font-semibold py-1 rounded-md"
+                              style={{
+                                color: firstItemTextColor,
+                              }}
+                            >
+                              {project.category || 'Theme'}
+                            </span>
+                          </div>
+                          <h3
+                            className="text-xl md:text-2xl font-bold mb-2"
+                            style={{ color: firstItemTextColor }}
                           >
-                            {project.category || 'Theme'}
-                          </span>
+                            {project.title}
+                          </h3>
+                          {project.description && (
+                            <p
+                              style={{ color: firstItemTextColor, opacity: 0.8 }}
+                              className="text-base line-clamp-2 mb-2"
+                            >
+                              {project.description}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    </div>
+                  ) : (
+                    // Regular layout (2nd & 3rd items)
+                    <div
+                      className="h-full rounded-lg overflow-hidden shadow-sm transition-all duration-300 hover:shadow-xl border"
+                      style={{
+                        backgroundColor: cardBackgroundColor,
+                        borderRadius: '12px',
+                        height: '360px',
+                        borderWidth: '1px',
+                        borderColor: '#e5e7eb',
+                        borderStyle: 'solid',
+                      }}
+                    >
+                      <Link
+                        href={
+                          project.link?.type === 'custom'
+                            ? project.link.url || '#'
+                            : `/${
+                                typeof project.link?.reference === 'string'
+                                  ? project.link.reference
+                                  : project.link?.reference?.id || '#'
+                              }`
+                        }
+                        className="block h-full"
+                      >
+                        {/* Image section */}
+                        <div className="relative h-48 overflow-hidden">
+                          {project.image && (
+                            <img
+                              src={
+                                typeof project.image === 'string'
+                                  ? project.image
+                                  : project.image.url
+                              }
+                              alt={project.title}
+                              className="w-full h-full object-cover"
+                              width="auto"
+                              height="auto"
+                            />
+                          )}
                         </div>
 
-                        <h3 className="text-lg mb-2" style={{ color: textColor }}>
-                          {project.title}
-                        </h3>
+                        {/* Content section */}
+                        <div className="p-5">
+                          {/* Category badge - Now above title */}
+                          <div className="mb-3">
+                            <span
+                              className="text-xs font-semibold py-1 rounded-md"
+                              style={{ color: textColor }}
+                            >
+                              {project.category || 'Theme'}
+                            </span>
+                          </div>
 
-                        {project.description && (
-                          <p className="text-sm" style={{ color: textColor, opacity: 0.7 }}>
-                            {project.description}
-                          </p>
-                        )}
-                      </div>
-                    </Link>
-                  </div>
-                )}
-              </div>
-            ))}
+                          <h3 className="text-lg mb-2" style={{ color: textColor }}>
+                            {project.title}
+                          </h3>
+
+                          {project.description && (
+                            <p
+                              className="text-sm line-clamp-2"
+                              style={{ color: textColor, opacity: 0.7 }}
+                            >
+                              {project.description}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

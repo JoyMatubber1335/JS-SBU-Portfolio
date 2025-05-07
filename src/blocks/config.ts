@@ -32,7 +32,7 @@ export const featuredPortfolioBlock: Block = {
       name: 'projects',
       type: 'array',
       minRows: 1,
-      maxRows: 3,
+      maxRows: 5,
       labels: {
         singular: 'Project',
         plural: 'Projects',
