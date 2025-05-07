@@ -85,10 +85,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       conversationId: newConversationId,
-      messages: [
-        { role: 'user', content: message },
-        { role: 'assistant', content: assistantResponse },
-      ],
+      message: { role: 'assistant', content: assistantResponse },
     })
   } catch (error) {
     console.error('Chat API Error:', error)

@@ -57,7 +57,9 @@ export function ChatPanel({ onClose }: ChatPanelProps) {
         setConversationId(data.conversationId)
       }
 
-      setMessages((prev) => [...prev, ...data.messages])
+      if (data.message) {
+        setMessages((prev) => [...prev, { ...data.message, timestamp: new Date().toISOString() }])
+      }
     } catch (error) {
       console.error('Error sending message:', error)
     } finally {
@@ -76,7 +78,7 @@ export function ChatPanel({ onClose }: ChatPanelProps) {
     <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-white rounded-lg shadow-xl flex flex-col z-50">
       {/* Header */}
       <div className="p-4 border-b flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Chat with LLaMA</h2>
+        <h2 className="text-lg font-semibold">Chat with JS SBU</h2>
         <button
           onClick={onClose}
           className="p-1 hover:bg-gray-100 rounded-full"
