@@ -290,10 +290,24 @@ export interface Page {
         features?:
           | {
               icon: string | Media;
+              description: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
               id?: string | null;
             }[]
           | null;
-        logo?: (string | null) | Media;
         id?: string | null;
         blockName?: string | null;
         blockType: 'aboutus';
@@ -330,6 +344,37 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'featuredPortfolio';
+      }
+    | {
+        blogItems?:
+          | {
+              title: string;
+              description: string;
+              tag: string;
+              image?: (string | null) | Media;
+              date?: string | null;
+              author?: string | null;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'blog';
       }
   )[];
   meta?: {
@@ -1238,9 +1283,9 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     icon?: T;
+                    description?: T;
                     id?: T;
                   };
-              logo?: T;
               id?: T;
               blockName?: T;
             };
@@ -1275,6 +1320,32 @@ export interface PagesSelect<T extends boolean = true> {
                     firstItemTextColor?: T;
                     cardBackgroundColor?: T;
                     accentColor?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        blog?:
+          | T
+          | {
+              blogItems?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    tag?: T;
+                    image?: T;
+                    date?: T;
+                    author?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    id?: T;
                   };
               id?: T;
               blockName?: T;

@@ -15,6 +15,7 @@ import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { featuredPortfolioBlock } from '../../blocks/config'
 import { Services } from '../../blocks/Services/config'
 import { AboutUs } from '@/blocks/Aboutus/config'
+import { Blog } from '@/blocks/Blog/config'
 
 import {
   MetaDescriptionField,
@@ -87,6 +88,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 AboutUs,
                 featuredPortfolioBlock,
+                Blog,
               ],
               required: true,
               admin: {

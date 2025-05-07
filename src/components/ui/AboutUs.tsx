@@ -6,6 +6,7 @@ import Image from 'next/image'
 type Feature = {
   icon?: { url: string }
   lineLength?: number // optional, for custom line length
+  description?: string | { root?: any }
 }
 
 type AboutUsProps = {
@@ -15,9 +16,25 @@ type AboutUsProps = {
   logo?: { url: string }
 }
 
-export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features, logo }) => {
+// Helper to extract all text from deeply nested description
+function extractTextFromDescription(desc: any): string {
+  if (typeof desc === 'string') return desc
+  if (desc?.root?.children) {
+    return desc.root.children
+      .map((child: any) =>
+        Array.isArray(child.children)
+          ? child.children.map((c: any) => c.text || '').join('')
+          : child.text || '',
+      )
+      .join(' ')
+  }
+  return ''
+}
+
+export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [size, setSize] = useState(440) // default fallback
+  const [tooltipVisible, setTooltipVisible] = useState<number | null>(null)
 
   useEffect(() => {
     if (containerRef.current) {
@@ -38,7 +55,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
   const angleStep = 360 / features.length
 
   return (
-    <section className="relative flex items-center justify-center py-20 bg-[#181a20] overflow-hidden">
+    <section className="relative flex items-center justify-center py-20 bg-[#181a20] overflow-hidden h-[1000px]">
       {/* Desktop Circle Layout */}
       <div
         ref={containerRef}
@@ -48,7 +65,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
         <svg className="absolute inset-0 w-full h-full" fill="none">
           {features.map((feature, i) => {
             // For the top icon (i === 0), use a longer line
-            const customLineLength = i % 2 === 1 ? 0.6 : (feature.lineLength ?? 0.5)
+            const customLineLength = 0.55
             const angle = (angleStep * i - 90) * (Math.PI / 180)
             const thisRadius = size * customLineLength
             const x = Math.cos(angle) * thisRadius + center
@@ -71,7 +88,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
         {/* Feature icons */}
         {features.map((feature, i) => {
           // For the top icon (i === 0), use a longer line
-          const customLineLength = i % 2 === 1 ? 0.6 : (feature.lineLength ?? 0.5)
+          const customLineLength = 0.55
           const angle = (angleStep * i - 90) * (Math.PI / 180)
           const thisRadius = size * customLineLength
           const x = Math.cos(angle) * thisRadius + center - iconSize / 2
@@ -79,14 +96,37 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
           return (
             <div
               key={i}
-              className="absolute flex items-center justify-center rounded-full bg-white shadow-lg"
+              className="absolute flex items-center justify-center rounded-full bg-white shadow-lg group"
               style={{
                 left: x,
                 top: y,
                 width: iconSize,
                 height: iconSize,
               }}
+              onMouseEnter={() => setTooltipVisible(i)}
+              onMouseLeave={() => setTooltipVisible((current) => (current === i ? null : current))}
             >
+              {/* Glowing rainbow dot (if you want to re-add) */}
+              {/* <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-pink-500 via-yellow-500 to-blue-500 animate-pulse shadow-lg animate-flicker"></span> */}
+              {/* Tooltip on hover (right side, rainbow border) */}
+              {feature.description && tooltipVisible === i && (
+                <div
+                  className="absolute left-full top-1/2 -translate-y-1/2 ml-4 w-56 p-4 bg-[#23262f] text-white text-sm rounded-xl shadow-xl opacity-100 scale-100 transition-all duration-300 z-20 border-2 border-gradient-to-r from-pink-500 via-yellow-500 to-blue-500 animate-flicker"
+                  style={{
+                    minWidth: '180px',
+                    borderImage: 'linear-gradient(to right, #ec4899, #fde047, #3b82f6) 1',
+                  }}
+                  onMouseEnter={() => setTooltipVisible(i)}
+                  onMouseLeave={() =>
+                    setTooltipVisible((current) => (current === i ? null : current))
+                  }
+                >
+                  {/* Each word scales and bolds on hover */}
+                  {extractTextFromDescription(feature.description)
+                  }
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 w-3 h-3 bg-[#23262f] border-l-2 border-t-2 border-gradient-to-r from-pink-500 via-yellow-500 to-blue-500 rotate-45 z-10"></div>
+                </div>
+              )}
               {feature.icon?.url && (
                 <Image
                   src={feature.icon.url}
@@ -103,15 +143,6 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
           style={{ width: size * 0.7 }}
         >
-          {logo?.url && (
-            <Image
-              src={logo.url}
-              alt="Logo"
-              width={size * 0.23}
-              height={size * 0.23}
-              className="mb-2"
-            />
-          )}
           <h2 className="text-white text-4xl font-bold mb-2 text-center leading-tight">
             {heading}
           </h2>
@@ -120,7 +151,6 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
       </div>
       {/* Mobile: Stack content and icons */}
       <div className="md:hidden flex flex-col items-center w-full px-4">
-        {logo?.url && <Image src={logo.url} alt="Logo" width={80} height={80} className="mb-2" />}
         <h2 className="text-white text-3xl font-bold mb-2 text-center leading-tight">{heading}</h2>
         <p className="text-white/80 text-base mb-6 text-center leading-normal">{description}</p>
         <a
