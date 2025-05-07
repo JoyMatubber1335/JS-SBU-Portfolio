@@ -319,7 +319,7 @@ export const Hero: React.FC<Page['hero']> = ({
   }
 
   return (
-    <div>
+    <div style={{ height: '100vh' }}>
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
@@ -430,7 +430,7 @@ export const Hero: React.FC<Page['hero']> = ({
           }
 
           .services-heading {
-            color: ${buttonBgColor};
+            color: ${textColor};
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.75rem;

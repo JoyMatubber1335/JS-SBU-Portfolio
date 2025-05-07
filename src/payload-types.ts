@@ -153,7 +153,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'teamImpact';
+    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'hero';
     richText?: {
       root: {
         type: string;
@@ -297,6 +297,39 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'aboutus';
+      }
+    | {
+        heading: string;
+        description?: string | null;
+        projects?:
+          | {
+              title: string;
+              category: string;
+              description?: string | null;
+              image: string | Media;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+              };
+              highlighted?: boolean | null;
+              isGlobal?: boolean | null;
+              id?: string | null;
+            }[]
+          | null;
+        appearance?: {
+          textColor?: string | null;
+          firstItemTextColor?: string | null;
+          cardBackgroundColor?: string | null;
+          accentColor?: string | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'featuredPortfolio';
       }
   )[];
   meta?: {
@@ -1208,6 +1241,41 @@ export interface PagesSelect<T extends boolean = true> {
                     id?: T;
                   };
               logo?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featuredPortfolio?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              projects?:
+                | T
+                | {
+                    title?: T;
+                    category?: T;
+                    description?: T;
+                    image?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    highlighted?: T;
+                    isGlobal?: T;
+                    id?: T;
+                  };
+              appearance?:
+                | T
+                | {
+                    textColor?: T;
+                    firstItemTextColor?: T;
+                    cardBackgroundColor?: T;
+                    accentColor?: T;
+                  };
               id?: T;
               blockName?: T;
             };

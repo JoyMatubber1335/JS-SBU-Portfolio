@@ -12,6 +12,7 @@ import { slugField } from '@/fields/slug'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { featuredPortfolioBlock } from '../../blocks/config'
 import { Services } from '../../blocks/Services/config'
 import { AboutUs } from '@/blocks/Aboutus/config'
 
@@ -77,7 +78,16 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [Services, CallToAction, Content, MediaBlock, Archive, FormBlock, AboutUs],
+              blocks: [
+                Services,
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+                AboutUs,
+                featuredPortfolioBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,
