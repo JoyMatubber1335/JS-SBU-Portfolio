@@ -8,6 +8,85 @@ type Block = {
   fields: any[]
 }
 
+export const trustedByBlock: Block = {
+  slug: 'trustedBy',
+  labels: {
+    singular: 'Trusted By Section',
+    plural: 'Trusted By Sections',
+  },
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      required: true,
+      defaultValue: '',
+    },
+    {
+      name: 'brands',
+      type: 'array',
+      minRows: 5,
+      maxRows: 20,
+      labels: {
+        singular: 'Brand',
+        plural: 'Brands',
+      },
+      fields: [
+        {
+          name: 'name',
+          label: 'Brand Name',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'logo',
+          label: 'Brand Logo',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+        },
+        {
+          name: 'category',
+          label: 'Category',
+          type: 'text',
+          required: false,
+        },
+      ],
+    },
+    {
+      name: 'appearance',
+      type: 'group',
+      fields: [
+        {
+          name: 'backgroundColor',
+          label: 'Background Color',
+          type: 'text',
+          defaultValue: '#000000',
+        },
+        {
+          name: 'textColor',
+          label: 'Text Color',
+          type: 'text',
+          defaultValue: '#333333',
+        },
+        {
+          name: 'hoverBackgroundColor',
+          label: 'Hover Background Color',
+          type: 'text',
+          defaultValue: '#ffffff',
+        },
+        {
+          name: 'scrollSpeed',
+          label: 'Scroll Speed (1-10, 1=slow, 10=fast)',
+          type: 'number',
+          defaultValue: 5,
+          min: 1,
+          max: 10,
+        },
+      ],
+    },
+  ],
+}
+
 export const featuredPortfolioBlock: Block = {
   slug: 'featuredPortfolio',
   labels: {

@@ -111,7 +111,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const blogBlock = layout?.find(isBlogBlock)
 
   return (
-    <article className="pt-16 pb-24">
+    <article className="pb-24">
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
