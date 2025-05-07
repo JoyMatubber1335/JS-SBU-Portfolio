@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, { CSSProperties } from 'react'
 
 interface Props {
   className?: string
@@ -14,6 +14,11 @@ export const Logo = (props: Props) => {
 
   const loading = loadingFromProps || 'lazy'
   const priority = priorityFromProps || 'low'
+
+  const defaultSrc =
+    'https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-logo-light.svg'
+
+  // const imageSrc = mediaId ? `/media/${mediaId}` : defaultSrc // Adjust path based on your media setup
 
   return (
     /* eslint-disable @next/next/no-img-element */

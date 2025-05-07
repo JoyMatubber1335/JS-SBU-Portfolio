@@ -55,7 +55,7 @@ export default function Services({ tabs }) {
   return (
     <div className="marketing-tabs__container">
       <h2 className="marketing-tabs__headline">
-        Everything you need for marketing, <span>all in one</span>
+        Solutions tailored for your success, <span>all in one place</span>
       </h2>
       <div className="marketing-tabs__tablist sticky">
         {tabs.map((t, idx) => (
