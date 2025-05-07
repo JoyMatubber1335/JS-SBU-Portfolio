@@ -148,3 +148,55 @@ export const referenceData = [
       'JS SBU offers flexible payment structures including fixed price for well-defined projects, time and materials for evolving requirements, and retainer models for ongoing development and support. Payment milestones are typically tied to deliverables or sprints.',
   },
 ]
+
+interface ResponsePattern {
+  patterns?: string[]
+  responses: string[]
+}
+
+interface ResponsePatterns {
+  [key: string]: ResponsePattern
+}
+
+// Enhanced response patterns with more context
+export const responsePatterns: ResponsePatterns = {
+  greeting: {
+    patterns: ['hello', 'hi', 'hey', 'greetings'],
+    responses: [
+      "Hello! I'm your JS SBU assistant. How can I help you today?",
+      "Hi there! I can tell you about JS SBU's services and expertise. What would you like to know?",
+      'Hey! Welcome to JS SBU. I can help you with information about our team, services, and technologies.',
+    ],
+  },
+  farewell: {
+    patterns: ['bye', 'goodbye', 'see you', 'farewell'],
+    responses: [
+      'Goodbye! Feel free to return if you have more questions about JS SBU.',
+      "See you later! Don't hesitate to ask if you need more information about our services.",
+      'Bye! Remember, JS SBU is here to help with all your JavaScript development needs.',
+    ],
+  },
+  thanks: {
+    patterns: ['thank', 'thanks', 'appreciate'],
+    responses: [
+      "You're welcome! Is there anything else you'd like to know about JS SBU?",
+      'Happy to help! Feel free to ask more questions about our services or expertise.',
+      'My pleasure! Let me know if you need more information about JS SBU.',
+    ],
+  },
+  help: {
+    patterns: ['help', 'assist', 'support'],
+    responses: [
+      "I can help you learn about JS SBU's services, technologies, team structure, and more. What specific information are you looking for?",
+      "I'm here to provide information about JS SBU. You can ask about our services, technologies, development process, or any other aspect of our work.",
+      'I can assist you with information about JS SBU. Try asking about our services, team, technologies, or development approach.',
+    ],
+  },
+  default: {
+    responses: [
+      "That's an interesting question about JS SBU. Let me tell you more about our expertise in that area.",
+      "I understand you're interested in JS SBU. Would you like to know more about our services or technologies?",
+      "I can provide more information about JS SBU's approach to that. Would you like to know about our team or processes?",
+    ],
+  },
+}
