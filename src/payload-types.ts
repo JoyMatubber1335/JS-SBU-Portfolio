@@ -284,6 +284,20 @@ export interface Page {
     | MediaBlock
     | ArchiveBlock
     | FormBlock
+    | {
+        heading: string;
+        description: string;
+        features?:
+          | {
+              icon: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        logo?: (string | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'aboutus';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -1182,6 +1196,21 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        aboutus?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    id?: T;
+                  };
+              logo?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -1701,6 +1730,26 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  menuAnimation?: ('None' | 'Underline' | 'Fade' | 'Scale') | null;
+  enableHoverEffect?: boolean | null;
+  transparentHeader?: boolean | null;
+  blurAmount?: number | null;
+  showSearch?: boolean | null;
+  stickyBehavior?: ('None' | 'Sticky') | null;
+  /**
+   * Pick a background color for the header
+   */
+  headerBgColor?: string | null;
+  /**
+   * Pick a text color for the header
+   */
+  headerTextColor?: string | null;
+  /**
+   * Set the font size for the header text (in px)
+   */
+  headerFontSize?: number | null;
+  headerPaddingTop?: number | null;
+  headerPaddingBottom?: number | null;
   navItems?:
     | {
         link: {
@@ -1718,6 +1767,48 @@ export interface Header {
           url?: string | null;
           label: string;
         };
+        subNavItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              image?: (string | null) | Media;
+              subSubNavItems?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'posts';
+                            value: string | Post;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    image?: (string | null) | Media;
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -1857,6 +1948,17 @@ export interface Copyright {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  menuAnimation?: T;
+  enableHoverEffect?: T;
+  transparentHeader?: T;
+  blurAmount?: T;
+  showSearch?: T;
+  stickyBehavior?: T;
+  headerBgColor?: T;
+  headerTextColor?: T;
+  headerFontSize?: T;
+  headerPaddingTop?: T;
+  headerPaddingBottom?: T;
   navItems?:
     | T
     | {
@@ -1868,6 +1970,36 @@ export interface HeaderSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+            };
+        subNavItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              image?: T;
+              subSubNavItems?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
             };
         id?: T;
       };

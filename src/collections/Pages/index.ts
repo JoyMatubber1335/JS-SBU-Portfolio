@@ -13,6 +13,7 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 import { Services } from '../../blocks/Services/config'
+import { AboutUs } from '@/blocks/Aboutus/config'
 
 import {
   MetaDescriptionField,
@@ -76,7 +77,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [Services, CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [Services, CallToAction, Content, MediaBlock, Archive, FormBlock, AboutUs],
               required: true,
               admin: {
                 initCollapsed: true,
