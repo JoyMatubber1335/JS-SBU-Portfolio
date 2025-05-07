@@ -36,8 +36,8 @@ export const hero: Field = {
           value: 'lowImpact',
         },
         {
-          label: 'Team Impact',
-          value: 'teamImpact',
+          label: 'Hero',
+          value: 'hero',
         },
       ],
       required: true,
@@ -66,8 +66,7 @@ export const hero: Field = {
       name: 'media',
       type: 'upload',
       admin: {
-        condition: (_, { type } = {}) =>
-          ['highImpact', 'mediumImpact', 'teamImpact'].includes(type),
+        condition: (_, { type } = {}) => ['highImpact', 'mediumImpact', 'hero'].includes(type),
       },
       relationTo: 'media',
       required: true,
@@ -76,7 +75,7 @@ export const hero: Field = {
       name: 'teamContent',
       type: 'group',
       admin: {
-        condition: (_, { type } = {}) => type === 'teamImpact',
+        condition: (_, { type } = {}) => type === 'hero',
       },
       fields: [
         {
@@ -274,7 +273,7 @@ export const hero: Field = {
       name: 'testimonials',
       type: 'array',
       admin: {
-        condition: (_, { type } = {}) => type === 'teamImpact',
+        condition: (_, { type } = {}) => type === 'hero',
       },
       label: 'Slides',
       labels: {
@@ -477,7 +476,7 @@ export const hero: Field = {
       name: 'testimonialStyle',
       type: 'group',
       admin: {
-        condition: (_, { type } = {}) => type === 'teamImpact',
+        condition: (_, { type } = {}) => type === 'hero',
       },
       label: 'Testimonial Styling',
       fields: [
