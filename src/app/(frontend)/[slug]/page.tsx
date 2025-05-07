@@ -13,7 +13,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import Services from '@/components/ui/Services'
-
+import { AboutUs } from '@/components/ui/AboutUs'
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -65,6 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+  console.log('page', layout)
 
   // Type guard for services block
   function isServicesBlock(block: any): block is { blockType: string; tabs: any[] } {
@@ -74,9 +75,25 @@ export default async function Page({ params: paramsPromise }: Args) {
     )
   }
 
+  // Type guard for about us block
+  function isAboutUsBlock(block: any): block is {
+    blockType: 'aboutus'
+    heading: string
+    description: string
+    features?: { label: string; id?: string | null }[] | null
+    logo?: (string | null) | Media
+    id?: string | null
+    blockName?: string | null
+  } {
+    return block.blockType === 'aboutus'
+  }
+
   // Find the services block in the layout
   const servicesBlock = layout?.find(isServicesBlock)
+  console.log('servicesBlock', servicesBlock)
   const tabs = (servicesBlock as any)?.tabs || []
+  const aboutUsBlock = layout?.find(isAboutUsBlock)
+  console.log('aboutUsBlock', aboutUsBlock)
 
   return (
     <article className="pb-24">
@@ -88,6 +105,16 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <RenderHero {...hero} />
       {slug === 'home' && <Services tabs={tabs} />}
+
+      {aboutUsBlock && (
+        <AboutUs
+          heading={aboutUsBlock?.heading}
+          description={aboutUsBlock?.description}
+          features={aboutUsBlock?.features || []}
+          logo={aboutUsBlock?.logo}
+        />
+      )}
+
       <RenderBlocks blocks={layout} />
     </article>
   )

@@ -15,11 +15,8 @@ export async function Footer() {
   const footerContent = footerData?.footerContent?.children || []
   const copyrightData = footerData?.copyright
 
-  console.log('footerData', footerData)
-
   const settingsData = await getCachedGlobal('settings', 1)()
   const logo = settingsData?.logo
-  console.log('settingsdata', settingsData)
   // Construct logo URL
   const logoUrl =
     logo?.url ||
@@ -53,9 +50,9 @@ export async function Footer() {
 
   return (
     <footer className="p-8 mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className=" py-2 flex flex-col gap-10 md:flex-row md:justify-between">
+      <div className="py-2 flex flex-col gap-10 items-center md:flex-row md:justify-between md:items-start">
         {/* Left Section: Logo */}
-        <div className="flex-shrink-0 w-[20%]">
+        <div className="flex-shrink-0 w-full md:w-[20%] flex flex-col items-center md:items-start text-center md:text-left">
           <Link className="flex items-center" href="/">
             {logoUrl ? (
               <Logo src={logoUrl} alt={logo?.alt || 'Logo'} className="h-10 w-auto" />
@@ -70,9 +67,9 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-grow justify-around">
+        <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-0 md:justify-around md:flex-grow">
           {navItems.map(({ link, subLinks }, i) => (
-            <div key={i} className="flex flex-col">
+            <div key={i} className="flex flex-col items-center md:items-start">
               <CMSLink
                 className="text-white font-bold text-base hover:text-primary transition"
                 {...link}
@@ -94,12 +91,12 @@ export async function Footer() {
         </div>
 
         {/* Right Section: Theme Selector */}
-        <div className="flex justify-start md:justify-end w-[20%]">
+        {/* <div className="flex justify-center md:justify-end w-full md:w-[20%] mt-6 md:mt-0">
           <ThemeSelector />
-        </div>
+        </div> */}
       </div>
       {/* social media icon */}
-      <div className="flex space-x-3 mb-4 md:mb-0">
+      <div className="flex justify-center space-x-3 mt-8 md:mt-2 mb-4 md:mb-2">
         {socialLinks.facebook && (
           <a
             href={socialLinks.facebook}
@@ -156,7 +153,6 @@ export async function Footer() {
           </a>
         )}
       </div>
-      
     </footer>
   )
 }
