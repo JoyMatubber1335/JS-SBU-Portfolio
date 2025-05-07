@@ -286,20 +286,6 @@ export interface Page {
     | FormBlock
     | {
         heading: string;
-        description: string;
-        features?:
-          | {
-              icon: string | Media;
-              id?: string | null;
-            }[]
-          | null;
-        logo?: (string | null) | Media;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'aboutus';
-      }
-    | {
-        heading: string;
         description?: string | null;
         projects?:
           | {
@@ -330,6 +316,26 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'featuredPortfolio';
+      }
+    | {
+        heading: string;
+        brands?:
+          | {
+              name: string;
+              logo: string | Media;
+              category?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        appearance?: {
+          backgroundColor?: string | null;
+          textColor?: string | null;
+          hoverBackgroundColor?: string | null;
+          scrollSpeed?: number | null;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'trustedBy';
       }
   )[];
   meta?: {
@@ -1229,21 +1235,6 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
-        aboutus?:
-          | T
-          | {
-              heading?: T;
-              description?: T;
-              features?:
-                | T
-                | {
-                    icon?: T;
-                    id?: T;
-                  };
-              logo?: T;
-              id?: T;
-              blockName?: T;
-            };
         featuredPortfolio?:
           | T
           | {
@@ -1275,6 +1266,29 @@ export interface PagesSelect<T extends boolean = true> {
                     firstItemTextColor?: T;
                     cardBackgroundColor?: T;
                     accentColor?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        trustedBy?:
+          | T
+          | {
+              heading?: T;
+              brands?:
+                | T
+                | {
+                    name?: T;
+                    logo?: T;
+                    category?: T;
+                    id?: T;
+                  };
+              appearance?:
+                | T
+                | {
+                    backgroundColor?: T;
+                    textColor?: T;
+                    hoverBackgroundColor?: T;
+                    scrollSpeed?: T;
                   };
               id?: T;
               blockName?: T;
