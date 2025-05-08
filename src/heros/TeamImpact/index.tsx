@@ -6,6 +6,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 // Define slide types
 type SlideType = 'motto' | 'product' | 'services'
@@ -51,15 +52,19 @@ export const Hero: React.FC<Page['hero']> = ({
   testimonialStyle,
   teamContent,
 }) => {
+  // Get global settings for colors and fonts
+  const { settings } = useGlobalSettings()
+
   // Default heading and description values
   const heading = teamContent?.heading || 'In Need of Highly Skilled Developers at a Lower Cost?'
   const description =
     teamContent?.description ||
     'We provide you with a dedicated remote development team with some of the top developers in Bangladesh!'
   const headingSize = teamContent?.headingSize || '5xl'
-  const headingColor = teamContent?.headingColor || '#334155'
+  // Use global settings for heading and description colors
+  const headingColor = settings?.colorScheme?.primaryColor || '#334155'
   const descriptionSize = teamContent?.descriptionSize || 'lg'
-  const descriptionColor = teamContent?.descriptionColor || '#4b5563'
+  const descriptionColor = settings?.colorScheme?.secondaryColor || '#4b5563'
 
   // Button styling options - cast as any to overcome type limitations
   const teamContentExt = teamContent as any
@@ -76,8 +81,9 @@ export const Hero: React.FC<Page['hero']> = ({
 
   // Default styling values
   const textSize = testimonialStyle?.textSize || 'base'
-  const textColor = testimonialStyle?.textColor || '#374151'
-  const backgroundColor = testimonialStyle?.backgroundColor || '#ffffff'
+  const textColor = settings?.colorScheme?.primaryColor || '#334155'
+  const backgroundColor =
+    testimonialStyle?.backgroundColor || settings?.colorScheme?.backgroundColor || '#ffffff'
   const borderColor = testimonialStyle?.borderColor || '#1e3a8a'
   const transitionDuration = testimonialStyle?.transitionDuration || '500'
   const autoplay = testimonialStyle?.autoplay ?? true
@@ -353,7 +359,6 @@ export const Hero: React.FC<Page['hero']> = ({
             min-height: 150px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            background-color: ${backgroundColor};
             border-left: 4px solid ${borderColor};
           }
 
@@ -362,7 +367,7 @@ export const Hero: React.FC<Page['hero']> = ({
             font-size: 1.5rem;
             font-weight: 600;
             font-style: italic;
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             line-height: 1.4;
           }
 
@@ -370,7 +375,7 @@ export const Hero: React.FC<Page['hero']> = ({
           .product-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             margin-bottom: 0.75rem;
           }
 
@@ -430,7 +435,7 @@ export const Hero: React.FC<Page['hero']> = ({
           }
 
           .services-heading {
-            color: ${buttonBgColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
@@ -472,7 +477,7 @@ export const Hero: React.FC<Page['hero']> = ({
           }
 
           .stack-name {
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 0.5rem;

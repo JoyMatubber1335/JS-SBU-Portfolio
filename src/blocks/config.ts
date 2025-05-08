@@ -57,18 +57,6 @@ export const trustedByBlock: Block = {
       type: 'group',
       fields: [
         {
-          name: 'backgroundColor',
-          label: 'Background Color',
-          type: 'text',
-          defaultValue: '#000000',
-        },
-        {
-          name: 'textColor',
-          label: 'Text Color',
-          type: 'text',
-          defaultValue: '#333333',
-        },
-        {
           name: 'hoverBackgroundColor',
           label: 'Hover Background Color',
           type: 'text',
@@ -207,36 +195,6 @@ export const featuredPortfolioBlock: Block = {
           label: 'Show Global Tag',
           type: 'checkbox',
           defaultValue: false,
-        },
-      ],
-    },
-    {
-      name: 'appearance',
-      type: 'group',
-      fields: [
-        {
-          name: 'textColor',
-          label: 'Text Color (Regular Cards)',
-          type: 'text',
-          defaultValue: '#333333',
-        },
-        {
-          name: 'firstItemTextColor',
-          label: 'Text Color (Featured Card)',
-          type: 'text',
-          defaultValue: '#ffffff',
-        },
-        {
-          name: 'cardBackgroundColor',
-          label: 'Card Background Color',
-          type: 'text',
-          defaultValue: '#ffffff',
-        },
-        {
-          name: 'accentColor',
-          label: 'Accent Color (Highlights & Buttons)',
-          type: 'text',
-          defaultValue: '#3b82f6',
         },
       ],
     },

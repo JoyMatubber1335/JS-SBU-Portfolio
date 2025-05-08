@@ -153,7 +153,7 @@ export interface Page {
   id: string;
   title: string;
   hero: {
-    type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact' | 'hero';
+    type: 'none' | 'hero';
     richText?: {
       root: {
         type: string;
@@ -198,9 +198,7 @@ export interface Page {
       heading?: string | null;
       description?: string | null;
       headingSize?: ('3xl' | '4xl' | '5xl' | '6xl') | null;
-      headingColor?: string | null;
       descriptionSize?: ('sm' | 'base' | 'lg' | 'xl') | null;
-      descriptionColor?: string | null;
       buttonType?: ('solid' | 'outline') | null;
       buttonBgColor?: string | null;
       buttonTextColor?: string | null;
@@ -210,7 +208,6 @@ export interface Page {
         | null;
       buttonHoverBgColor?: string | null;
       buttonBorderColor?: string | null;
-      fontFamily?: ('font-sans' | 'font-serif' | 'font-mono') | null;
     };
     testimonials?:
       | {
@@ -307,12 +304,6 @@ export interface Page {
               id?: string | null;
             }[]
           | null;
-        appearance?: {
-          textColor?: string | null;
-          firstItemTextColor?: string | null;
-          cardBackgroundColor?: string | null;
-          accentColor?: string | null;
-        };
         id?: string | null;
         blockName?: string | null;
         blockType: 'featuredPortfolio';
@@ -350,6 +341,34 @@ export interface Page {
       }
     | {
         heading: string;
+        description: string;
+        features?:
+          | {
+              icon: string | Media;
+              description: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'aboutus';
+      }
+    | {
+        heading: string;
         brands?:
           | {
               name: string;
@@ -359,8 +378,6 @@ export interface Page {
             }[]
           | null;
         appearance?: {
-          backgroundColor?: string | null;
-          textColor?: string | null;
           hoverBackgroundColor?: string | null;
           scrollSpeed?: number | null;
         };
@@ -1191,9 +1208,7 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               description?: T;
               headingSize?: T;
-              headingColor?: T;
               descriptionSize?: T;
-              descriptionColor?: T;
               buttonType?: T;
               buttonBgColor?: T;
               buttonTextColor?: T;
@@ -1201,7 +1216,6 @@ export interface PagesSelect<T extends boolean = true> {
               buttonBorderRadius?: T;
               buttonHoverBgColor?: T;
               buttonBorderColor?: T;
-              fontFamily?: T;
             };
         testimonials?:
           | T
@@ -1290,14 +1304,6 @@ export interface PagesSelect<T extends boolean = true> {
                     isGlobal?: T;
                     id?: T;
                   };
-              appearance?:
-                | T
-                | {
-                    textColor?: T;
-                    firstItemTextColor?: T;
-                    cardBackgroundColor?: T;
-                    accentColor?: T;
-                  };
               id?: T;
               blockName?: T;
             };
@@ -1327,6 +1333,21 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        aboutus?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         trustedBy?:
           | T
           | {
@@ -1342,8 +1363,6 @@ export interface PagesSelect<T extends boolean = true> {
               appearance?:
                 | T
                 | {
-                    backgroundColor?: T;
-                    textColor?: T;
                     hoverBackgroundColor?: T;
                     scrollSpeed?: T;
                   };
@@ -2026,12 +2045,42 @@ export interface Setting {
   id: string;
   logo?: (string | null) | Media;
   colorScheme?: {
+    /**
+     * Used for headings and important text throughout the site
+     */
     primaryColor?: string | null;
+    /**
+     * Used for descriptions and secondary text throughout the site
+     */
     secondaryColor?: string | null;
+    /**
+     * Used for backgrounds throughout the site
+     */
     backgroundColor?: string | null;
   };
+  /**
+   * Select a font family for the entire site. This will affect all text including headings and paragraphs.
+   */
+  fontFamily?:
+    | (
+        | 'Inter, system-ui, sans-serif'
+        | 'Arial, sans-serif'
+        | 'Helvetica, Arial, sans-serif'
+        | 'Georgia, serif'
+        | 'Times New Roman, Times, serif'
+        | 'Verdana, sans-serif'
+        | 'Tahoma, sans-serif'
+        | 'Trebuchet MS, sans-serif'
+        | 'Courier New, monospace'
+        | 'Roboto, sans-serif'
+        | 'Open Sans, sans-serif'
+        | 'Lato, sans-serif'
+        | 'Montserrat, sans-serif'
+        | 'Poppins, sans-serif'
+        | 'Merriweather, serif'
+      )
+    | null;
   fontSettings?: {
-    fontFamily?: string | null;
     baseFontSize?: number | null;
     headingFontSize?: number | null;
   };
@@ -2197,10 +2246,10 @@ export interface SettingsSelect<T extends boolean = true> {
         secondaryColor?: T;
         backgroundColor?: T;
       };
+  fontFamily?: T;
   fontSettings?:
     | T
     | {
-        fontFamily?: T;
         baseFontSize?: T;
         headingFontSize?: T;
       };

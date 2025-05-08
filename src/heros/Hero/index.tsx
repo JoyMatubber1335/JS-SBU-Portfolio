@@ -6,6 +6,7 @@ import type { Page } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 // Define slide types
 type SlideType = 'motto' | 'product' | 'services'
@@ -51,15 +52,16 @@ export const Hero: React.FC<Page['hero']> = ({
   testimonialStyle,
   teamContent,
 }) => {
+  // Get global settings for colors and fonts
+  const { settings } = useGlobalSettings()
+
   // Default heading and description values
   const heading = teamContent?.heading || 'In Need of Highly Skilled Developers at a Lower Cost?'
   const description =
     teamContent?.description ||
     'We provide you with a dedicated remote development team with some of the top developers in Bangladesh!'
   const headingSize = teamContent?.headingSize || '5xl'
-  const headingColor = teamContent?.headingColor || '#334155'
   const descriptionSize = teamContent?.descriptionSize || 'lg'
-  const descriptionColor = teamContent?.descriptionColor || '#4b5563'
 
   // Button styling options - cast as any to overcome type limitations
   const teamContentExt = teamContent as any
@@ -71,13 +73,15 @@ export const Hero: React.FC<Page['hero']> = ({
   const buttonHoverBgColor = teamContentExt?.buttonHoverBgColor || '#059669'
   const buttonBorderColor = teamContentExt?.buttonBorderColor || '#10b981'
 
-  // Font styling options
-  const fontFamily = teamContentExt?.fontFamily || 'font-sans'
+  // Use global settings for colors
+  const headingColor = settings?.colorScheme?.primaryColor || '#334155'
+  const descriptionColor = settings?.colorScheme?.secondaryColor || '#4b5563'
+  const bgColor = settings?.colorScheme?.backgroundColor || '#ffffff'
 
   // Default styling values
   const textSize = testimonialStyle?.textSize || 'base'
-  const textColor = testimonialStyle?.textColor || '#374151'
-  const backgroundColor = testimonialStyle?.backgroundColor || '#ffffff'
+  const textColor = settings?.colorScheme?.primaryColor || '#334155'
+  const backgroundColor = testimonialStyle?.backgroundColor || bgColor
   const borderColor = testimonialStyle?.borderColor || '#1e3a8a'
   const transitionDuration = testimonialStyle?.transitionDuration || '500'
   const autoplay = testimonialStyle?.autoplay ?? true
@@ -319,7 +323,7 @@ export const Hero: React.FC<Page['hero']> = ({
   }
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh', backgroundColor: bgColor }}>
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
@@ -353,7 +357,7 @@ export const Hero: React.FC<Page['hero']> = ({
             min-height: 150px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            background-color: ${backgroundColor};
+            background-color: transparent;
             border-left: 4px solid ${borderColor};
           }
 
@@ -362,7 +366,7 @@ export const Hero: React.FC<Page['hero']> = ({
             font-size: 1.5rem;
             font-weight: 600;
             font-style: italic;
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             line-height: 1.4;
           }
 
@@ -370,7 +374,7 @@ export const Hero: React.FC<Page['hero']> = ({
           .product-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             margin-bottom: 0.75rem;
           }
 
@@ -430,7 +434,7 @@ export const Hero: React.FC<Page['hero']> = ({
           }
 
           .services-heading {
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
@@ -472,7 +476,7 @@ export const Hero: React.FC<Page['hero']> = ({
           }
 
           .stack-name {
-            color: ${textColor};
+            color: ${settings?.colorScheme?.primaryColor || '#334155'};
             font-size: 1.125rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -506,9 +510,9 @@ export const Hero: React.FC<Page['hero']> = ({
           {/* Left side - Text Content */}
           <div className="flex flex-col justify-center">
             <div className="max-w-xl p-4">
-              <h1 className={`hero-heading ${fontFamily}`}>{heading}</h1>
+              <h1 className={`hero-heading`}>{heading}</h1>
               <p
-                className={`${getTextSizeClass(descriptionSize)} mb-10 ${fontFamily}`}
+                className={`${getTextSizeClass(descriptionSize)} mb-10`}
                 style={{ color: descriptionColor }}
               >
                 {description}
@@ -517,10 +521,7 @@ export const Hero: React.FC<Page['hero']> = ({
               {Array.isArray(links) && links.length > 0 && links[0]?.link && (
                 <div>
                   <div className={`custom-button-wrapper ${buttonBorderRadius}`}>
-                    <CMSLink
-                      {...links[0].link}
-                      className={`custom-button ${buttonFontSize} ${fontFamily}`}
-                    />
+                    <CMSLink {...links[0].link} className={`custom-button ${buttonFontSize}`} />
                   </div>
                 </div>
               )}
@@ -534,9 +535,7 @@ export const Hero: React.FC<Page['hero']> = ({
                   >
                     {/* Render appropriate content based on slide type */}
                     {currentSlide.slideType === 'motto' && currentSlide.motto && (
-                      <div className={`slide-motto ${fontFamily}`}>
-                        &ldquo;{currentSlide.motto}&rdquo;
-                      </div>
+                      <div className={`slide-motto`}>&ldquo;{currentSlide.motto}&rdquo;</div>
                     )}
 
                     {currentSlide.slideType === 'product' && (
@@ -550,12 +549,8 @@ export const Hero: React.FC<Page['hero']> = ({
                           </div>
                         )}
                         <div className="product-content">
-                          <h3 className={`product-title ${fontFamily}`}>
-                            {currentSlide.productTitle}
-                          </h3>
-                          <p
-                            className={`product-description ${getTextSizeClass(textSize)} ${fontFamily}`}
-                          >
+                          <h3 className={`product-title`}>{currentSlide.productTitle}</h3>
+                          <p className={`product-description ${getTextSizeClass(textSize)}`}>
                             {currentSlide.productDescription}
                           </p>
                         </div>
@@ -563,7 +558,7 @@ export const Hero: React.FC<Page['hero']> = ({
                     )}
 
                     {currentSlide.slideType === 'services' && (
-                      <div className={`services-content ${fontFamily}`}>
+                      <div className={`services-content`}>
                         <h3 className="services-heading">
                           {currentSlide.servicesTitle || 'Our Services'}
                         </h3>
@@ -619,7 +614,7 @@ export const Hero: React.FC<Page['hero']> = ({
           {/* Right side - Image */}
           <div>
             {media && typeof media === 'object' && (
-              <div className="rounded-lg flex h-full overflow-hidden shadow-xl bg-gray-100">
+              <div className="rounded-lg flex h-screen overflow-hidden shadow-xl object-contain">
                 <Media imgClassName="w-full h-full object-cover" priority resource={media} />
               </div>
             )}

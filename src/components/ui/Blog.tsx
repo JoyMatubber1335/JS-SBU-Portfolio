@@ -1,5 +1,8 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 type BlogItem = {
   title: string
@@ -21,6 +24,12 @@ function truncateText(text: string, maxLength: number) {
 }
 
 export const Blog: React.FC<BlogProps> = ({ blogs }) => {
+  // Get global settings for colors
+  const { settings } = useGlobalSettings()
+  const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
+  const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
+  const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
+
   if (!blogs || blogs.length === 0) return <div>No blogs found.</div>
 
   // Featured blog and remaining blogs
@@ -44,28 +53,41 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
           </div>
 
           {/* Featured Content */}
-          <div className="md:col-span-2 bg-gray-50 rounded-lg p-4 sm:p-6 flex flex-col justify-between h-64 sm:h-72 md:h-80 shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div
+            className="md:col-span-2 rounded-lg p-4 sm:p-6 flex flex-col justify-between h-64 sm:h-72 md:h-80 shadow-sm hover:shadow-md transition-shadow duration-300 border"
+            style={{ backgroundColor, borderColor: primaryColor }}
+          >
             <div>
-              <span className="inline-block bg-white text-xs font-semibold rounded mb-2 uppercase tracking-wide text-gray-700 py-1 px-2 shadow-sm">
+              <span
+                className="inline-block text-xs font-semibold rounded mb-2 uppercase tracking-wide py-1 px-2 shadow-sm"
+                style={{ backgroundColor: 'white', color: primaryColor }}
+              >
                 {featuredBlog.tag}
               </span>
-              <h2 className="font-bold text-xl sm:text-2xl md:text-3xl mb-2 line-clamp-2 text-gray-900">
+              <h2
+                className="font-bold text-xl sm:text-2xl md:text-3xl mb-2 line-clamp-2"
+                style={{ color: primaryColor }}
+              >
                 {featuredBlog.title}
               </h2>
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-4 line-clamp-3">
+              <p
+                className="text-sm sm:text-base md:text-lg mb-4 line-clamp-3"
+                style={{ color: primaryColor }}
+              >
                 {featuredBlog.description}
               </p>
             </div>
 
-            <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500">
+            <div className="flex items-center justify-between text-xs sm:text-sm">
               <a
                 href={featuredBlog.url || '#'}
-                className="underline font-semibold text-black hover:text-gray-700 transition-colors"
+                className="underline font-semibold hover:opacity-80 transition-opacity"
+                style={{ color: primaryColor }}
               >
                 Read More
               </a>
               {featuredBlog.date && (
-                <span>
+                <span style={{ color: secondaryColor }}>
                   {new Date(featuredBlog.date).toLocaleDateString('en-US', {
                     day: '2-digit',
                     month: 'short',
@@ -82,7 +104,8 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
         {remainingBlogs.map((blog, idx) => (
           <div
             key={idx}
-            className="bg-gray-50 rounded-lg overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 h-64 sm:h-72"
+            className="rounded-lg overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 h-64 sm:h-72 border"
+            style={{ backgroundColor, borderColor: primaryColor }}
           >
             {/* Image Container */}
             <div className="relative h-32 sm:h-40">
@@ -93,26 +116,33 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
                 height={250}
                 className="w-full h-full object-contain"
               />
-              <span className="absolute top-2 left-2 bg-white text-xs font-semibold rounded uppercase tracking-wide text-gray-700 shadow py-1 px-2">
+              <span
+                className="absolute top-2 left-2 text-xs font-semibold rounded uppercase tracking-wide shadow py-1 px-2"
+                style={{ backgroundColor: 'white', color: primaryColor }}
+              >
                 {blog.tag}
               </span>
             </div>
 
             {/* Content Container */}
             <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
-              <h3 className="font-semibold text-sm sm:text-base lg:text-lg mb-2 line-clamp-2 text-gray-900">
+              <h3
+                className="font-semibold text-sm sm:text-base lg:text-lg mb-2 line-clamp-2"
+                style={{ color: primaryColor }}
+              >
                 {blog.title}
               </h3>
 
-              <div className="flex items-center justify-between text-xs text-gray-500 mt-auto">
+              <div className="flex items-center justify-between text-xs mt-auto">
                 <a
                   href={blog.url || '#'}
-                  className="underline font-semibold text-black hover:text-gray-700 transition-colors"
+                  className="underline font-semibold hover:opacity-80 transition-opacity"
+                  style={{ color: primaryColor }}
                 >
                   Read More
                 </a>
                 {blog.date && (
-                  <span>
+                  <span style={{ color: secondaryColor }}>
                     {new Date(blog.date).toLocaleDateString('en-US', {
                       day: '2-digit',
                       month: 'short',

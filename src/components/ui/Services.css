@@ -1,6 +1,5 @@
 .marketing-tabs__container {
   width: 100%;
-  background: #181a20;
   padding: 0;
 }
 
@@ -8,8 +7,6 @@
   max-width: 1440px;
   width: 100%;
   margin: 2rem auto;
-  background: #181a20;
-  color: #fff;
   padding: 3rem 1.5rem;
   border-radius: 1.5rem;
   box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
@@ -24,13 +21,11 @@
 }
 .marketing-tabs__headline span {
   font-weight: 700;
-  color: #b388ff;
 }
 
 .marketing-tabs__tablist.sticky {
   position: sticky;
   top: 0;
-  background: #181a20;
   z-index: 10;
   padding-top: 1rem;
 }
@@ -40,13 +35,12 @@
   justify-content: center;
   gap: 2rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid #23263a;
+  border-bottom: 2px solid;
 }
 
 .marketing-tabs__tab {
   background: none;
   border: none;
-  color: #b0b3c6;
   font-size: 1.1rem;
   padding: 1rem 0.5rem;
   cursor: pointer;
@@ -56,8 +50,6 @@
     border-bottom 0.2s;
 }
 .marketing-tabs__tab.active {
-  color: #fff;
-  border-bottom: 3px solid #b388ff;
   font-weight: 600;
 }
 
@@ -71,7 +63,6 @@
   max-width: none;
   min-height: calc(100vh - 64px - 64px); /* header + tab bar */
   margin: 0 0 2rem 0;
-  background: rgba(255, 255, 255, 0.02);
   border-radius: 1rem;
   padding: 2rem 1.5rem;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
@@ -85,13 +76,11 @@
 .marketing-tabs__panel h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #b388ff;
 }
 
 .marketing-tabs__panel p {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
-  color: #d1d3e0;
 }
 
 .marketing-tabs__panel ul {
@@ -102,13 +91,12 @@
   margin-bottom: 0.7rem;
 }
 .marketing-tabs__panel a {
-  color: #b388ff;
   text-decoration: underline;
   font-weight: 500;
   transition: color 0.2s;
 }
 .marketing-tabs__panel a:hover {
-  color: #fff;
+  opacity: 0.8;
 }
 
 @keyframes fadeIn {
@@ -306,10 +294,15 @@
   width: 100%;
   height: auto;
   border-radius: 1.2rem;
-  box-shadow: 0 4px 32px rgba(179, 136, 255, 0.15);
   object-fit: contain;
   display: block;
   max-height: 350px;
+}
+
+.services__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .services__icon {
@@ -318,27 +311,12 @@
   justify-content: center;
   width: 24px;
   height: 24px;
-  background: #b388ff;
   border-radius: 50%;
 }
 
 .services__icon svg {
   width: 24px;
   height: 24px;
-  display: block;
-  color: #fff;
-}
-
-.services__link {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  color: #b388ff;
-  text-decoration: underline;
-  font-weight: 500;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  transition: color 0.2s;
 }
 
 @media (max-width: 900px) {
