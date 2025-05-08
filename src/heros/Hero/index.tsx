@@ -614,7 +614,7 @@ export const Hero: React.FC<Page['hero']> = ({
           {/* Right side - Image */}
           <div>
             {media && typeof media === 'object' && (
-              <div className="rounded-lg flex h-full overflow-hidden shadow-xl bg-gray-100">
+              <div className="rounded-lg flex h-screen overflow-hidden shadow-xl object-contain">
                 <Media imgClassName="w-full h-full object-cover" priority resource={media} />
               </div>
             )}
