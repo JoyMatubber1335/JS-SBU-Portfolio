@@ -57,18 +57,6 @@ export const trustedByBlock: Block = {
       type: 'group',
       fields: [
         {
-          name: 'backgroundColor',
-          label: 'Background Color',
-          type: 'text',
-          defaultValue: '#000000',
-        },
-        {
-          name: 'textColor',
-          label: 'Text Color',
-          type: 'text',
-          defaultValue: '#333333',
-        },
-        {
           name: 'hoverBackgroundColor',
           label: 'Hover Background Color',
           type: 'text',

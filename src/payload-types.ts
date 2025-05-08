@@ -384,8 +384,6 @@ export interface Page {
             }[]
           | null;
         appearance?: {
-          backgroundColor?: string | null;
-          textColor?: string | null;
           hoverBackgroundColor?: string | null;
           scrollSpeed?: number | null;
         };
@@ -1379,8 +1377,6 @@ export interface PagesSelect<T extends boolean = true> {
               appearance?:
                 | T
                 | {
-                    backgroundColor?: T;
-                    textColor?: T;
                     hoverBackgroundColor?: T;
                     scrollSpeed?: T;
                   };

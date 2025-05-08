@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 type Brand = {
   name: string
@@ -20,9 +21,30 @@ type Props = {
 }
 
 export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = {}, id }) => {
+  // Get global settings for colors
+  const { settings } = useGlobalSettings()
+  const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
+  const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
+
+  // Function to convert hex to rgba for opacity
+  const hexToRgba = (hex: string, opacity: number) => {
+    // Remove # if present
+    hex = hex.replace('#', '')
+
+    // Parse the hex values to get r, g, b
+    const r = parseInt(hex.substring(0, 2), 16)
+    const g = parseInt(hex.substring(2, 4), 16)
+    const b = parseInt(hex.substring(4, 6), 16)
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
+
+  // Generate secondary color with opacity
+  const secondaryColorWithOpacity = hexToRgba(secondaryColor, 0.3)
+
   const {
-    backgroundColor = '#000000',
-    textColor = '#333333',
+    backgroundColor = primaryColor,
+    textColor = primaryColor,
     hoverBackgroundColor = '#ffffff',
     scrollSpeed = 5,
   } = appearance || {}
@@ -91,17 +113,17 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
     <div id={id} className="py-10 overflow-hidden">
       <div className="container mx-auto px-4 mb-8">
         {heading && (
-          <h2 className="text-2xl font-bold text-center" style={{ color: textColor }}>
+          <h2 className="text-2xl font-bold text-center" style={{ color: primaryColor }}>
             {heading}
           </h2>
         )}
       </div>
 
-      {/* Full width black background section */}
+      {/* Full width section with primary color background */}
       <div className="relative" style={{ transform: 'rotate(-1deg)' }}>
         <div
           className="w-full py-12"
-          style={{ background: '#000000', zIndex: 2, position: 'relative' }}
+          style={{ background: primaryColor, zIndex: 2, position: 'relative' }}
         >
           <div
             className="mx-auto px-2 overflow-hidden"
@@ -137,13 +159,13 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
                     style={{ backgroundColor: hoverBackgroundColor }}
                   >
                     <div className="text-center">
-                      <span className="font-medium block" style={{ color: '#000000' }}>
+                      <span className="font-medium block" style={{ color: secondaryColor }}>
                         {brand.name}
                       </span>
                       {brand.category && (
                         <span
                           className="text-xs block mt-1"
-                          style={{ color: '#000000', opacity: 0.7 }}
+                          style={{ color: secondaryColor, opacity: 0.7 }}
                         >
                           {brand.category}
                         </span>
@@ -156,7 +178,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
           </div>
         </div>
 
-        {/* Diagonal gray section - reversed direction */}
+        {/* Diagonal section - using secondary color with opacity */}
         <div
           className="w-full"
           style={{
@@ -176,7 +198,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
               display: 'block',
             }}
           >
-            <path fill="#e0e0e0" d="M0,0 L1440,40 L1440,40 L0,40 Z"></path>
+            <path fill={secondaryColorWithOpacity} d="M0,0 L1440,40 L1440,40 L0,40 Z"></path>
           </svg>
         </div>
       </div>
