@@ -323,7 +323,7 @@ export const Hero: React.FC<Page['hero']> = ({
   }
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh', backgroundColor: bgColor }}>
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
