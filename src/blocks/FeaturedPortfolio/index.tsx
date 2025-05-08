@@ -2,6 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 type Project = {
   title: string
@@ -38,13 +39,20 @@ export const FeaturedPortfolio: React.FC<Props> = ({
   appearance = {},
   id,
 }) => {
-  const {
-    textColor = '#333333',
-    firstItemTextColor = '#ffffff',
-    cardBackgroundColor = '#ffffff',
-    accentColor = '#3b82f6',
-  } = appearance || {}
+  // Get global settings for colors
+  const { settings } = useGlobalSettings()
 
+  // Use global settings for colors
+  const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
+  const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
+  const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
+
+  const {
+    textColor = primaryColor,
+    firstItemTextColor = backgroundColor,
+    cardBackgroundColor = backgroundColor,
+    accentColor = primaryColor,
+  } = appearance || {}
 
   if (!projects || projects.length === 0) {
     return (
@@ -60,17 +68,17 @@ export const FeaturedPortfolio: React.FC<Props> = ({
   }
 
   return (
-    <div id={id}>
+    <div className="py-16" id={id} style={{ backgroundColor }}>
       <div className="container mx-auto px-4 max-w-7xl">
         {(heading || description) && (
           <div className="mb-12 text-center">
             {heading && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: textColor }}>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: primaryColor }}>
                 {heading}
               </h2>
             )}
             {description && (
-              <p className="text-lg max-w-3xl mx-auto" style={{ color: textColor }}>
+              <p className="text-lg max-w-3xl mx-auto" style={{ color: secondaryColor }}>
                 {description}
               </p>
             )}
@@ -83,6 +91,9 @@ export const FeaturedPortfolio: React.FC<Props> = ({
               // For 4th and 5th items, we need to adjust the layout
               const isSecondRow = index >= 3
               const adjustedIndex = isSecondRow ? index - 3 : index
+
+              // Determine text color based on card position
+              const cardTextColor = isFeaturedLayout(index) ? backgroundColor : primaryColor
 
               return (
                 <div
@@ -102,7 +113,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                       style={{
                         borderRadius: '12px',
                         borderWidth: '1px',
-                        borderColor: '#e5e7eb',
+                        borderColor: primaryColor,
                         borderStyle: 'solid',
                       }}
                     >
@@ -142,7 +153,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                             <span
                               className="text-sm font-semibold py-1 rounded-md"
                               style={{
-                                color: firstItemTextColor,
+                                color: backgroundColor,
                               }}
                             >
                               {project.category || 'Theme'}
@@ -150,13 +161,13 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                           </div>
                           <h3
                             className="text-xl md:text-2xl font-bold mb-2"
-                            style={{ color: firstItemTextColor }}
+                            style={{ color: backgroundColor }}
                           >
                             {project.title}
                           </h3>
                           {project.description && (
                             <p
-                              style={{ color: firstItemTextColor, opacity: 0.8 }}
+                              style={{ color: backgroundColor, opacity: 0.8 }}
                               className="text-base line-clamp-2 mb-2"
                             >
                               {project.description}
@@ -174,7 +185,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                         borderRadius: '12px',
                         height: '360px',
                         borderWidth: '1px',
-                        borderColor: '#e5e7eb',
+                        borderColor: primaryColor,
                         borderStyle: 'solid',
                       }}
                     >
@@ -213,20 +224,20 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                           <div className="mb-3">
                             <span
                               className="text-xs font-semibold py-1 rounded-md"
-                              style={{ color: textColor }}
+                              style={{ color: primaryColor }}
                             >
                               {project.category || 'Theme'}
                             </span>
                           </div>
 
-                          <h3 className="text-lg mb-2" style={{ color: textColor }}>
+                          <h3 className="text-lg mb-2" style={{ color: primaryColor }}>
                             {project.title}
                           </h3>
 
                           {project.description && (
                             <p
                               className="text-sm line-clamp-2"
-                              style={{ color: textColor, opacity: 0.7 }}
+                              style={{ color: primaryColor, opacity: 0.7 }}
                             >
                               {project.description}
                             </p>

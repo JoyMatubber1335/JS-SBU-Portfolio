@@ -198,35 +198,5 @@ export const featuredPortfolioBlock: Block = {
         },
       ],
     },
-    {
-      name: 'appearance',
-      type: 'group',
-      fields: [
-        {
-          name: 'textColor',
-          label: 'Text Color (Regular Cards)',
-          type: 'text',
-          defaultValue: '#333333',
-        },
-        {
-          name: 'firstItemTextColor',
-          label: 'Text Color (Featured Card)',
-          type: 'text',
-          defaultValue: '#ffffff',
-        },
-        {
-          name: 'cardBackgroundColor',
-          label: 'Card Background Color',
-          type: 'text',
-          defaultValue: '#ffffff',
-        },
-        {
-          name: 'accentColor',
-          label: 'Accent Color (Highlights & Buttons)',
-          type: 'text',
-          defaultValue: '#3b82f6',
-        },
-      ],
-    },
   ],
 }

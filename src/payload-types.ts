@@ -304,12 +304,6 @@ export interface Page {
               id?: string | null;
             }[]
           | null;
-        appearance?: {
-          textColor?: string | null;
-          firstItemTextColor?: string | null;
-          cardBackgroundColor?: string | null;
-          accentColor?: string | null;
-        };
         id?: string | null;
         blockName?: string | null;
         blockType: 'featuredPortfolio';
@@ -1309,14 +1303,6 @@ export interface PagesSelect<T extends boolean = true> {
                     highlighted?: T;
                     isGlobal?: T;
                     id?: T;
-                  };
-              appearance?:
-                | T
-                | {
-                    textColor?: T;
-                    firstItemTextColor?: T;
-                    cardBackgroundColor?: T;
-                    accentColor?: T;
                   };
               id?: T;
               blockName?: T;

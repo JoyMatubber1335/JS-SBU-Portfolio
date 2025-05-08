@@ -359,7 +359,6 @@ export const Hero: React.FC<Page['hero']> = ({
             min-height: 150px;
             padding: 1.5rem;
             margin-bottom: 1rem;
-            background-color: ${backgroundColor};
             border-left: 4px solid ${borderColor};
           }
 
