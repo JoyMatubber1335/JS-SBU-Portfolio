@@ -23,18 +23,18 @@ export const hero: Field = {
           label: 'None',
           value: 'none',
         },
-        {
-          label: 'High Impact',
-          value: 'highImpact',
-        },
-        {
-          label: 'Medium Impact',
-          value: 'mediumImpact',
-        },
-        {
-          label: 'Low Impact',
-          value: 'lowImpact',
-        },
+        // {
+        //   label: 'High Impact',
+        //   value: 'highImpact',
+        // },
+        // {
+        //   label: 'Medium Impact',
+        //   value: 'mediumImpact',
+        // },
+        // {
+        //   label: 'Low Impact',
+        //   value: 'lowImpact',
+        // },
         {
           label: 'Hero',
           value: 'hero',
@@ -116,12 +116,6 @@ export const hero: Field = {
           ],
         },
         {
-          name: 'headingColor',
-          type: 'text',
-          label: 'Heading Color (Hex code, e.g. #334155)',
-          defaultValue: '#334155',
-        },
-        {
           name: 'descriptionSize',
           type: 'select',
           label: 'Description Size',
@@ -144,12 +138,6 @@ export const hero: Field = {
               value: 'xl',
             },
           ],
-        },
-        {
-          name: 'descriptionColor',
-          type: 'text',
-          label: 'Description Color (Hex code, e.g. #4b5563)',
-          defaultValue: '#4b5563',
         },
         {
           name: 'buttonType',
@@ -246,26 +234,6 @@ export const hero: Field = {
           type: 'text',
           label: 'Button Border Color (Hex code, e.g. #10b981)',
           defaultValue: '#10b981',
-        },
-        {
-          name: 'fontFamily',
-          type: 'select',
-          label: 'Font Family',
-          defaultValue: 'font-sans',
-          options: [
-            {
-              label: 'Sans Serif',
-              value: 'font-sans',
-            },
-            {
-              label: 'Serif',
-              value: 'font-serif',
-            },
-            {
-              label: 'Mono',
-              value: 'font-mono',
-            },
-          ],
         },
       ],
     },
