@@ -119,7 +119,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderHero {...hero} />
-      {slug === 'home' && <Services tabs={tabs} />}
+      {servicesBlock && <Services tabs={tabs} />}
 
       {aboutUsBlock && (
         <AboutUs
