@@ -6,8 +6,6 @@ import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/Footer/Component'
-import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -19,7 +17,8 @@ import { FontLoader } from '@/components/FontLoader'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
-import { Copyright } from '@/Copyright/Component'
+import { FooterContainer } from '@/Footer/FooterContainer'
+import { HeaderContainer } from '@/Header/HeaderContainer'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -41,10 +40,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }}
           />
 
-          <Header />
+          <HeaderContainer />
           {children}
-          <Footer />
-          <Copyright />
+          <FooterContainer />
         </Providers>
       </body>
     </html>
