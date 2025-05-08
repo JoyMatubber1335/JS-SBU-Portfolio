@@ -2,11 +2,18 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 import './Services.css'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 export default function Services({ tabs }) {
   const panelRefs = useRef([])
   const [activeTab, setActiveTab] = useState(0)
   const [scrollToTabIdx, setScrollToTabIdx] = useState(null)
+
+  // Get global settings for colors
+  const { settings } = useGlobalSettings()
+  const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
+  const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
+  const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
 
   // Scroll to panel on tab click, with offset for sticky tab bar
   const STICKY_TAB_HEIGHT = 64
@@ -39,7 +46,7 @@ export default function Services({ tabs }) {
   // Placeholder icon (can be replaced with your icon system)
   const ArrowIcon = () => (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="10" fill="#b388ff" />
+      <circle cx="12" cy="12" r="10" fill={secondaryColor} />
 
       <g transform="translate(2, 0)">
         <path
@@ -54,17 +61,28 @@ export default function Services({ tabs }) {
   )
 
   return (
-    <div className="marketing-tabs__container">
-      <div className="marketing-tabs__inner">
-        <h2 className="marketing-tabs__headline">
-          Solutions tailored for your success, <span>all in one place</span>
+    <div className="marketing-tabs__container" style={{ background: backgroundColor }}>
+      <div
+        className="marketing-tabs__inner"
+        style={{ background: backgroundColor, color: primaryColor }}
+      >
+        <h2 className="marketing-tabs__headline" style={{ color: primaryColor }}>
+          Solutions tailored for your success,{' '}
+          <span style={{ color: secondaryColor }}>all in one place</span>
         </h2>
-        <div className="marketing-tabs__tablist sticky">
+        <div
+          className="marketing-tabs__tablist sticky"
+          style={{ background: backgroundColor, borderBottomColor: primaryColor }}
+        >
           {tabs.map((t, idx) => (
             <button
               key={t.key || t.label || idx}
               className={`marketing-tabs__tab${activeTab === idx ? ' active' : ''}`}
               onClick={() => handleTabClick(idx)}
+              style={{
+                color: activeTab === idx ? secondaryColor : primaryColor,
+                borderBottomColor: activeTab === idx ? secondaryColor : 'transparent',
+              }}
             >
               {t.label}
             </button>
@@ -77,17 +95,22 @@ export default function Services({ tabs }) {
               id={`marketing-tab-panel-${tab.key || idx}`}
               className="marketing-tabs__panel"
               ref={(el) => (panelRefs.current[idx] = el)}
+              style={{ background: 'rgba(255, 255, 255, 0.02)' }}
             >
               <div className="services__panel-content">
                 <div className="services__panel-text">
-                  <h3>{tab.title}</h3>
-                  <p>{tab.description}</p>
+                  <h3 style={{ color: secondaryColor }}>{tab.title}</h3>
+                  <p style={{ color: primaryColor }}>{tab.description}</p>
                   <ul>
                     {tab.links &&
                       tab.links.map((link) => (
                         <li key={link.text}>
-                          <a href={link.href} className="services__link">
-                            <span className="services__icon">
+                          <a
+                            href={link.href}
+                            className="services__link"
+                            style={{ color: secondaryColor }}
+                          >
+                            <span className="services__icon" style={{ background: secondaryColor }}>
                               <ArrowIcon />
                             </span>
                             <span>{link.text}</span>
@@ -108,6 +131,7 @@ export default function Services({ tabs }) {
                             ''
                       }
                       alt={tab.title}
+                      style={{ boxShadow: `0 4px 32px rgba(0, 0, 0, 0.15)` }}
                     />
                   )}
                 </div>
