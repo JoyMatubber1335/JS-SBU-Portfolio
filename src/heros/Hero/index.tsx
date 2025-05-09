@@ -323,7 +323,7 @@ export const Hero: React.FC<Page['hero']> = ({
   }
 
   return (
-    <div style={{ height: '100vh', backgroundColor: bgColor }}>
+    <div style={{ backgroundColor: bgColor }}>
       <div className="container">
         {/* Global styles - consolidate all in one block */}
         <style jsx global>{`
@@ -614,8 +614,12 @@ export const Hero: React.FC<Page['hero']> = ({
           {/* Right side - Image */}
           <div>
             {media && typeof media === 'object' && (
-              <div className="rounded-lg flex h-screen overflow-hidden shadow-xl object-contain">
-                <Media imgClassName="w-full h-screen object-contain" priority resource={media} />
+              <div className="rounded-lg flex overflow-hidden object-contain">
+                <Media
+                  imgClassName="w-full lg:h-screen h-auto object-contain"
+                  priority
+                  resource={media}
+                />
               </div>
             )}
           </div>

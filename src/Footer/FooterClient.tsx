@@ -20,6 +20,7 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
       background: backgroundColor,
       color: primaryColor,
       borderColor: primaryColor,
+      borderColorWithOpacity: `rgba(${parseInt(primaryColor.slice(1, 3), 16)}, ${parseInt(primaryColor.slice(3, 5), 16)}, ${parseInt(primaryColor.slice(5, 7), 16)}, 0.08ss)`,
     },
     mainLinks: {
       color: primaryColor,
@@ -53,7 +54,7 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
           color: footerStyles.footer.color,
           borderColor: footerStyles.footer.borderColor,
         }}
-        className="footer-wrapper"
+        className="footer-wrapper mt-8"
       >
         {footerContent}
       </div>
@@ -73,7 +74,7 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
         .footer-wrapper footer {
           background-color: ${footerStyles.footer.background} !important;
           color: ${footerStyles.footer.color} !important;
-          border-color: ${footerStyles.footer.borderColor} !important;
+          border: 1px solid ${footerStyles.footer.borderColorWithOpacity} !important;
         }
 
         .footer-wrapper .text-white {
