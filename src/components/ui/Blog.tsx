@@ -45,7 +45,7 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
   }
 
   // Use reduced opacity for borders
-  const borderColorWithOpacity = hexToRgba(primaryColor, 0.15)
+  const borderColorWithOpacity = hexToRgba(primaryColor, 0.08)
 
   if (!blogs || blogs.length === 0) return <div>No blogs found.</div>
 
@@ -53,7 +53,7 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
   const [featuredBlog, ...remainingBlogs] = blogs
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-8">
+    <div className="w-full max-w-7xl mx-auto px-4 py-16 sm:px-6">
       {/* Featured Blog Section */}
       {featuredBlog && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

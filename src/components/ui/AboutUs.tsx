@@ -63,7 +63,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features
 
   return (
     <section
-      className="relative flex items-center justify-center py-20 overflow-hidden h-[1000px]"
+      className="relative flex items-center justify-center overflow-hidden h-[1000px]"
       style={{ backgroundColor: backgroundColor }}
     >
       {/* Desktop Circle Layout */}

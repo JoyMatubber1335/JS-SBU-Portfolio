@@ -63,7 +63,7 @@ export default function Services({ tabs }) {
   return (
     <div className="marketing-tabs__container" style={{ background: backgroundColor }}>
       <div
-        className="marketing-tabs__inner"
+        className="marketing-tabs__inner container max-w-7xl mx-auto px-4"
         style={{ background: backgroundColor, color: primaryColor }}
       >
         <h2 className="marketing-tabs__headline" style={{ color: primaryColor }}>

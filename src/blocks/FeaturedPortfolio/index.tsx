@@ -62,7 +62,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
   }
 
   // Use reduced opacity for borders
-  const borderColorWithOpacity = hexToRgba(primaryColor, 0.15)
+  const borderColorWithOpacity = hexToRgba(primaryColor, 0.08)
 
   const {
     textColor = primaryColor,
@@ -102,7 +102,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="flex flex-wrap -mx-4 flex items-start" style={{ height: '100vh' }}>
+        <div className="flex flex-wrap -mx-4 flex items-start">
           <div className="flex w-full flex-wrap">
             {projects.slice(0, 5).map((project, index) => {
               // For 4th and 5th items, we need to adjust the layout

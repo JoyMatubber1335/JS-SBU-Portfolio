@@ -73,7 +73,7 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
         .footer-wrapper footer {
           background-color: ${footerStyles.footer.background} !important;
           color: ${footerStyles.footer.color} !important;
-          border-color: ${footerStyles.footer.borderColor} !important;
+          border: ${footerStyles.footer.borderColor} !important;
         }
 
         .footer-wrapper .text-white {
