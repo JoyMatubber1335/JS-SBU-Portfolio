@@ -49,7 +49,7 @@ export async function Footer() {
   }
 
   return (
-    <footer className="p-8 mt-auto border-t border-border bg-black dark:bg-card text-white">
+    <footer className="p-8 mt-auto border-t border-border dark:bg-car">
       <div className="py-2 flex flex-col gap-10 items-center md:flex-row md:justify-between md:items-start">
         {/* Left Section: Logo */}
         <div className="flex-shrink-0 w-full md:w-[20%] flex flex-col items-center md:items-start text-center md:text-left">

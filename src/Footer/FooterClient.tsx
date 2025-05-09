@@ -54,7 +54,7 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
           color: footerStyles.footer.color,
           borderColor: footerStyles.footer.borderColor,
         }}
-        className="footer-wrapper"
+        className="footer-wrapper mt-8"
       >
         {footerContent}
       </div>

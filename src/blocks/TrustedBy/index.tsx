@@ -112,10 +112,10 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
   return (
     <div
       id={id}
-      className="py-10 overflow-hidden"
+      className="overflow-hidden"
       style={{ backgroundColor: settings?.colorScheme?.backgroundColor }}
     >
-      <div className="container mx-auto px-4 mb-8">
+      <div className="container mx-auto py-4 px-2 sm:py-6 sm:px-3 md:py-12 md:px-6">
         {heading && (
           <h2 className="text-2xl font-bold text-center" style={{ color: primaryColor }}>
             {heading}
