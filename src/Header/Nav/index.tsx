@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useRef } from 'react'
 import { ChevronRight, ChevronDown } from 'lucide-react'
 import type { Header } from '@/payload-types'
+import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 type NavItem = NonNullable<Header['navItems']>[number]
 type SubNavItem = NonNullable<NavItem['subNavItems']>[number]
@@ -24,6 +25,12 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
   const [activeSubIndex, setActiveSubIndex] = useState(0)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
   const [showMobileNav, setShowMobileNav] = useState(false)
+  const { settings } = useGlobalSettings()
+
+  // Get color scheme from settings
+  const primaryColor = settings?.colorScheme?.primaryColor || '#494949'
+  const secondaryColor = settings?.colorScheme?.secondaryColor || '#31363b'
+  const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
 
   // Helper for image
   const getImage = (img: any) => img?.thumbnailURL || img?.url || '/icons/default.svg'
@@ -86,13 +93,20 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
               aria-expanded={isOpen}
             >
               <span className="underline-animation">{item.link.label}</span>
-              {hasChildren(item) && <ChevronDown className="ml-1 w-4 h-4" aria-hidden />}
+              {hasChildren(item) && (
+                <ChevronDown
+                  style={{ stroke: primaryColor }}
+                  className="ml-1 w-4 h-4"
+                  aria-hidden
+                />
+              )}
             </Link>
 
             {/* Modal: wrapper is inside the nav item for hover/focus control */}
             {isOpen && !mobile && (
               <div
-                className="fixed left-0 top-[100px] w-full h-[calc(70vh-64px)] bg-[#494949] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
+                className="fixed left-0 top-[100px] w-full h-[calc(70vh-64px)] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
+                style={{ backgroundColor }}
                 role="menu"
                 aria-label={`${item.link.label} submenu`}
                 onMouseEnter={() => handleMouseEnter(idx)}
@@ -100,32 +114,34 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                 tabIndex={-1}
               >
                 {/* Sidebar: Second Level */}
-                <div className="w-[320px] p-8 border-r border-gray-500 flex flex-col gap-2 bg-[#494949]">
+                <div
+                  className="w-[320px] p-8 border-r flex flex-col gap-2"
+                  style={{ backgroundColor }}
+                >
                   {item.subNavItems?.map((sub, subIdx) => (
                     <div
                       key={sub.id ?? subIdx}
-                      className={`flex border-b  items-center gap-4 p-2  cursor-pointer hover:bg-[#31363b] transition
-                        ${activeSubIndex === subIdx ? 'bg-[#31363b] scale-[1.03]' : ''}
+                      className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
+                        ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
                       `}
+                      style={{
+                        backgroundColor: activeSubIndex === subIdx ? secondaryColor : 'transparent',
+                      }}
                       onMouseEnter={() => setActiveSubIndex(subIdx)}
                       tabIndex={0}
                       role="menuitem"
                     >
                       {/* Icon/Image */}
-                      <span className="bg-white rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
+                      <span className="rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
                         <img
                           src={getImage(sub.image)}
                           alt={sub.link.label}
                           className="w-10 h-10 object-cover rounded-full "
                         />
                       </span>
-                      <span className="text-base font-medium text-white flex-1 ">
-                        {sub.link.label}
-                      </span>
+                      <span className="text-base font-medium flex-1 ">{sub.link.label}</span>
                       {/* Arrow if has sub-children */}
-                      {hasSubChildren(sub) && (
-                        <ChevronRight className="text-white w-5 h-5" aria-hidden />
-                      )}
+                      {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
                     </div>
                   ))}
                 </div>
@@ -143,20 +159,33 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                         className="flex flex-col items-center rounded-lg p-2 transition group "
                         tabIndex={0}
                       >
-                        <div className="hover:bg-[#31363b] hover:underline p-4 underline-animation">
+                        <div
+                          className="hover:underline p-4 underline-animation"
+                          style={{ backgroundColor: 'transparent' }}
+                          onMouseOver={(e) => {
+                            ;(e.currentTarget as HTMLElement).style.backgroundColor = secondaryColor
+                          }}
+                          onMouseOut={(e) => {
+                            ;(e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+                          }}
+                        >
                           <img
                             src={getImage(subSub.image)}
-                            alt={subSub.image?.alt || ''}
+                            alt={
+                              typeof subSub.image === 'object' && subSub.image !== null
+                                ? (subSub.image.alt as string) || ''
+                                : ''
+                            }
                             className="w-32 h-32 object-cover rounded mb-4 group-hover:scale-105 transition"
                           />
-                          <span className="text-white text-base font-semibold">
-                            {subSub.link.label}
-                          </span>
+                          <span className="text-base font-semibold">{subSub.link.label}</span>
                         </div>
                       </Link>
                     ))
                   ) : (
-                    <span className="text-gray-400 col-span-4">No items</span>
+                    <span className="col-span-4" style={{ color: primaryColor }}>
+                      No items
+                    </span>
                   )}
                 </div>
               </div>
