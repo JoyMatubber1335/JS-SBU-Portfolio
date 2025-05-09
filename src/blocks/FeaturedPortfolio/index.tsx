@@ -102,20 +102,16 @@ export const FeaturedPortfolio: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="flex flex-wrap -mx-4 flex items-start">
+        <div className="flex flex-wrap flex items-start">
           <div className="flex w-full flex-wrap">
             {projects.slice(0, 5).map((project, index) => {
               // For 4th and 5th items, we need to adjust the layout
               const isSecondRow = index >= 3
-              const adjustedIndex = isSecondRow ? index - 3 : index
-
-              // Determine text color based on card position
-              const cardTextColor = isFeaturedLayout(index) ? backgroundColor : primaryColor
 
               return (
                 <div
                   key={index}
-                  className={`px-2 ${
+                  className={`${
                     isFeaturedLayout(index)
                       ? isSecondRow
                         ? 'w-full md:w-1/2 mb-4' // 4th & 5th in second row
