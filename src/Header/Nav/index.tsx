@@ -51,9 +51,11 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
 
   return (
     <nav
-      className={mobile
-        ? 'flex flex-col gap-2 items-start font-bold text-[16px] w-full'
-        : 'flex gap-2 items-center font-bold text-[16px] relative'}
+      className={
+        mobile
+          ? 'flex flex-col gap-2 items-start font-bold text-[16px] w-full'
+          : 'flex gap-2 items-center font-bold text-[16px] relative'
+      }
       aria-label="Main navigation"
     >
       {navItems.map((item, idx) => {
@@ -74,9 +76,11 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                   ? item.link.reference.value.slug
                   : item.link.reference?.value || item.link.url || '#'
               }`}
-              className={mobile
-                ? 'relative group flex items-center gap-1 px-3 py-2 rounded-md w-full'
-                : 'relative group flex items-center gap-1 px-3 py-2 rounded-md'}
+              className={
+                mobile
+                  ? 'relative group flex items-center gap-1 px-3 py-2 rounded-md w-full'
+                  : 'relative group flex items-center gap-1 px-3 py-2 rounded-md'
+              }
               tabIndex={0}
               aria-haspopup={hasChildren(item) ? 'menu' : undefined}
               aria-expanded={isOpen}

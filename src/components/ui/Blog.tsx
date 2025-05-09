@@ -30,6 +30,23 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
   const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
   const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
 
+  // Function to convert hex to rgba for transparency
+  const hexToRgba = (hex: string, opacity: number): string => {
+    // Remove # if present
+    hex = hex.replace('#', '')
+
+    // Parse the hex values
+    const r = parseInt(hex.substring(0, 2), 16)
+    const g = parseInt(hex.substring(2, 4), 16)
+    const b = parseInt(hex.substring(4, 6), 16)
+
+    // Return rgba
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
+
+  // Use reduced opacity for borders
+  const borderColorWithOpacity = hexToRgba(primaryColor, 0.15)
+
   if (!blogs || blogs.length === 0) return <div>No blogs found.</div>
 
   // Featured blog and remaining blogs
@@ -55,7 +72,7 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
           {/* Featured Content */}
           <div
             className="md:col-span-2 rounded-lg p-4 sm:p-6 flex flex-col justify-between h-64 sm:h-72 md:h-80 shadow-sm hover:shadow-md transition-shadow duration-300 border"
-            style={{ backgroundColor, borderColor: primaryColor }}
+            style={{ backgroundColor, borderColor: borderColorWithOpacity }}
           >
             <div>
               <span
@@ -105,7 +122,7 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
           <div
             key={idx}
             className="rounded-lg overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 h-64 sm:h-72 border"
-            style={{ backgroundColor, borderColor: primaryColor }}
+            style={{ backgroundColor, borderColor: borderColorWithOpacity }}
           >
             {/* Image Container */}
             <div className="relative h-32 sm:h-40">
