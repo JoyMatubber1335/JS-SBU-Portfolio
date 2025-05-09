@@ -506,7 +506,7 @@ export const Hero: React.FC<Page['hero']> = ({
         `}</style>
 
         {/* Top section with heading, description, CTA, and image */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left side - Text Content */}
           <div className="flex flex-col justify-center">
             <div className="max-w-xl p-4">
@@ -543,7 +543,7 @@ export const Hero: React.FC<Page['hero']> = ({
                         {currentSlide.productImage && (
                           <div className="product-image">
                             <Media
-                              imgClassName="w-full h-full object-cover"
+                              imgClassName="w-full h-screen object-contain"
                               resource={currentSlide.productImage}
                             />
                           </div>
@@ -615,7 +615,7 @@ export const Hero: React.FC<Page['hero']> = ({
           <div>
             {media && typeof media === 'object' && (
               <div className="rounded-lg flex h-screen overflow-hidden shadow-xl object-contain">
-                <Media imgClassName="w-full h-full object-cover" priority resource={media} />
+                <Media imgClassName="w-full h-screen object-contain" priority resource={media} />
               </div>
             )}
           </div>

@@ -47,6 +47,23 @@ export const FeaturedPortfolio: React.FC<Props> = ({
   const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
   const backgroundColor = settings?.colorScheme?.backgroundColor || '#ffffff'
 
+  // Function to convert hex to rgba for transparency
+  const hexToRgba = (hex: string, opacity: number): string => {
+    // Remove # if present
+    hex = hex.replace('#', '')
+
+    // Parse the hex values
+    const r = parseInt(hex.substring(0, 2), 16)
+    const g = parseInt(hex.substring(2, 4), 16)
+    const b = parseInt(hex.substring(4, 6), 16)
+
+    // Return rgba
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
+
+  // Use reduced opacity for borders
+  const borderColorWithOpacity = hexToRgba(primaryColor, 0.15)
+
   const {
     textColor = primaryColor,
     firstItemTextColor = backgroundColor,
@@ -113,7 +130,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                       style={{
                         borderRadius: '12px',
                         borderWidth: '1px',
-                        borderColor: primaryColor,
+                        borderColor: borderColorWithOpacity,
                         borderStyle: 'solid',
                       }}
                     >
@@ -185,7 +202,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                         borderRadius: '12px',
                         height: '360px',
                         borderWidth: '1px',
-                        borderColor: primaryColor,
+                        borderColor: borderColorWithOpacity,
                         borderStyle: 'solid',
                       }}
                     >

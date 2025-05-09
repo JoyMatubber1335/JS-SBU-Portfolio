@@ -2080,10 +2080,6 @@ export interface Setting {
         | 'Merriweather, serif'
       )
     | null;
-  fontSettings?: {
-    baseFontSize?: number | null;
-    headingFontSize?: number | null;
-  };
   /**
    * Add links to your social media profiles.
    */
@@ -2247,12 +2243,6 @@ export interface SettingsSelect<T extends boolean = true> {
         backgroundColor?: T;
       };
   fontFamily?: T;
-  fontSettings?:
-    | T
-    | {
-        baseFontSize?: T;
-        headingFontSize?: T;
-      };
   socialMediaLinks?:
     | T
     | {

@@ -121,23 +121,6 @@ export const Settings: GlobalConfig = {
         },
       ],
     },
-    {
-      name: 'fontSettings',
-      label: 'Font Settings',
-      type: 'group',
-      fields: [
-        {
-          name: 'baseFontSize',
-          label: 'Base Font Size (px)',
-          type: 'number',
-        },
-        {
-          name: 'headingFontSize',
-          label: 'Heading Font Size (px)',
-          type: 'number',
-        },
-      ],
-    },
     // Social Media Links Section
     {
       name: 'socialMediaLinks',
