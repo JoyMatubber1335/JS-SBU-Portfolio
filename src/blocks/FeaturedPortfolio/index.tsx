@@ -86,7 +86,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
 
   return (
     <div id={id} style={{ backgroundColor }}>
-      <div className="container mx-auto py-4 px-2 sm:py-6 sm:px-3 md:py-12 md:px-6 max-w-7xl">
+      <div className="container mx-auto sm:py-6 sm:px-3 md:py-12 md:px-6 max-w-7xl">
         {(heading || description) && (
           <div className="mb-12 text-center">
             {heading && (
