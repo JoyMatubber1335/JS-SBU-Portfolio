@@ -16,6 +16,9 @@ import Services from '@/components/ui/Services'
 import { AboutUs } from '@/components/ui/AboutUs'
 import { Blog } from '@/components/ui/Blog'
 import { Media } from '@/payload-types'
+import { ProjectsList } from '../projects/ProjectsList'
+import Link from 'next/link'
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -27,6 +30,7 @@ export async function generateStaticParams() {
     select: {
       slug: true,
     },
+    
   })
 
   const params = pages.docs
@@ -47,6 +51,15 @@ type Args = {
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
+  const payload = await getPayload({ config: configPromise })
+  let projects = []
+  const { docs: projectDocs } = await payload.find({
+      collection: 'projects',
+      sort: 'order',
+      limit: 3, // Show fewer projects on home page
+    })
+    projects = projectDocs
+
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
@@ -110,6 +123,16 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const blogBlock = layout?.find(isBlogBlock)
 
+  // Fetch projects if this is the home page - show exactly 6 projects
+  if (slug === 'home') {
+    const { docs: projectDocs } = await payload.find({
+      collection: 'projects',
+      sort: 'order',
+      limit: 3, // Show exactly 6 projects on home page
+    })
+    projects = projectDocs
+  }
+
   return (
     <article className="flex flex-col gap-10">
       <PageClient />
@@ -127,6 +150,30 @@ export default async function Page({ params: paramsPromise }: Args) {
           description={aboutUsBlock?.description}
           features={aboutUsBlock?.features || []}
         />
+      )}
+
+      {/* Projects Section with View All button at top */}
+      {slug === 'home' && projects.length > 0 && (
+        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold">My Projects</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                  Check out some of my recent work
+                </p>
+              </div>
+              <Link 
+                href="/projects" 
+                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                View All Projects
+              </Link>
+            </div>
+            
+            <ProjectsList projects={projects} />
+          </div>
+        </section>
       )}
 
       {blogBlock && (
