@@ -18,6 +18,8 @@ import { Blog } from '@/components/ui/Blog'
 import { Media } from '@/payload-types'
 import { ProjectsList } from '../projects/ProjectsList'
 import Link from 'next/link'
+import { SkillSets } from '@/components/ui/SkillSets'
+import InsightsGrid from '@/components/ui/InsightsGrid'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -59,6 +61,26 @@ export default async function Page({ params: paramsPromise }: Args) {
       limit: 3, // Show fewer projects on home page
     })
     projects = projectDocs
+
+  // Fetch skill sets for home page
+  let skillSets = []
+  const { docs: skillSetDocs } = await payload.find({
+    collection: 'skillsets',
+    sort: 'order',
+    limit: 3, // Show just 3 skill sets on the home page
+    depth: 2, // Include related blog posts
+  })
+  skillSets = skillSetDocs
+
+  // Fetch insights for home page
+  let insights = []
+  const { docs: insightDocs } = await payload.find({
+    collection: 'insights',
+    sort: '-publishedAt',
+    limit: 3, // Show just 3 insights on the home page
+    depth: 2, // Include related data
+  })
+  insights = insightDocs
 
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
@@ -152,6 +174,30 @@ export default async function Page({ params: paramsPromise }: Args) {
         />
       )}
 
+      {/* SkillSets Section with View All button at top */}
+      {slug === 'home' && skillSets.length > 0 && (
+        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold">My Skill Sets</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                  Areas of expertise and professional capabilities
+                </p>
+              </div>
+              <Link 
+                href="/skills" 
+                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                View All Skills
+              </Link>
+            </div>
+            
+            <SkillSets skillSets={skillSets} />
+          </div>
+        </section>
+      )}
+
       {/* Projects Section with View All button at top */}
       {slug === 'home' && projects.length > 0 && (
         <section className="py-12 bg-gray-50 dark:bg-gray-900">
@@ -172,6 +218,30 @@ export default async function Page({ params: paramsPromise }: Args) {
             </div>
             
             <ProjectsList projects={projects} />
+          </div>
+        </section>
+      )}
+
+      {/* Insights section with View All button */}
+      {slug === 'home' && insights.length > 0 && (
+        <section className="py-12 bg-white dark:bg-gray-800">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center mb-12">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold">Insights</h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                  Technical blogs and video tutorials
+                </p>
+              </div>
+              <Link 
+                href="/insights" 
+                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                View All Insights
+              </Link>
+            </div>
+            
+            <InsightsGrid insights={insights} />
           </div>
         </section>
       )}
