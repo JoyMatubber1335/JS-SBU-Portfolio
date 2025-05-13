@@ -10,6 +10,7 @@ import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
 import { skillSetsSeed } from './skillsets'
+import { insightsSeed } from './insights'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -294,6 +295,23 @@ export const seed = async ({
         data: {
           ...skillSet,
           featuredImage: image1Doc.id, // Use an existing image for demo purposes
+        },
+      })
+    })
+  )
+
+  payload.logger.info(`— Seeding insights...`)
+
+  // Create insights
+  const insights = await Promise.all(
+    insightsSeed.map(async (insight) => {
+      return await payload.create({
+        collection: 'insights',
+        depth: 0,
+        data: {
+          ...insight,
+          featuredImage: image2Doc.id, // Use an existing image for demo purposes
+          author: demoAuthor.id, // Set the author to the demo user
         },
       })
     })

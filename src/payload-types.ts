@@ -196,6 +196,10 @@ export interface Page {
               | ({
                   relationTo: 'skillsets';
                   value: string | Skillset;
+                } | null)
+              | ({
+                  relationTo: 'insights';
+                  value: string | Insight;
                 } | null);
             url?: string | null;
             label: string;
@@ -350,6 +354,10 @@ export interface Page {
                   | ({
                       relationTo: 'skillsets';
                       value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -689,6 +697,67 @@ export interface Skillset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "insights".
+ */
+export interface Insight {
+  id: string;
+  title: string;
+  type: 'blog' | 'tutorial';
+  featuredImage: string | Media;
+  summary: string;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contentType?: ('external' | 'internal') | null;
+  externalLink?: string | null;
+  videoType?: ('upload' | 'embed') | null;
+  /**
+   * Enter the full URL of the video (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
+   */
+  videoEmbed?: string | null;
+  videoFile?: (string | null) | Media;
+  tutorialContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedSkills?: (string | Skillset)[] | null;
+  publishedAt?: string | null;
+  author?: (string | null) | User;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -728,6 +797,10 @@ export interface CallToActionBlock {
             | ({
                 relationTo: 'skillsets';
                 value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -786,6 +859,10 @@ export interface ContentBlock {
             | ({
                 relationTo: 'skillsets';
                 value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -1042,67 +1119,6 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "insights".
- */
-export interface Insight {
-  id: string;
-  title: string;
-  type: 'blog' | 'tutorial';
-  featuredImage: string | Media;
-  summary: string;
-  tags?:
-    | {
-        tag?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  contentType?: ('external' | 'internal') | null;
-  externalLink?: string | null;
-  videoType?: ('upload' | 'embed') | null;
-  /**
-   * Enter the full URL of the video (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
-   */
-  videoEmbed?: string | null;
-  videoFile?: (string | null) | Media;
-  tutorialContent?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  relatedSkills?: (string | Skillset)[] | null;
-  publishedAt?: string | null;
-  author?: (string | null) | User;
-  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2196,6 +2212,10 @@ export interface Header {
             | ({
                 relationTo: 'skillsets';
                 value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -2221,6 +2241,10 @@ export interface Header {
                   | ({
                       relationTo: 'skillsets';
                       value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2247,6 +2271,10 @@ export interface Header {
                         | ({
                             relationTo: 'skillsets';
                             value: string | Skillset;
+                          } | null)
+                        | ({
+                            relationTo: 'insights';
+                            value: string | Insight;
                           } | null);
                       url?: string | null;
                       label: string;
@@ -2291,6 +2319,10 @@ export interface Footer {
             | ({
                 relationTo: 'skillsets';
                 value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -2316,6 +2348,10 @@ export interface Footer {
                   | ({
                       relationTo: 'skillsets';
                       value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2432,6 +2468,10 @@ export interface Copyright {
             | ({
                 relationTo: 'skillsets';
                 value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
