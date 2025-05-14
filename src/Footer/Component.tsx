@@ -10,9 +10,11 @@ import { Logo } from '@/components/Logo/Logo'
 import Image from 'next/image'
 
 export async function Footer() {
-  const footerData: FooterType = await getCachedGlobal('footer', 1)()
+  const footerData = await getCachedGlobal('footer', 1)()
+  console.log('footerData', footerData)
   const navItems = footerData?.navItems || []
-  const footerContent = footerData?.footerContent?.children || []
+  console.log('navItems', navItems)
+  const footerContent = footerData?.footerContent?.root?.children || []
   const copyrightData = footerData?.copyright
 
   const settingsData = await getCachedGlobal('settings', 1)()
@@ -34,7 +36,7 @@ export async function Footer() {
         case 'paragraph':
           return (
             <p key={index}>
-              {block.children.map((child: any, childIndex: number) => {
+              {block.children?.map((child: any, childIndex: number) => {
                 if (child.type === 'text') {
                   return <span key={childIndex}>{child.text}</span>
                 }
@@ -61,33 +63,41 @@ export async function Footer() {
             )}
           </Link>
           <div className="mt-2 text-sm text-gray-400">
-            {footerContent && footerContent?.length > 0
-              ? renderFooterContent(footerContent as any)
+            {Array.isArray(footerContent) && footerContent.length > 0
+              ? renderFooterContent(footerContent)
               : 'Your default description here.'}
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-0 md:justify-around md:flex-grow">
-          {navItems.map(({ link, subLinks }, i) => (
-            <div key={i} className="flex flex-col items-center md:items-start">
-              <CMSLink
-                className="text-white font-bold text-base hover:text-primary transition"
-                {...link}
-              />
-              {subLinks && subLinks?.length > 0 && (
-                <ul className="mt-3 space-y-2">
-                  {subLinks?.map(({ link: subLink }, j) => (
-                    <li key={j}>
-                      <CMSLink
-                        {...subLink}
-                        className="text-sm text-gray-400 hover:text-white transition"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+        <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-6 md:justify-around md:flex-grow">
+          {navItems.map((item, i) => {
+            return (
+              <div key={i} className="flex flex-col items-center md:items-start">
+                {item.link && (
+                  <CMSLink
+                    className="text-white font-bold text-base hover:text-primary transition"
+                    {...item.link}
+                  />
+                )}
+                {item.subLinks && item.subLinks.length > 0 && (
+                  <ul className="mt-3 space-y-2">
+                    {item.subLinks.map((subItem, j) => {
+                      return (
+                        <li key={j}>
+                          {subItem.link && (
+                            <CMSLink
+                              {...subItem.link}
+                              className="text-sm text-gray-400 hover:text-white transition"
+                            />
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         {/* Right Section: Theme Selector */}
