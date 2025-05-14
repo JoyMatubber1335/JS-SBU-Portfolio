@@ -8,6 +8,8 @@ import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export async function Footer() {
   const footerData = await getCachedGlobal('footer', 1)()
@@ -48,6 +50,27 @@ export async function Footer() {
           return null
       }
     })
+  }
+
+  // Newsletter component
+  const NewsletterSubscription = () => {
+    return (
+      <div className="mt-6 md:mt-0 w-full md:w-[25%]  p-4 rounded-lg border border-gray-600">
+        <h3 className="text-white font-bold text-lg mb-2">Subscribe to our Newsletter</h3>
+        <p className="text-gray-400 text-sm mb-3">Stay updated with our latest news and offers</p>
+        <form className="space-y-2">
+          <Input 
+            type="email" 
+            placeholder="Your email address" 
+            className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+            required 
+          />
+          <Button type="submit" className="w-full">
+            Subscribe
+          </Button>
+        </form>
+      </div>
+    )
   }
 
   return (
@@ -100,10 +123,8 @@ export async function Footer() {
           })}
         </div>
 
-        {/* Right Section: Theme Selector */}
-        {/* <div className="flex justify-center md:justify-end w-full md:w-[20%] mt-6 md:mt-0">
-          <ThemeSelector />
-        </div> */}
+        {/* Newsletter Subscription */}
+        <NewsletterSubscription />
       </div>
       {/* social media icon */}
       <div className="flex justify-center space-x-3 mt-8 md:mt-2 mb-4 md:mb-2">
@@ -162,6 +183,11 @@ export async function Footer() {
             <Image src="/pinterest.png" rel="icon" height={20} width={20} alt="instagram-icon" />
           </a>
         )}
+      </div>
+
+      {/* Copyright text */}
+      <div className="text-center text-sm text-gray-400 mt-4">
+        {copyrightData || "© 2024 All rights reserved."}
       </div>
     </footer>
   )
