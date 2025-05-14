@@ -75,6 +75,7 @@ export interface Config {
     projects: Project;
     skillsets: Skillset;
     insights: Insight;
+    contact: Contact;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skillsets: SkillsetsSelect<false> | SkillsetsSelect<true>;
     insights: InsightsSelect<false> | InsightsSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -1124,6 +1126,47 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: string;
+  title: string;
+  publishedDate?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  email: string;
+  phone: string;
+  address: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom?: number | null;
+  };
+  contactFormSettings?: {
+    enableContactForm?: boolean | null;
+    emailRecipient?: string | null;
+    formSuccessMessage?: string | null;
+  };
+  socialLinks?: {
+    facebook?: string | null;
+    twitter?: string | null;
+    instagram?: string | null;
+    linkedin?: string | null;
+  };
+  businessHours?:
+    | {
+        day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+        isOpen?: boolean | null;
+        openTime?: string | null;
+        closeTime?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1325,6 +1368,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'insights';
         value: string | Insight;
+      } | null)
+    | ({
+        relationTo: 'contact';
+        value: string | Contact;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1908,6 +1955,52 @@ export interface InsightsSelect<T extends boolean = true> {
   publishedAt?: T;
   author?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  title?: T;
+  publishedDate?: T;
+  slug?: T;
+  slugLock?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  location?:
+    | T
+    | {
+        latitude?: T;
+        longitude?: T;
+        zoom?: T;
+      };
+  contactFormSettings?:
+    | T
+    | {
+        enableContactForm?: T;
+        emailRecipient?: T;
+        formSuccessMessage?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        twitter?: T;
+        instagram?: T;
+        linkedin?: T;
+      };
+  businessHours?:
+    | T
+    | {
+        day?: T;
+        isOpen?: T;
+        openTime?: T;
+        closeTime?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
