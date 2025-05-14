@@ -9,6 +9,8 @@ import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
 import { post3 } from './post-3'
+import { skillSetsSeed } from './skillsets'
+import { insightsSeed } from './insights'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -18,6 +20,8 @@ const collections: CollectionSlug[] = [
   'forms',
   'form-submissions',
   'search',
+  'projects',
+  'skillsets',
 ]
 const globals: GlobalSlug[] = ['header', 'footer']
 
@@ -280,33 +284,89 @@ export const seed = async ({
     }),
   ])
 
+  payload.logger.info(`— Seeding skill sets...`)
+
+  // Create skill sets
+  const skillSets = await Promise.all(
+    skillSetsSeed.map(async (skillSet) => {
+      return await payload.create({
+        collection: 'skillsets',
+        depth: 0,
+        data: {
+          ...skillSet,
+          featuredImage: image1Doc.id, // Use an existing image for demo purposes
+        },
+      })
+    })
+  )
+
+  payload.logger.info(`— Seeding insights...`)
+
+  // Create insights
+  const insights = await Promise.all(
+    insightsSeed.map(async (insight) => {
+      return await payload.create({
+        collection: 'insights',
+        depth: 0,
+        data: {
+          ...insight,
+          featuredImage: image2Doc.id, // Use an existing image for demo purposes
+          author: demoAuthor.id, // Set the author to the demo user
+        },
+      })
+    })
+  )
+
+  // Update header to include skill sets link
+  await payload.updateGlobal({
+    slug: 'header',
+    data: {
+      navItems: [
+        {
+          link: {
+            type: 'custom',
+            label: 'Posts',
+            url: '/posts',
+          },
+        },
+        {
+          link: {
+            type: 'custom',
+            label: 'Skills',
+            url: '/skills',
+          },
+        },
+        {
+          link: {
+            type: 'custom',
+            label: 'Projects',
+            url: '/projects',
+          },
+        },
+        {
+          link: {
+            type: 'custom',
+            label: 'Insights',
+            url: '/insights',
+          },
+        },
+        {
+          link: {
+            type: 'reference',
+            label: 'Contact',
+            reference: {
+              relationTo: 'pages',
+              value: contactPage.id,
+            },
+          },
+        },
+      ],
+    },
+  })
+
   payload.logger.info(`— Seeding globals...`)
 
   await Promise.all([
-    payload.updateGlobal({
-      slug: 'header',
-      data: {
-        navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Posts',
-              url: '/posts',
-            },
-          },
-          {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
-          },
-        ],
-      },
-    }),
     payload.updateGlobal({
       slug: 'footer',
       data: {

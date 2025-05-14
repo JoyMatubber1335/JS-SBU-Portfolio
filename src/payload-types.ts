@@ -72,6 +72,9 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    projects: Project;
+    skillsets: Skillset;
+    insights: Insight;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +91,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    skillsets: SkillsetsSelect<false> | SkillsetsSelect<true>;
+    insights: InsightsSelect<false> | InsightsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -182,6 +188,18 @@ export interface Page {
               | ({
                   relationTo: 'posts';
                   value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'projects';
+                  value: string | Project;
+                } | null)
+              | ({
+                  relationTo: 'skillsets';
+                  value: string | Skillset;
+                } | null)
+              | ({
+                  relationTo: 'insights';
+                  value: string | Insight;
                 } | null);
             url?: string | null;
             label: string;
@@ -328,6 +346,18 @@ export interface Page {
                   | ({
                       relationTo: 'posts';
                       value: string | Post;
+                    } | null)
+                  | ({
+                      relationTo: 'projects';
+                      value: string | Project;
+                    } | null)
+                  | ({
+                      relationTo: 'skillsets';
+                      value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -581,6 +611,153 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  featuredImage: string | Media;
+  technologies?:
+    | {
+        technology: string;
+        id?: string | null;
+      }[]
+    | null;
+  projectUrl?: string | null;
+  githubUrl?: string | null;
+  status: 'in-progress' | 'completed';
+  /**
+   * Order in which the project should appear
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skillsets".
+ */
+export interface Skillset {
+  id: string;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  featuredImage: string | Media;
+  skillType:
+    | 'full-stack'
+    | 'ui-ux'
+    | 'system-architecture'
+    | 'cloud-native'
+    | 'machine-learning'
+    | 'performance-optimization';
+  /**
+   * Related blog posts for this skill set
+   */
+  relatedBlogPosts?: (string | Post)[] | null;
+  technologies?:
+    | {
+        technology: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Order in which the skill should appear
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "insights".
+ */
+export interface Insight {
+  id: string;
+  title: string;
+  type: 'blog' | 'tutorial';
+  featuredImage: string | Media;
+  summary: string;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  contentType?: ('external' | 'internal') | null;
+  externalLink?: string | null;
+  videoType?: ('upload' | 'embed') | null;
+  /**
+   * Enter the full URL of the video (e.g., https://www.youtube.com/watch?v=VIDEO_ID)
+   */
+  videoEmbed?: string | null;
+  videoFile?: (string | null) | Media;
+  tutorialContent?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  relatedSkills?: (string | Skillset)[] | null;
+  publishedAt?: string | null;
+  author?: (string | null) | User;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -612,6 +789,18 @@ export interface CallToActionBlock {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'projects';
+                value: string | Project;
+              } | null)
+            | ({
+                relationTo: 'skillsets';
+                value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -662,6 +851,18 @@ export interface ContentBlock {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'projects';
+                value: string | Project;
+              } | null)
+            | ({
+                relationTo: 'skillsets';
+                value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -1112,6 +1313,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'skillsets';
+        value: string | Skillset;
+      } | null)
+    | ({
+        relationTo: 'insights';
+        value: string | Insight;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1630,6 +1843,76 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  featuredImage?: T;
+  technologies?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  projectUrl?: T;
+  githubUrl?: T;
+  status?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skillsets_select".
+ */
+export interface SkillsetsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  featuredImage?: T;
+  skillType?: T;
+  relatedBlogPosts?: T;
+  technologies?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "insights_select".
+ */
+export interface InsightsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  featuredImage?: T;
+  summary?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  content?: T;
+  contentType?: T;
+  externalLink?: T;
+  videoType?: T;
+  videoEmbed?: T;
+  videoFile?: T;
+  tutorialContent?: T;
+  relatedSkills?: T;
+  publishedAt?: T;
+  author?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1921,6 +2204,18 @@ export interface Header {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'projects';
+                value: string | Project;
+              } | null)
+            | ({
+                relationTo: 'skillsets';
+                value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -1938,6 +2233,18 @@ export interface Header {
                   | ({
                       relationTo: 'posts';
                       value: string | Post;
+                    } | null)
+                  | ({
+                      relationTo: 'projects';
+                      value: string | Project;
+                    } | null)
+                  | ({
+                      relationTo: 'skillsets';
+                      value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -1956,6 +2263,18 @@ export interface Header {
                         | ({
                             relationTo: 'posts';
                             value: string | Post;
+                          } | null)
+                        | ({
+                            relationTo: 'projects';
+                            value: string | Project;
+                          } | null)
+                        | ({
+                            relationTo: 'skillsets';
+                            value: string | Skillset;
+                          } | null)
+                        | ({
+                            relationTo: 'insights';
+                            value: string | Insight;
                           } | null);
                       url?: string | null;
                       label: string;
@@ -1992,6 +2311,18 @@ export interface Footer {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'projects';
+                value: string | Project;
+              } | null)
+            | ({
+                relationTo: 'skillsets';
+                value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;
@@ -2009,6 +2340,18 @@ export interface Footer {
                   | ({
                       relationTo: 'posts';
                       value: string | Post;
+                    } | null)
+                  | ({
+                      relationTo: 'projects';
+                      value: string | Project;
+                    } | null)
+                  | ({
+                      relationTo: 'skillsets';
+                      value: string | Skillset;
+                    } | null)
+                  | ({
+                      relationTo: 'insights';
+                      value: string | Insight;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2117,6 +2460,18 @@ export interface Copyright {
             | ({
                 relationTo: 'posts';
                 value: string | Post;
+              } | null)
+            | ({
+                relationTo: 'projects';
+                value: string | Project;
+              } | null)
+            | ({
+                relationTo: 'skillsets';
+                value: string | Skillset;
+              } | null)
+            | ({
+                relationTo: 'insights';
+                value: string | Insight;
               } | null);
           url?: string | null;
           label: string;

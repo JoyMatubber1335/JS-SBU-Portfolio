@@ -18,6 +18,9 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Copyright } from './Copyright/config'
+import { Projects } from './collections/Projects/Projects'
+import { SkillSets } from './collections/SkillSets/SkillSets'
+import { Insights } from './collections/Insights/Insights'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,7 +67,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Projects, SkillSets, Insights],
   // todo
   localization: {
     locales: ['en', 'es', 'de'], // required
