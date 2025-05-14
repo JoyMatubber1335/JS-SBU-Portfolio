@@ -2171,82 +2171,79 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
-  menuAnimation?: ('None' | 'Underline' | 'Fade' | 'Scale') | null;
-  enableHoverEffect?: boolean | null;
-  transparentHeader?: boolean | null;
-  blurAmount?: number | null;
-  showSearch?: boolean | null;
   stickyBehavior?: ('None' | 'Sticky') | null;
-  /**
-   * Pick a background color for the header
-   */
-  headerBgColor?: string | null;
-  /**
-   * Pick a text color for the header
-   */
-  headerTextColor?: string | null;
-  /**
-   * Set the font size for the header text (in px)
-   */
-  headerFontSize?: number | null;
   headerPaddingTop?: number | null;
   headerPaddingBottom?: number | null;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null)
-            | ({
-                relationTo: 'projects';
-                value: string | Project;
-              } | null)
-            | ({
-                relationTo: 'skillsets';
-                value: string | Skillset;
-              } | null)
-            | ({
-                relationTo: 'insights';
-                value: string | Insight;
-              } | null);
-          url?: string | null;
+        itemType?: ('link' | 'collection') | null;
+        link?: {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'projects';
+                  value: string | Project;
+                } | null)
+              | ({
+                  relationTo: 'skillsets';
+                  value: string | Skillset;
+                } | null)
+              | ({
+                  relationTo: 'insights';
+                  value: string | Insight;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+        };
+        collection?: {
+          collectionType: 'projects' | 'insights' | 'skills' | 'posts';
           label: string;
         };
         subNavItems?:
           | {
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?:
-                  | ({
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null)
-                  | ({
-                      relationTo: 'posts';
-                      value: string | Post;
-                    } | null)
-                  | ({
-                      relationTo: 'projects';
-                      value: string | Project;
-                    } | null)
-                  | ({
-                      relationTo: 'skillsets';
-                      value: string | Skillset;
-                    } | null)
-                  | ({
-                      relationTo: 'insights';
-                      value: string | Insight;
-                    } | null);
-                url?: string | null;
+              itemType?: ('link' | 'collection') | null;
+              link?: {
+                link: {
+                  type?: ('reference' | 'custom') | null;
+                  newTab?: boolean | null;
+                  reference?:
+                    | ({
+                        relationTo: 'pages';
+                        value: string | Page;
+                      } | null)
+                    | ({
+                        relationTo: 'posts';
+                        value: string | Post;
+                      } | null)
+                    | ({
+                        relationTo: 'projects';
+                        value: string | Project;
+                      } | null)
+                    | ({
+                        relationTo: 'skillsets';
+                        value: string | Skillset;
+                      } | null)
+                    | ({
+                        relationTo: 'insights';
+                        value: string | Insight;
+                      } | null);
+                  url?: string | null;
+                  label: string;
+                };
+              };
+              collection?: {
+                collectionType: 'projects' | 'insights' | 'skills' | 'posts';
                 label: string;
               };
               image?: (string | null) | Media;
@@ -2487,30 +2484,14 @@ export interface Copyright {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  menuAnimation?: T;
-  enableHoverEffect?: T;
-  transparentHeader?: T;
-  blurAmount?: T;
-  showSearch?: T;
   stickyBehavior?: T;
-  headerBgColor?: T;
-  headerTextColor?: T;
-  headerFontSize?: T;
   headerPaddingTop?: T;
   headerPaddingBottom?: T;
   navItems?:
     | T
     | {
+        itemType?: T;
         link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        subNavItems?:
           | T
           | {
               link?:
@@ -2520,6 +2501,36 @@ export interface HeaderSelect<T extends boolean = true> {
                     newTab?: T;
                     reference?: T;
                     url?: T;
+                    label?: T;
+                  };
+            };
+        collection?:
+          | T
+          | {
+              collectionType?: T;
+              label?: T;
+            };
+        subNavItems?:
+          | T
+          | {
+              itemType?: T;
+              link?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                  };
+              collection?:
+                | T
+                | {
+                    collectionType?: T;
                     label?: T;
                   };
               image?: T;

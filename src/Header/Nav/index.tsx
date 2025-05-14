@@ -1,7 +1,7 @@
 'use-client'
 
 import Link from 'next/link'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ChevronRight, ChevronDown } from 'lucide-react'
 import type { Header } from '@/payload-types'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
@@ -19,13 +19,98 @@ function hasSubChildren(
   return Array.isArray(item?.subSubNavItems) && item.subSubNavItems.length > 0
 }
 
-export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, mobile }) => {
+// Helper function to get the URL for a nav item based on its type
+function getNavItemUrl(item: NavItem): string {
+  if (item.itemType === 'collection' && item.collection) {
+    // Map collection types to their URLs
+    const collectionUrls: Record<string, string> = {
+      projects: '/projects',
+      insights: '/insights',
+      skills: '/skills',
+      posts: '/posts',
+    }
+    return collectionUrls[item.collection.collectionType] || '#'
+  } else if (item.link) {
+    // Handle regular link type
+    return `/${
+      item.link.link.reference && typeof item.link.link.reference.value === 'object'
+        ? (item.link.link.reference.value as any).slug || ''
+        : item.link.link.reference?.value || item.link.link.url || '#'
+    }`
+  }
+  return '#'
+}
+
+// Helper function to get the label for a nav item based on its type
+function getNavItemLabel(item: NavItem): string {
+  if (item.itemType === 'collection' && item.collection) {
+    return item.collection.label
+  } else if (item.link) {
+    return item.link.link.label
+  }
+  return ''
+}
+
+// Similar functions for sub nav items
+function getSubNavItemUrl(item: SubNavItem): string {
+  if (item.itemType === 'collection' && item.collection) {
+    const collectionUrls: Record<string, string> = {
+      projects: '/projects',
+      insights: '/insights',
+      skills: '/skills',
+      posts: '/posts',
+    }
+    return collectionUrls[item.collection.collectionType] || '#'
+  } else if (item.link) {
+    return `/${
+      item.link.link.reference && typeof item.link.link.reference.value === 'object'
+        ? (item.link.link.reference.value as any).slug || ''
+        : item.link.link.reference?.value || item.link.link.url || '#'
+    }`
+  }
+  return '#'
+}
+
+function getSubNavItemLabel(item: SubNavItem): string {
+  if (item.itemType === 'collection' && item.collection) {
+    return item.collection.label
+  } else if (item.link) {
+    return item.link.link.label
+  }
+  return ''
+}
+
+// Custom hook for checking if we're on mobile or not
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    // Set on initial render
+    checkIfMobile()
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile)
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', checkIfMobile)
+    }
+  }, [])
+  
+  return isMobile
+}
+
+export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
   const navItems = data.navItems ?? []
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [activeSubIndex, setActiveSubIndex] = useState(0)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
-  const [showMobileNav, setShowMobileNav] = useState(false)
   const { settings } = useGlobalSettings()
+  const isMobile = useIsMobile()
 
   // Get color scheme from settings
   const primaryColor = settings?.colorScheme?.primaryColor || '#494949'
@@ -40,12 +125,16 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
 
   // Handle delayed close
   const handleMouseLeave = () => {
+    if (isMobile) return; // Don't auto-close on mobile
+    
     closeTimeout.current = setTimeout(() => {
       setOpenIndex(null)
     }, 250) // 250ms delay
   }
 
   const handleMouseEnter = (idx?: number) => {
+    if (isMobile) return; // Don't auto-open on mobile
+    
     if (closeTimeout.current) {
       clearTimeout(closeTimeout.current)
       closeTimeout.current = null
@@ -56,59 +145,94 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
     }
   }
 
+  // Toggle submenu on mobile
+  const toggleSubmenu = (idx: number) => {
+    if (isMobile) {
+      setOpenIndex(openIndex === idx ? null : idx)
+    }
+  }
+
   return (
-    <nav
-      className={
-        mobile
-          ? 'flex flex-col gap-2 items-start font-bold text-[16px] w-full'
-          : 'flex gap-2 items-center font-bold text-[16px] relative'
-      }
-      aria-label="Main navigation"
-    >
+    <nav className={`${isMobile ? 'flex flex-col gap-2' : 'flex gap-2 items-center'} font-bold text-[16px] relative`} aria-label="Main navigation">
       {navItems.map((item, idx) => {
         const isOpen = openIndex === idx && hasChildren(item)
+        const navItemUrl = getNavItemUrl(item)
+        const navItemLabel = getNavItemLabel(item)
+
         return (
           <div
             key={item.id ?? idx}
-            className={mobile ? 'relative w-full' : 'relative'}
+            className={`relative ${isMobile ? 'w-full' : ''}`}
             onMouseEnter={() => handleMouseEnter(idx)}
             onMouseLeave={handleMouseLeave}
             tabIndex={0}
             onFocus={() => handleMouseEnter(idx)}
             onBlur={handleMouseLeave}
           >
-            <Link
-              href={`/${
-                item.link.reference && typeof item.link.reference.value === 'object'
-                  ? item.link.reference.value.slug
-                  : item.link.reference?.value || item.link.url || '#'
-              }`}
-              className={
-                mobile
-                  ? 'relative group flex items-center gap-1 px-3 py-2 rounded-md w-full'
-                  : 'relative group flex items-center gap-1 px-3 py-2 rounded-md'
-              }
-              tabIndex={0}
-              aria-haspopup={hasChildren(item) ? 'menu' : undefined}
-              aria-expanded={isOpen}
-            >
-              <span className="underline-animation">{item.link.label}</span>
+            <div className="flex items-center">
+              <Link
+                href={navItemUrl}
+                className={`relative group flex items-center gap-1 px-3 py-2 rounded-md ${isMobile ? 'flex-1' : ''}`}
+                tabIndex={0}
+                aria-haspopup={hasChildren(item) ? 'menu' : undefined}
+                aria-expanded={isOpen}
+              >
+                <span className="underline-animation">{navItemLabel}</span>
+              </Link>
+              
               {hasChildren(item) && (
-                <ChevronDown
-                  style={{ stroke: primaryColor }}
-                  className="ml-1 w-4 h-4"
-                  aria-hidden
-                />
+                <button 
+                  onClick={() => toggleSubmenu(idx)}
+                  className={`${isMobile ? 'px-3' : 'hidden'} flex items-center`}
+                  aria-label={`Toggle ${navItemLabel} submenu`}
+                >
+                  <ChevronDown
+                    style={{ stroke: primaryColor }}
+                    className={`ml-1 w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    aria-hidden
+                  />
+                </button>
               )}
-            </Link>
+            </div>
 
-            {/* Modal: wrapper is inside the nav item for hover/focus control */}
-            {isOpen && !mobile && (
+            {/* Mobile Dropdown */}
+            {isMobile && isOpen && (
+              <div className="pl-4 animate-slide-down">
+                {item.subNavItems?.map((sub, subIdx) => {
+                  const subNavItemUrl = getSubNavItemUrl(sub)
+                  const subNavItemLabel = getSubNavItemLabel(sub)
+                  
+                  return (
+                    <Link
+                      key={sub.id ?? subIdx}
+                      href={subNavItemUrl}
+                      className="flex items-center gap-2 py-2 px-3 border-b border-gray-700"
+                      onClick={(e) => {
+                        // Close the dropdown after link click
+                        setOpenIndex(null);
+                      }}
+                    >
+                      {sub.image && (
+                        <img
+                          src={getImage(sub.image)}
+                          alt={subNavItemLabel}
+                          className="w-6 h-6 object-cover rounded-full"
+                        />
+                      )}
+                      <span>{subNavItemLabel}</span>
+                    </Link>
+                  )
+                })}
+              </div>
+            )}
+
+            {/* Desktop Modal: wrapper is inside the nav item for hover/focus control */}
+            {!isMobile && isOpen && (
               <div
-                className="fixed left-0 top-[100px] w-full h-[calc(70vh-64px)] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
+                className="fixed left-0 top-[76px] w-full max-h-[70vh] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
                 style={{ backgroundColor }}
                 role="menu"
-                aria-label={`${item.link.label} submenu`}
+                aria-label={`${navItemLabel} submenu`}
                 onMouseEnter={() => handleMouseEnter(idx)}
                 onMouseLeave={handleMouseLeave}
                 tabIndex={-1}
@@ -118,45 +242,50 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                   className="w-[320px] p-8 border-r flex flex-col gap-2"
                   style={{ backgroundColor }}
                 >
-                  {item.subNavItems?.map((sub, subIdx) => (
-                    <div
-                      key={sub.id ?? subIdx}
-                      className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
-                        ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
-                      `}
-                      style={{
-                        backgroundColor: activeSubIndex === subIdx ? secondaryColor : 'transparent',
-                      }}
-                      onMouseEnter={() => setActiveSubIndex(subIdx)}
-                      tabIndex={0}
-                      role="menuitem"
-                    >
-                      {/* Icon/Image */}
-                      <span className="rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
-                        <img
-                          src={getImage(sub.image)}
-                          alt={sub.link.label}
-                          className="w-10 h-10 object-cover rounded-full "
-                        />
-                      </span>
-                      <span className="text-base font-medium flex-1 ">{sub.link.label}</span>
-                      {/* Arrow if has sub-children */}
-                      {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
-                    </div>
-                  ))}
+                  {item.subNavItems?.map((sub, subIdx) => {
+                    const subNavItemUrl = getSubNavItemUrl(sub)
+                    const subNavItemLabel = getSubNavItemLabel(sub)
+                    
+                    return (
+                      <div
+                        key={sub.id ?? subIdx}
+                        className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
+                          ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
+                        `}
+                        style={{
+                          backgroundColor: activeSubIndex === subIdx ? secondaryColor : 'transparent',
+                        }}
+                        onMouseEnter={() => setActiveSubIndex(subIdx)}
+                        tabIndex={0}
+                        role="menuitem"
+                      >
+                        {/* Icon/Image */}
+                        <span className="rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
+                          <img
+                            src={getImage(sub.image)}
+                            alt={subNavItemLabel}
+                            className="w-10 h-10 object-cover rounded-full"
+                          />
+                        </span>
+                        <span className="text-base font-medium flex-1">{subNavItemLabel}</span>
+                        {/* Arrow if has sub-children */}
+                        {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
+                      </div>
+                    )
+                  })}
                 </div>
                 {/* Grid: Third Level */}
-                <div className="flex-1 p-4 grid grid-cols-6 gap-2 overflow-y-auto">
-                  {item.subNavItems?.[activeSubIndex]?.subSubNavItems?.length ? (
-                    item.subNavItems[activeSubIndex].subSubNavItems!.map((subSub, subSubIdx) => (
+                {item.subNavItems?.[activeSubIndex]?.subSubNavItems?.length && (
+                  <div className="flex-1 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 overflow-y-auto">
+                    {item.subNavItems[activeSubIndex].subSubNavItems!.map((subSub, subSubIdx) => (
                       <Link
                         key={subSub.id ?? subSubIdx}
                         href={`/${
                           subSub.link.reference && typeof subSub.link.reference.value === 'object'
-                            ? subSub.link.reference.value.slug
+                            ? (subSub.link.reference.value as any).slug || ''
                             : subSub.link.reference?.value || subSub.link.url || '#'
                         }`}
-                        className="flex flex-col items-center rounded-lg p-2 transition group "
+                        className="flex flex-col items-center rounded-lg p-2 transition group"
                         tabIndex={0}
                       >
                         <div
@@ -181,13 +310,9 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                           <span className="text-base font-semibold">{subSub.link.label}</span>
                         </div>
                       </Link>
-                    ))
-                  ) : (
-                    <span className="col-span-4" style={{ color: primaryColor }}>
-                      No items
-                    </span>
-                  )}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

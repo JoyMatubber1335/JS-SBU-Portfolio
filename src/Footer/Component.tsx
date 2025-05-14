@@ -20,7 +20,7 @@ export async function Footer() {
   // Construct logo URL
   const logoUrl =
     logo?.url ||
-    (logo?.filename ? `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/media/${logo.filename}` : null)
+    (logo?.filename ? `/media/${logo.filename}` : null)
   const socialLinks = settingsData?.socialMediaLinks || {}
 
   // Render the footer content

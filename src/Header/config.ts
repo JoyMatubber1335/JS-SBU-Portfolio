@@ -18,75 +18,13 @@ export const Header: GlobalConfig = {
       },
       fields: [
         {
-          name: 'menuAnimation',
-          label: 'Menu Animation Style',
-          type: 'select',
-          options: ['None', 'Underline', 'Fade', 'Scale'],
-          defaultValue: 'None',
-        },
-        {
-          name: 'enableHoverEffect',
-          label: 'Enable Hover Effect',
-          type: 'checkbox',
-          defaultValue: true,
-        },
-        {
-          name: 'transparentHeader',
-          label: 'Enable Transparent Header',
-          type: 'checkbox',
-          defaultValue: false,
-        },
-        {
-          name: 'blurAmount',
-          label: 'Blur Amount (px)',
-          type: 'number',
-          admin: {
-            condition: (_, siblingData) => siblingData.transparentHeader === true,
-          },
-        },
-        {
-          name: 'showSearch',
-          label: 'Show Search',
-          type: 'checkbox',
-          defaultValue: true,
-        },
-        {
           name: 'stickyBehavior',
           label: 'Sticky Behavior',
           type: 'select',
           options: ['None', 'Sticky'],
           defaultValue: 'Sticky',
         },
-        // Adding color pickers for background and text colors
-        {
-          name: 'headerBgColor',
-          label: 'Header Background Color',
-          type: 'text', // Use a text field to store hex color code
-          defaultValue: '#ffffff', // Default white background
-          admin: {
-            description: 'Pick a background color for the header',
-          },
-        },
-        {
-          name: 'headerTextColor',
-          label: 'Header Text Color',
-          type: 'text', // Use a text field to store hex color code
-          defaultValue: '#000000', // Default black text color
-          admin: {
-            description: 'Pick a text color for the header',
-          },
-        },
-        // Adding font size for header text
-        {
-          name: 'headerFontSize',
-          label: 'Header Font Size',
-          type: 'number',
-          defaultValue: 16, // Default font size in px
-          admin: {
-            description: 'Set the font size for the header text (in px)',
-          },
-        },
-        // Adding padding options (top and bottom)
+
         {
           name: 'headerPaddingTop',
           label: 'Padding Top (px)',
@@ -97,12 +35,12 @@ export const Header: GlobalConfig = {
           name: 'headerPaddingBottom',
           label: 'Padding Bottom (px)',
           type: 'number',
-          defaultValue: 10, // Default padding-bottom in px
+          defaultValue: 10, 
         },
       ],
     },
 
-    // 🟩 Navigation Menu Section
+   
     {
       type: 'collapsible',
       label: 'Navigation Menu',
@@ -115,7 +53,73 @@ export const Header: GlobalConfig = {
           type: 'array',
           maxRows: 6,
           fields: [
-            link({ appearances: false }),
+            {
+              name: 'itemType',
+              type: 'radio',
+              options: [
+                {
+                  label: 'Link',
+                  value: 'link',
+                },
+                {
+                  label: 'Collection',
+                  value: 'collection',
+                }
+              ],
+              defaultValue: 'link',
+              admin: {
+                layout: 'horizontal',
+              },
+            },
+            {
+              name: 'link',
+              type: 'group',
+              admin: {
+                condition: (_, siblingData) => siblingData?.itemType === 'link',
+              },
+              fields: [
+                link({ appearances: false }),
+              ],
+            },
+            {
+              name: 'collection',
+              type: 'group',
+              admin: {
+                condition: (_, siblingData) => siblingData?.itemType === 'collection',
+              },
+              fields: [
+                {
+                  name: 'collectionType',
+                  label: 'Collection Type',
+                  type: 'select',
+                  required: true,
+                  options: [
+                    {
+                      label: 'Projects',
+                      value: 'projects',
+                    },
+                    {
+                      label: 'Insights',
+                      value: 'insights',
+                    },
+                    {
+                      label: 'Skills',
+                      value: 'skills',
+                    },
+                    {
+                      label: 'Blog Posts',
+                      value: 'posts',
+                    },
+                  ],
+                },
+                {
+                  name: 'label',
+                  label: 'Navigation Label',
+                  type: 'text',
+                  required: true,
+                }
+              ],
+            },
             {
               name: 'subNavItems',
               type: 'array',
@@ -124,7 +128,73 @@ export const Header: GlobalConfig = {
                 initCollapsed: true,
               },
               fields: [
-                link({ appearances: false }),
+                {
+                  name: 'itemType',
+                  type: 'radio',
+                  options: [
+                    {
+                      label: 'Link',
+                      value: 'link',
+                    },
+                    {
+                      label: 'Collection',
+                      value: 'collection',
+                    }
+                  ],
+                  defaultValue: 'link',
+                  admin: {
+                    layout: 'horizontal',
+                  },
+                },
+                {
+                  name: 'link',
+                  type: 'group',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.itemType === 'link',
+                  },
+                  fields: [
+                    link({ appearances: false }),
+                  ],
+                },
+                {
+                  name: 'collection',
+                  type: 'group',
+                  admin: {
+                    condition: (_, siblingData) => siblingData?.itemType === 'collection',
+                  },
+                  fields: [
+                    {
+                      name: 'collectionType',
+                      label: 'Collection Type',
+                      type: 'select',
+                      required: true,
+                      options: [
+                        {
+                          label: 'Projects',
+                          value: 'projects',
+                        },
+                        {
+                          label: 'Insights',
+                          value: 'insights',
+                        },
+                        {
+                          label: 'Skills',
+                          value: 'skills',
+                        },
+                        {
+                          label: 'Blog Posts',
+                          value: 'posts',
+                        },
+                      ],
+                    },
+                    {
+                      name: 'label',
+                      label: 'Navigation Label',
+                      type: 'text',
+                      required: true,
+                    }
+                  ],
+                },
                 {
                   name: 'image',
                   type: 'upload',
