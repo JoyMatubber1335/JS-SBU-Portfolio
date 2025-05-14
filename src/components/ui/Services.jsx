@@ -131,6 +131,7 @@ export default function Services({ tabs }) {
                             ''
                       }
                       alt={tab.title}
+                      className="object-contain"
                       style={{ boxShadow: `0 4px 32px rgba(0, 0, 0, 0.15)` }}
                     />
                   )}

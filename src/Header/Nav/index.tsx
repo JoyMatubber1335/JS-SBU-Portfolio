@@ -216,7 +216,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                         <img
                           src={getImage(sub.image)}
                           alt={subNavItemLabel}
-                          className="w-6 h-6 object-cover rounded-full"
+                          className="w-6 h-6 object-contain rounded-full"
                         />
                       )}
                       <span>{subNavItemLabel}</span>
@@ -264,7 +264,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                           <img
                             src={getImage(sub.image)}
                             alt={subNavItemLabel}
-                            className="w-10 h-10 object-cover rounded-full"
+                            className="w-10 h-10 object-contain rounded-full"
                           />
                         </span>
                         <span className="text-base font-medium flex-1">{subNavItemLabel}</span>
@@ -305,7 +305,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                                 ? (subSub.image.alt as string) || ''
                                 : ''
                             }
-                            className="w-32 h-32 object-cover rounded mb-4 group-hover:scale-105 transition"
+                            className="w-32 h-32 object-contain rounded mb-4 group-hover:scale-105 transition"
                           />
                           <span className="text-base font-semibold">{subSub.link.label}</span>
                         </div>

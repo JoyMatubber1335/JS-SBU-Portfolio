@@ -93,14 +93,14 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
             >
               {/* For tutorials with video embeds, show the video thumbnail with a play button overlay */}
               {insight.type === 'tutorial' && insight.videoType === 'embed' && insight.videoEmbed ? (
-                <div className="relative h-48 w-full bg-black cursor-pointer group">
+                <div className="relative h-48  bg-black cursor-pointer group">
                   {insight.featuredImage?.url ? (
                     <>
                       <Image
                         src={insight.featuredImage.url}
                         alt={insight.title}
                         fill
-                        className="object-cover opacity-90 group-hover:opacity-70 transition-opacity"
+                        className="object-conta opacity-90 group-hover:opacity-70 transition-opacity"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -131,12 +131,12 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 </div>
               ) : (
                 insight.featuredImage?.url && (
-                  <div className="relative h-48 w-full">
+                  <div className="relative h-48 ">
                     <Image
                       src={insight.featuredImage.url}
                       alt={insight.title}
                       fill
-                      className="object-cover"
+                      className="object-conta"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
