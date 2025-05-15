@@ -96,12 +96,7 @@ export async function Footer() {
           {navItems.map((item, i) => {
             return (
               <div key={i} className="flex flex-col items-center md:items-start">
-                {item.link && (
-                  <CMSLink
-                    className="text-white font-bold text-base hover:text-primary transition"
-                    {...item.link}
-                  />
-                )}
+                <h2 className="text-white font-bold text-base hover:text-primary transition">{item.title}</h2>
                 {item.subLinks && item.subLinks.length > 0 && (
                   <ul className="mt-3 space-y-2">
                     {item.subLinks.map((subItem, j) => {

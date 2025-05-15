@@ -2684,41 +2684,7 @@ export interface Footer {
   id: string;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null)
-            | ({
-                relationTo: 'projects';
-                value: string | Project;
-              } | null)
-            | ({
-                relationTo: 'skillsets';
-                value: string | Skillset;
-              } | null)
-            | ({
-                relationTo: 'insights';
-                value: string | Insight;
-              } | null)
-            | ({
-                relationTo: 'about';
-                value: string | About;
-              } | null)
-            | ({
-                relationTo: 'blog-posts';
-                value: string | BlogPost;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        title: string;
         subLinks?:
           | {
               link: {
@@ -2976,15 +2942,7 @@ export interface FooterSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        title?: T;
         subLinks?:
           | T
           | {

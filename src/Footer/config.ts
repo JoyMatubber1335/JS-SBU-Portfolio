@@ -13,9 +13,11 @@ export const Footer: GlobalConfig = {
       name: 'navItems',
       type: 'array',
       fields: [
-        link({
-          appearances: false,
-        }),
+       {
+        name:"title",
+        type:"text",
+        required:true,
+       },
         {
           name: 'subLinks',
           type: 'array',

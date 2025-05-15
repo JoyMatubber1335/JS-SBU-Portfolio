@@ -138,12 +138,92 @@ export default async function Page({ params: paramsPromise }: Args) {
       image?: Media
       date?: string
       author?: string
+      link?: {
+        type?: 'reference' | 'custom'
+        reference?: {
+          relationTo: string
+          value: any
+        }
+        url?: string
+        label: string
+      }
     }[]
   } {
     return block.blockType === 'blog'
   }
 
-  const blogBlock = layout?.find(isBlogBlock)
+  const blogBlock = layout?.find(isBlogBlock) as {
+    blockType: 'blog'
+    blogItems: Array<{
+      title: string
+      description: string
+      tag: string
+      image?: Media
+      date?: string
+      author?: string
+      link?: {
+        type?: 'reference' | 'custom'
+        reference?: {
+          relationTo: string
+          value: any
+        }
+        url?: string
+        label: string
+      }
+    }>
+  } | undefined;
+  
+  // Fetch real blog posts if this is the blog block
+  let blogPostsForBlock: Array<{
+    title: string;
+    description: string;
+    tag: string;
+    image?: any;
+    date?: string;
+    author?: string;
+    slug?: string;
+    url?: string;
+  }> = [];
+
+  if (blogBlock) {
+    try {
+      const { docs: blogPostDocs } = await payload.find({
+        collection: 'blog-posts',
+        limit: blogBlock.blogItems?.length || 4,
+        depth: 2,
+        sort: '-publishedDate',
+      })
+      
+      // If we have real blog posts, use them instead of the static content
+      if (blogPostDocs && blogPostDocs.length > 0) {
+        blogPostsForBlock = blogPostDocs.map(post => ({
+          title: post.title,
+          description: post.summary || '',
+          tag: post.category || 'Blog',
+          image: post.featuredImage,
+          date: post.publishedDate || undefined,
+          author: typeof post.author === 'object' ? post.author.name : (post.author as string || 'Author'),
+          slug: post.slug, // Important - add slug for redirection
+          url: `/blog/${post.slug}`
+        }))
+      } else if (blogBlock.blogItems) {
+        // Fallback to original items if no posts found
+        blogPostsForBlock = blogBlock.blogItems.map((item: any) => ({
+          ...item,
+          image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching blog posts:', error)
+      // Fallback to original items if error
+      if (blogBlock.blogItems) {
+        blogPostsForBlock = blogBlock.blogItems.map((item: any) => ({
+          ...item,
+          image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
+        }));
+      }
+    }
+  }
 
   // Fetch projects if this is the home page - show exactly 6 projects
   if (slug === 'home') {
@@ -248,10 +328,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {blogBlock && (
         <Blog
-          blogs={blogBlock.blogItems.map((item) => ({
+          blogs={blogPostsForBlock.length > 0 ? blogPostsForBlock : (blogBlock.blogItems || []).map((item: any) => ({
             ...item,
             image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
-          }))}
+          }))} as any
         />
       )}
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 import { motion } from 'framer-motion'
 
@@ -100,38 +101,91 @@ export const AboutUs: React.FC<AboutUsProps> = ({
           {/* Desktop Layout */}
           <div className="hidden md:grid md:grid-cols-3 gap-8">
             {features.map((feature, i) => (
-              <motion.div
+              <Link
                 key={i}
+                href={`/services/${feature.title?.toLowerCase().replace(/\s+/g, '-') || `service-${i + 1}`}`}
                 className="relative group cursor-pointer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-                onMouseEnter={() => setActiveFeature(i)}
-                onMouseLeave={() => setActiveFeature(null)}
               >
-                <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2">
-                  {/* Icon with Circle */}
-                  <div className="flex justify-center mt-4">
-                    <div className="w-40 h-40 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-4 shadow-md">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  onMouseEnter={() => setActiveFeature(i)}
+                  onMouseLeave={() => setActiveFeature(null)}
+                >
+                  <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2">
+                    {/* Icon with Circle */}
+                    <div className="flex justify-center mt-4">
+                      <div className="w-40 h-40 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-4 shadow-md">
+                        {feature.icon?.url ? (
+                          <Image 
+                            src={feature.icon.url} 
+                            alt={feature.title || `Service ${i + 1}`} 
+                            width={100} 
+                            height={100}
+                            className="transition-all duration-500 group-hover:scale-110"
+                          />
+                        ) : (
+                          <div className="w-14 h-14 bg-indigo-100 rounded-full"></div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="p-8 pt-8 flex-grow text-center">
+                      <h4 className="text-2xl font-semibold mb-4 text-gray-900">
+                        {feature.title || `Service ${i + 1}`}
+                      </h4>
+                      {feature.description && (
+                        <p className="text-gray-600">
+                          {extractTextFromDescription(feature.description)}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {/* Bottom accent */}
+                    <div className="h-1.5 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full"></div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-16 px-4">
+            {features.map((feature, i) => (
+              <Link
+                key={i}
+                href={`/services/${feature.title?.toLowerCase().replace(/\s+/g, '-') || `service-${i + 1}`}`}
+                className="block"
+              >
+                <motion.div
+                  className="bg-white border border-gray-100 rounded-xl p-6 shadow-lg relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Icon with Circle - Centered at top */}
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
+                    <div className="w-20 h-20 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-3 shadow-md">
                       {feature.icon?.url ? (
                         <Image 
                           src={feature.icon.url} 
-                          alt={feature.title || 'Feature'} 
-                          width={100} 
-                          height={100}
-                          className="transition-all duration-500 group-hover:scale-110"
+                          alt={feature.title || `Service ${i + 1}`} 
+                          width={36} 
+                          height={36}
                         />
                       ) : (
-                        <div className="w-14 h-14 bg-indigo-100 rounded-full"></div>
+                        <div className="w-12 h-12 bg-indigo-100 rounded-full"></div>
                       )}
                     </div>
                   </div>
                   
-                  <div className="p-8 pt-8 flex-grow text-center">
-                    {feature.title && (
-                      <h4 className="text-2xl font-semibold mb-4 text-gray-900">{feature.title}</h4>
-                    )}
+                  <div className="text-center pt-10">
+                    <h4 className="text-xl font-semibold mb-3 text-gray-900">
+                      {feature.title || `Service ${i + 1}`}
+                    </h4>
                     {feature.description && (
                       <p className="text-gray-600">
                         {extractTextFromDescription(feature.description)}
@@ -140,53 +194,9 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                   </div>
                   
                   {/* Bottom accent */}
-                  <div className="h-1.5 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full"></div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Mobile Layout */}
-          <div className="md:hidden space-y-16 px-4">
-            {features.map((feature, i) => (
-              <motion.div
-                key={i}
-                className="bg-white border border-gray-100 rounded-xl p-6 shadow-lg relative"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {/* Icon with Circle - Centered at top */}
-                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
-                  <div className="w-20 h-20 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-3 shadow-md">
-                    {feature.icon?.url ? (
-                      <Image 
-                        src={feature.icon.url} 
-                        alt={feature.title || 'Feature'} 
-                        width={36} 
-                        height={36}
-                      />
-                    ) : (
-                      <div className="w-12 h-12 bg-indigo-100 rounded-full"></div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="text-center pt-10">
-                  {feature.title && (
-                    <h4 className="text-xl font-semibold mb-3 text-gray-900">{feature.title}</h4>
-                  )}
-                  {feature.description && (
-                    <p className="text-gray-600">
-                      {extractTextFromDescription(feature.description)}
-                    </p>
-                  )}
-                </div>
-                
-                {/* Bottom accent */}
-                <div className="h-1 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full absolute bottom-0 left-0 rounded-b-xl"></div>
-              </motion.div>
+                  <div className="h-1 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full absolute bottom-0 left-0 rounded-b-xl"></div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>

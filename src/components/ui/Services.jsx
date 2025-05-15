@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import './Services.css'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
+import Link from 'next/link'
 
 export default function Services({ tabs }) {
   const panelRefs = useRef([])
@@ -105,7 +106,7 @@ export default function Services({ tabs }) {
                     {tab.links &&
                       tab.links.map((link) => (
                         <li key={link.text}>
-                          <a
+                          <Link
                             href={link.href}
                             className="services__link"
                             style={{ color: secondaryColor }}
@@ -114,7 +115,7 @@ export default function Services({ tabs }) {
                               <ArrowIcon />
                             </span>
                             <span>{link.text}</span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                   </ul>
