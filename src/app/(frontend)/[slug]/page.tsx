@@ -176,12 +176,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* SkillSets Section with View All button at top */}
       {slug === 'home' && skillSets.length > 0 && (
-        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+        <section className="py-4 bg-gray-50 bg-white">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">My Skill Sets</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">Our Skill Sets</h2>
+                <p className="text-lg text-black  mt-2">
                   Areas of expertise and professional capabilities
                 </p>
               </div>
@@ -200,12 +200,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* Projects Section with View All button at top */}
       {slug === 'home' && projects.length > 0 && (
-        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+        <section className="py-4   bg-white">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">My Projects</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">My Projects</h2>
+                <p className="text-lg text-gray-600  mt-2">
                   Check out some of my recent work
                 </p>
               </div>
@@ -224,12 +224,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* Insights section with View All button */}
       {slug === 'home' && insights.length > 0 && (
-        <section className="py-12 bg-white dark:bg-gray-800">
+        <section className="py-4 bg-white ">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">Insights</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">Insights</h2>
+                <p className="text-lg text-gray-600 mt-2">
                   Technical blogs and video tutorials
                 </p>
               </div>

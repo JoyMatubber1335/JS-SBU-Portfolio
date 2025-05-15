@@ -28,6 +28,7 @@ function getNavItemUrl(item: NavItem): string {
       insights: '/insights',
       skills: '/skills',
       posts: '/posts',
+      contact: '/contact',
     }
     return collectionUrls[item.collection.collectionType] || '#'
   } else if (item.link) {
@@ -59,6 +60,7 @@ function getSubNavItemUrl(item: SubNavItem): string {
       insights: '/insights',
       skills: '/skills',
       posts: '/posts',
+      contact: '/contact',
     }
     return collectionUrls[item.collection.collectionType] || '#'
   } else if (item.link) {
@@ -153,171 +155,186 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
   }
 
   return (
-    <nav className={`${isMobile ? 'flex flex-col gap-2' : 'flex gap-2 items-center'} font-bold text-[16px] relative`} aria-label="Main navigation">
-      {navItems.map((item, idx) => {
-        const isOpen = openIndex === idx && hasChildren(item)
-        const navItemUrl = getNavItemUrl(item)
-        const navItemLabel = getNavItemLabel(item)
+    <nav className={`${isMobile ? 'flex flex-col gap-2' : 'flex gap-2 items-center justify-between w-full'} font-bold text-[16px] relative`} aria-label="Main navigation">
+      <div className={`${isMobile ? 'w-full' : 'flex gap-2 items-center'}`}>
+        {navItems.map((item, idx) => {
+          const isOpen = openIndex === idx && hasChildren(item)
+          const navItemUrl = getNavItemUrl(item)
+          const navItemLabel = getNavItemLabel(item)
 
-        return (
-          <div
-            key={item.id ?? idx}
-            className={`relative ${isMobile ? 'w-full' : ''}`}
-            onMouseEnter={() => handleMouseEnter(idx)}
-            onMouseLeave={handleMouseLeave}
-            tabIndex={0}
-            onFocus={() => handleMouseEnter(idx)}
-            onBlur={handleMouseLeave}
-          >
-            <div className="flex items-center">
-              <Link
-                href={navItemUrl}
-                className={`relative group flex items-center gap-1 px-3 py-2 rounded-md ${isMobile ? 'flex-1' : ''}`}
-                tabIndex={0}
-                aria-haspopup={hasChildren(item) ? 'menu' : undefined}
-                aria-expanded={isOpen}
-              >
-                <span className="underline-animation">{navItemLabel}</span>
-              </Link>
-              
-              {hasChildren(item) && (
-                <button 
-                  onClick={() => toggleSubmenu(idx)}
-                  className={`${isMobile ? 'px-3' : 'hidden'} flex items-center`}
-                  aria-label={`Toggle ${navItemLabel} submenu`}
+          return (
+            <div
+              key={item.id ?? idx}
+              className={`relative ${isMobile ? 'w-full' : ''}`}
+              onMouseEnter={() => handleMouseEnter(idx)}
+              onMouseLeave={handleMouseLeave}
+              tabIndex={0}
+              onFocus={() => handleMouseEnter(idx)}
+              onBlur={handleMouseLeave}
+            >
+              <div className="flex items-center">
+                <Link
+                  href={navItemUrl}
+                  className={`relative group flex items-center gap-1 px-3 py-2 rounded-md ${isMobile ? 'flex-1' : ''}`}
+                  tabIndex={0}
+                  aria-haspopup={hasChildren(item) ? 'menu' : undefined}
+                  aria-expanded={isOpen}
                 >
-                  <ChevronDown
-                    style={{ stroke: primaryColor }}
-                    className={`ml-1 w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                    aria-hidden
-                  />
-                </button>
-              )}
-            </div>
-
-            {/* Mobile Dropdown */}
-            {isMobile && isOpen && (
-              <div className="pl-4 animate-slide-down">
-                {item.subNavItems?.map((sub, subIdx) => {
-                  const subNavItemUrl = getSubNavItemUrl(sub)
-                  const subNavItemLabel = getSubNavItemLabel(sub)
-                  
-                  return (
-                    <Link
-                      key={sub.id ?? subIdx}
-                      href={subNavItemUrl}
-                      className="flex items-center gap-2 py-2 px-3 border-b border-gray-700"
-                      onClick={(e) => {
-                        // Close the dropdown after link click
-                        setOpenIndex(null);
-                      }}
-                    >
-                      {sub.image && (
-                        <img
-                          src={getImage(sub.image)}
-                          alt={subNavItemLabel}
-                          className="w-6 h-6 object-contain rounded-full"
-                        />
-                      )}
-                      <span>{subNavItemLabel}</span>
-                    </Link>
-                  )
-                })}
+                  <span className="underline-animation">{navItemLabel}</span>
+                </Link>
+                
+                {hasChildren(item) && (
+                  <button 
+                    onClick={() => toggleSubmenu(idx)}
+                    className={`${isMobile ? 'px-3' : 'hidden'} flex items-center`}
+                    aria-label={`Toggle ${navItemLabel} submenu`}
+                  >
+                    <ChevronDown
+                      style={{ stroke: primaryColor }}
+                      className={`ml-1 w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                      aria-hidden
+                    />
+                  </button>
+                )}
               </div>
-            )}
 
-            {/* Desktop Modal: wrapper is inside the nav item for hover/focus control */}
-            {!isMobile && isOpen && (
-              <div
-                className="fixed left-0 top-[76px] w-full max-h-[70vh] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
-                style={{ backgroundColor }}
-                role="menu"
-                aria-label={`${navItemLabel} submenu`}
-                onMouseEnter={() => handleMouseEnter(idx)}
-                onMouseLeave={handleMouseLeave}
-                tabIndex={-1}
-              >
-                {/* Sidebar: Second Level */}
-                <div
-                  className="w-[320px] p-8 border-r flex flex-col gap-2"
-                  style={{ backgroundColor }}
-                >
+              {/* Mobile Dropdown */}
+              {isMobile && isOpen && (
+                <div className="pl-4 animate-slide-down">
                   {item.subNavItems?.map((sub, subIdx) => {
                     const subNavItemUrl = getSubNavItemUrl(sub)
                     const subNavItemLabel = getSubNavItemLabel(sub)
                     
                     return (
-                      <div
+                      <Link
                         key={sub.id ?? subIdx}
-                        className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
-                          ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
-                        `}
-                        style={{
-                          backgroundColor: activeSubIndex === subIdx ? secondaryColor : 'transparent',
+                        href={subNavItemUrl}
+                        className="flex items-center gap-2 py-2 px-3 border-b border-gray-700"
+                        onClick={(e) => {
+                          // Close the dropdown after link click
+                          setOpenIndex(null);
                         }}
-                        onMouseEnter={() => setActiveSubIndex(subIdx)}
-                        tabIndex={0}
-                        role="menuitem"
                       >
-                        {/* Icon/Image */}
-                        <span className="rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
+                        {sub.image && (
                           <img
                             src={getImage(sub.image)}
                             alt={subNavItemLabel}
-                            className="w-10 h-10 object-contain rounded-full"
+                            className="w-6 h-6 object-contain rounded-full"
                           />
-                        </span>
-                        <span className="text-base font-medium flex-1">{subNavItemLabel}</span>
-                        {/* Arrow if has sub-children */}
-                        {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
-                      </div>
+                        )}
+                        <span>{subNavItemLabel}</span>
+                      </Link>
                     )
                   })}
                 </div>
-                {/* Grid: Third Level */}
-                {item.subNavItems?.[activeSubIndex]?.subSubNavItems?.length && (
-                  <div className="flex-1 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 overflow-y-auto">
-                    {item.subNavItems[activeSubIndex].subSubNavItems!.map((subSub, subSubIdx) => (
-                      <Link
-                        key={subSub.id ?? subSubIdx}
-                        href={`/${
-                          subSub.link.reference && typeof subSub.link.reference.value === 'object'
-                            ? (subSub.link.reference.value as any).slug || ''
-                            : subSub.link.reference?.value || subSub.link.url || '#'
-                        }`}
-                        className="flex flex-col items-center rounded-lg p-2 transition group"
-                        tabIndex={0}
-                      >
+              )}
+
+              {/* Desktop Modal: wrapper is inside the nav item for hover/focus control */}
+              {!isMobile && isOpen && (
+                <div
+                  className="fixed left-0 top-[76px] w-full max-h-[70vh] z-50 flex shadow-2xl animate-fade-in border-t border-gray-700"
+                  style={{ backgroundColor }}
+                  role="menu"
+                  aria-label={`${navItemLabel} submenu`}
+                  onMouseEnter={() => handleMouseEnter(idx)}
+                  onMouseLeave={handleMouseLeave}
+                  tabIndex={-1}
+                >
+                  {/* Sidebar: Second Level */}
+                  <div
+                    className="w-[320px] p-8 border-r flex flex-col gap-2"
+                    style={{ backgroundColor }}
+                  >
+                    {item.subNavItems?.map((sub, subIdx) => {
+                      const subNavItemUrl = getSubNavItemUrl(sub)
+                      const subNavItemLabel = getSubNavItemLabel(sub)
+                      
+                      return (
                         <div
-                          className="hover:underline p-4 underline-animation"
-                          style={{ backgroundColor: 'transparent' }}
-                          onMouseOver={(e) => {
-                            ;(e.currentTarget as HTMLElement).style.backgroundColor = secondaryColor
+                          key={sub.id ?? subIdx}
+                          className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
+                            ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
+                          `}
+                          style={{
+                            backgroundColor: activeSubIndex === subIdx ? secondaryColor : 'transparent',
                           }}
-                          onMouseOut={(e) => {
-                            ;(e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
-                          }}
+                          onMouseEnter={() => setActiveSubIndex(subIdx)}
+                          tabIndex={0}
+                          role="menuitem"
                         >
-                          <img
-                            src={getImage(subSub.image)}
-                            alt={
-                              typeof subSub.image === 'object' && subSub.image !== null
-                                ? (subSub.image.alt as string) || ''
-                                : ''
-                            }
-                            className="w-32 h-32 object-contain rounded mb-4 group-hover:scale-105 transition"
-                          />
-                          <span className="text-base font-semibold">{subSub.link.label}</span>
+                          {/* Icon/Image */}
+                          <span className="rounded-full flex items-center justify-center w-12 h-12 shadow underline-animation">
+                            <img
+                              src={getImage(sub.image)}
+                              alt={subNavItemLabel}
+                              className="w-10 h-10 object-contain rounded-full"
+                            />
+                          </span>
+                          <span className="text-base font-medium flex-1">{subNavItemLabel}</span>
+                          {/* Arrow if has sub-children */}
+                          {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
                         </div>
-                      </Link>
-                    ))}
+                      )
+                    })}
                   </div>
-                )}
-              </div>
-            )}
-          </div>
-        )
-      })}
+                  {/* Grid: Third Level */}
+                  {item.subNavItems?.[activeSubIndex]?.subSubNavItems?.length && (
+                    <div className="flex-1 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 overflow-y-auto">
+                      {item.subNavItems[activeSubIndex].subSubNavItems!.map((subSub, subSubIdx) => (
+                        <Link
+                          key={subSub.id ?? subSubIdx}
+                          href={`/${
+                            subSub.link.reference && typeof subSub.link.reference.value === 'object'
+                              ? (subSub.link.reference.value as any).slug || ''
+                              : subSub.link.reference?.value || subSub.link.url || '#'
+                          }`}
+                          className="flex flex-col items-center rounded-lg p-2 transition group"
+                          tabIndex={0}
+                        >
+                          <div
+                            className="hover:underline p-4 underline-animation"
+                            style={{ backgroundColor: 'transparent' }}
+                            onMouseOver={(e) => {
+                              ;(e.currentTarget as HTMLElement).style.backgroundColor = secondaryColor
+                            }}
+                            onMouseOut={(e) => {
+                              ;(e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
+                            }}
+                          >
+                            <img
+                              src={getImage(subSub.image)}
+                              alt={
+                                typeof subSub.image === 'object' && subSub.image !== null
+                                  ? (subSub.image.alt as string) || ''
+                                  : ''
+                              }
+                              className="w-32 h-32 object-contain rounded mb-4 group-hover:scale-105 transition"
+                            />
+                            <span className="text-base font-semibold">{subSub.link.label}</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+      
+      {/* Contact link - always visible on the right */}
+      <div className={`${isMobile ? 'mt-4' : ''}`}>
+        <Link
+          href="/contact"
+          className="relative group flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          Contact
+        </Link>
+      </div>
     </nav>
   )
 }

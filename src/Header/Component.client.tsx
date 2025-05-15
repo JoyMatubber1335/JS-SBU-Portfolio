@@ -52,17 +52,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
   return (
     <header
       className={`
-        z-50 w-full transition-all duration-300
+        z-50 w-full transition-all duration-300 bg-white shadow-md 
         ${stickyBehavior === 'Sticky' ? 'sticky top-0 backdrop-blur-sm' : ''}
         md:flex /* Show normally on desktop */
       `}
-      style={{
-        background: 'rgba(0,0,0,0.3)',
-        color: '#fff',
-        paddingTop: '0.25rem',
-        paddingBottom: '0.25rem',
-        fontSize: '16px',
-      }}
+   
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div
@@ -109,7 +103,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
         </button>
 
         {/* Desktop Navigation - Only visible on md screens and up */}
-        <div className="hidden md:block flex-1">
+        <div className="hidden md:block flex-1 w-full">
           <HeaderNav data={data} />
         </div>
       </div>

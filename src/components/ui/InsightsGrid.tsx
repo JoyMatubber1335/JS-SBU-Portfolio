@@ -39,24 +39,24 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
   })
 
   return (
-    <section className="py-12 bg-white dark:bg-gray-800">
+    <section className="py-4 bg-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold">Insights</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+        <div className="text-center mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-black">Insights</h2>
+          <p className="text-lg text-black mt-2">
             Technical blogs and video tutorials to help you learn and grow
           </p>
         </div>
 
         {/* Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-gray-100 dark:bg-gray-700 p-1 rounded-full">
+          <div className="inline-flex bg-white p-1 rounded-full border border-gray-200">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-4 py-2 rounded-full text-sm font-medium ${
                 activeTab === 'all'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-indigo-500 text-black shadow-lg'
+                  : 'text-black hover:bg-gray-100'
               }`}
             >
               All
@@ -65,8 +65,8 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
               onClick={() => setActiveTab('blog')}
               className={`px-4 py-2 rounded-full text-sm font-medium ${
                 activeTab === 'blog'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-indigo-500 text-black shadow-lg'
+                  : 'text-black hover:bg-gray-100'
               }`}
             >
               Tech Blogs
@@ -75,8 +75,8 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
               onClick={() => setActiveTab('tutorial')}
               className={`px-4 py-2 rounded-full text-sm font-medium ${
                 activeTab === 'tutorial'
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  ? 'bg-indigo-500 text-black shadow-lg'
+                  : 'text-black hover:bg-gray-100'
               }`}
             >
               Tutorials
@@ -89,24 +89,24 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
           {filteredInsights.map((insight) => (
             <div
               key={insight.id}
-              className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105"
+              className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 border border-gray-200"
             >
               {/* For tutorials with video embeds, show the video thumbnail with a play button overlay */}
               {insight.type === 'tutorial' && insight.videoType === 'embed' && insight.videoEmbed ? (
-                <div className="relative h-48  bg-black cursor-pointer group">
+                <div className="relative h-48 bg-white cursor-pointer group">
                   {insight.featuredImage?.url ? (
                     <>
                       <Image
                         src={insight.featuredImage.url}
                         alt={insight.title}
                         fill
-                        className="object-conta opacity-90 group-hover:opacity-70 transition-opacity"
+                        className="object-contain opacity-90 group-hover:opacity-70 transition-opacity"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                        <div className="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center">
                           <svg
-                            className="w-8 h-8 text-white"
+                            className="w-8 h-8 text-black"
                             fill="currentColor"
                             viewBox="0 0 24 24"
                           >
@@ -116,10 +116,10 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                       </div>
                     </>
                   ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
-                      <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 flex items-center justify-center bg-white">
+                      <div className="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center">
                         <svg
-                          className="w-8 h-8 text-white"
+                          className="w-8 h-8 text-black"
                           fill="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -131,12 +131,12 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 </div>
               ) : (
                 insight.featuredImage?.url && (
-                  <div className="relative h-48 ">
+                  <div className="relative h-48">
                     <Image
                       src={insight.featuredImage.url}
                       alt={insight.title}
                       fill
-                      className="object-conta"
+                      className="object-contain"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
@@ -149,16 +149,16 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                   <span
                     className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${
                       insight.type === 'blog'
-                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                        : 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+                        ? 'bg-indigo-100 text-black'
+                        : 'bg-purple-100 text-black'
                     }`}
                   >
                     {insight.type === 'blog' ? 'Tech Blog' : 'Tutorial'}
                   </span>
                 </div>
                 
-                <h3 className="text-xl font-bold mb-2">{insight.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
+                <h3 className="text-xl font-bold mb-2 text-black">{insight.title}</h3>
+                <p className="text-black text-sm mb-4 line-clamp-3">
                   {insight.summary}
                 </p>
 
@@ -169,7 +169,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                       {insight.tags.map((tagObj, index) => (
                         <span
                           key={index}
-                          className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
+                          className="px-2 py-1 bg-white border border-gray-200 text-black text-xs rounded-full"
                         >
                           {tagObj.tag}
                         </span>
@@ -181,7 +181,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 {/* Footer with date and link */}
                 <div className="flex items-center justify-between mt-4">
                   {insight.publishedAt && (
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-black">
                       {new Date(insight.publishedAt).toLocaleDateString()}
                     </span>
                   )}
@@ -192,7 +192,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                       href={insight.externalLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+                      className="inline-flex items-center text-indigo-600 hover:underline"
                     >
                       Read More
                       <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -206,7 +206,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                   ) : (
                     <Link
                       href={`/insights/${insight.slug}`}
-                      className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+                      className="inline-flex items-center text-indigo-600 hover:underline"
                     >
                       {insight.type === 'blog' ? 'Read More' : 'Watch Tutorial'}
                       <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -225,8 +225,8 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
         </div>
 
         {filteredInsights.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-lg text-gray-500 dark:text-gray-400">
+          <div className="text-center py-4">
+            <p className="text-lg text-black">
               No {activeTab === 'all' ? 'insights' : activeTab === 'blog' ? 'blogs' : 'tutorials'} found.
             </p>
           </div>

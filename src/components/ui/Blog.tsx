@@ -54,7 +54,7 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
 
   return (
     <div>
-      <div className="w-full max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-12 md:px-6">
+      <div className="w-full max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-4 md:px-6">
         {/* Featured Blog Section */}
         {featuredBlog && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

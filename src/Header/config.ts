@@ -110,6 +110,10 @@ export const Header: GlobalConfig = {
                       label: 'Blog Posts',
                       value: 'posts',
                     },
+                    {
+                      label: 'Contact',
+                      value: 'contact',
+                    },
                   ],
                 },
                 {
@@ -184,6 +188,10 @@ export const Header: GlobalConfig = {
                         {
                           label: 'Blog Posts',
                           value: 'posts',
+                        },
+                        {
+                          label: 'Contact',
+                          value: 'contact',
                         },
                       ],
                     },

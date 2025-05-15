@@ -33,7 +33,7 @@ export default async function ContactPage() {
   if (!contact) {
     // If no contact information is set up, show a simple message
     return (
-      <div className="container mx-auto py-12 px-4">
+      <div className="container mx-auto py-4 px-4">
         <h1 className="text-3xl font-bold mb-6">Contact Us</h1>
         <p>Contact information is not available at this time. Please check back later.</p>
       </div>
@@ -46,7 +46,7 @@ export default async function ContactPage() {
   const zoom = contact.location?.zoom || 14
 
   return (
-    <div className="container mx-auto py-12 px-4">
+    <div className="container mx-auto py-4 px-4">
       <h1 className="text-3xl font-bold mb-8">{contact.title || 'Contact Us'}</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

@@ -115,7 +115,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
       className="overflow-hidden"
       style={{ backgroundColor: settings?.colorScheme?.backgroundColor }}
     >
-      <div className="container mx-auto max-w-7xl sm:py-6 sm:px-3 md:py-12 md:px-6">
+      <div className="container mx-auto max-w-7xl sm:py-6 sm:px-3 md:py-4 md:px-6">
         {heading && (
           <h2 className="text-2xl font-bold text-center" style={{ color: primaryColor }}>
             {heading}
@@ -126,7 +126,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
       {/* Full width section with primary color background */}
       <div className="relative" style={{ transform: 'rotate(-1deg)' }}>
         <div
-          className="w-full py-12"
+          className="w-full py-4"
           style={{ background: primaryColor, zIndex: 2, position: 'relative' }}
         >
           <div

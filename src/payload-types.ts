@@ -2300,7 +2300,7 @@ export interface Header {
           };
         };
         collection?: {
-          collectionType: 'projects' | 'insights' | 'skills' | 'posts';
+          collectionType: 'projects' | 'insights' | 'skills' | 'posts' | 'contact';
           label: string;
         };
         subNavItems?:
@@ -2336,7 +2336,7 @@ export interface Header {
                 };
               };
               collection?: {
-                collectionType: 'projects' | 'insights' | 'skills' | 'posts';
+                collectionType: 'projects' | 'insights' | 'skills' | 'posts' | 'contact';
                 label: string;
               };
               image?: (string | null) | Media;
