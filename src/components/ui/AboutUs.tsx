@@ -113,13 +113,13 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                 <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2">
                   {/* Icon with Circle */}
                   <div className="flex justify-center mt-4">
-                    <div className="w-24 h-24 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-4 shadow-md">
+                    <div className="w-40 h-40 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-4 shadow-md">
                       {feature.icon?.url ? (
                         <Image 
                           src={feature.icon.url} 
                           alt={feature.title || 'Feature'} 
-                          width={48} 
-                          height={48}
+                          width={100} 
+                          height={100}
                           className="transition-all duration-500 group-hover:scale-110"
                         />
                       ) : (

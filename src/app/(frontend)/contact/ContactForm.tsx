@@ -67,12 +67,12 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
 
   if (isSubmitted) {
     return (
-      <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg border border-green-200 dark:border-green-900">
-        <h3 className="text-green-700 dark:text-green-400 font-medium text-lg mb-2">Message Sent!</h3>
-        <p className="text-green-600 dark:text-green-300">{successMessage}</p>
+      <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <h3 className="text-black font-medium text-lg mb-2">Message Sent!</h3>
+        <p className="text-black">{successMessage}</p>
         <Button 
           variant="outline" 
-          className="mt-4"
+          className="mt-4 text-black border-gray-200 hover:bg-gray-50"
           onClick={() => setIsSubmitted(false)}
         >
           Send Another Message
@@ -82,19 +82,19 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
   }
 
   return (
-    <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-      <h2 className="text-xl font-semibold mb-3">Send Us a Message</h2>
-      <p className="text-gray-500 dark:text-gray-400 mb-6">Fill out the form below and we'll get back to you as soon as possible.</p>
+    <div className="p-6 bg-white rounded-lg border border-gray-200">
+      <h2 className="text-xl font-semibold mb-3 text-black">Send Us a Message</h2>
+      <p className="text-black mb-6">Fill out the form below and we'll get back to you as soon as possible.</p>
       
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-md mb-6 border border-red-200 dark:border-red-900">
-          <p className="text-red-600 dark:text-red-300">{error}</p>
+        <div className="bg-white p-4 rounded-md mb-6 border border-gray-200">
+          <p className="text-black">{error}</p>
         </div>
       )}
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="name">Your Name</Label>
+          <Label htmlFor="name" className="text-black">Your Name</Label>
           <Input
             id="name"
             name="name"
@@ -102,12 +102,12 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             onChange={handleChange}
             required
             placeholder="John Doe"
-            className="mt-1"
+            className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
         
         <div>
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="email" className="text-black">Email Address</Label>
           <Input
             id="email"
             name="email"
@@ -116,12 +116,12 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             onChange={handleChange}
             required
             placeholder="john@example.com"
-            className="mt-1"
+            className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
         
         <div>
-          <Label htmlFor="subject">Subject</Label>
+          <Label htmlFor="subject" className="text-black">Subject</Label>
           <Input
             id="subject"
             name="subject"
@@ -129,12 +129,12 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             onChange={handleChange}
             required
             placeholder="How can we help you?"
-            className="mt-1"
+            className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
         
         <div>
-          <Label htmlFor="message">Message</Label>
+          <Label htmlFor="message" className="text-black">Message</Label>
           <Textarea
             id="message"
             name="message"
@@ -142,11 +142,11 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             onChange={handleChange}
             required
             placeholder="Your message here..."
-            className="mt-1 min-h-[120px]"
+            className="mt-1 min-h-[120px] text-black bg-white border-gray-200"
           />
         </div>
         
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
+        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={isSubmitting}>
           {isSubmitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>

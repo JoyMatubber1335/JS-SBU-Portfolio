@@ -114,6 +114,10 @@ export const Header: GlobalConfig = {
                       label: 'Contact',
                       value: 'contact',
                     },
+                    {
+                      label: 'About Us',
+                      value: 'about',
+                    },
                   ],
                 },
                 {
@@ -192,6 +196,10 @@ export const Header: GlobalConfig = {
                         {
                           label: 'Contact',
                           value: 'contact',
+                        },
+                         {
+                          label: 'About Us',
+                          value: 'about',
                         },
                       ],
                     },

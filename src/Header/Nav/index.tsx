@@ -252,7 +252,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                       return (
                         <div
                           key={sub.id ?? subIdx}
-                          className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-opacity-90
+                          className={`flex border-b items-center gap-4 p-2 cursor-pointer transition hover:bg-black/10
                             ${activeSubIndex === subIdx ? 'scale-[1.03]' : ''}
                           `}
                           style={{
@@ -270,7 +270,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                               className="w-10 h-10 object-contain rounded-full"
                             />
                           </span>
-                          <span className="text-base font-medium flex-1">{subNavItemLabel}</span>
+                          <span className="text-black font-medium flex-1">{subNavItemLabel}</span>
                           {/* Arrow if has sub-children */}
                           {hasSubChildren(sub) && <ChevronRight className="w-5 h-5" aria-hidden />}
                         </div>
@@ -324,10 +324,10 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
       </div>
       
       {/* Contact link - always visible on the right */}
-      <div className={`${isMobile ? 'mt-4' : ''}`}>
+      <div className={`${isMobile ? 'mt-4' : ''} rounded-[100px]`}>
         <Link
           href="/contact"
-          className="relative group flex items-center gap-1 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          className="relative group flex items-center gap-1 px-4 py-2 bg-primary text-black border-radius-full hover:bg-primary/90 transition-colors rounded-[100px]"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
