@@ -100,7 +100,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                         src={insight.featuredImage.url}
                         alt={insight.title}
                         fill
-                        className="object-contain opacity-90 group-hover:opacity-70 transition-opacity"
+                        className="object-cover opacity-90 group-hover:opacity-70 transition-opacity"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -136,7 +136,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                       src={insight.featuredImage.url}
                       alt={insight.title}
                       fill
-                      className="object-contain"
+                      className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>

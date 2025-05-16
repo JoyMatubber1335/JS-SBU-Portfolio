@@ -84,7 +84,7 @@ export default async function ProjectDetail({ params }: Props) {
                 src={project.featuredImage.url || ''}
                 alt={project.title}
                 fill
-                className="object-contain"
+                className="object-cover"
               />
             ) : (
               <div className="w-full h-full bg-white flex items-center justify-center">

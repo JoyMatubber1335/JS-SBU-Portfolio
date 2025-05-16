@@ -101,7 +101,7 @@ export default async function ServicePage({ params }) {
                   alt={service.title || `Service ${params.slug.split('-')[1]}`}
                   width={200}
                   height={200}
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
             )}

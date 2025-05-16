@@ -67,7 +67,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { docs: skillSetDocs } = await payload.find({
     collection: 'skillsets',
     sort: 'order',
-    limit: 3, // Show just 3 skill sets on the home page
+    // Show just 3 skill sets on the home page
     depth: 2, // Include related blog posts
   })
   skillSets = skillSetDocs
@@ -189,7 +189,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     try {
       const { docs: blogPostDocs } = await payload.find({
         collection: 'blog-posts',
-        limit: blogBlock.blogItems?.length || 4,
+        limit: 100, // Increased limit to show more posts
         depth: 2,
         sort: '-publishedDate',
       })
@@ -203,7 +203,7 @@ export default async function Page({ params: paramsPromise }: Args) {
           image: post.featuredImage,
           date: post.publishedDate || undefined,
           author: typeof post.author === 'object' ? post.author.name : (post.author as string || 'Author'),
-          slug: post.slug, // Important - add slug for redirection
+          slug: post.slug,
           url: `/blog/${post.slug}`
         }))
       } else if (blogBlock.blogItems) {

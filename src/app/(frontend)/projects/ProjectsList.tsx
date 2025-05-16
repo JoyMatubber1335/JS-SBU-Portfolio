@@ -36,7 +36,7 @@ export const ProjectsList: React.FC<ProjectsListProps> = ({ projects }) => {
                   src={project.featuredImage.url || ''}
                   alt={project.title}
                   fill
-                  className="object-contain transition-transform duration-500 hover:scale-105"
+                  className="object-cover transition-transform duration-500 hover:scale-105"
                 />
               ) : (
                 <div className="w-full h-full bg-white flex items-center justify-center">

@@ -40,7 +40,7 @@ export async function Footer() {
             <p key={index}>
               {block.children?.map((child: any, childIndex: number) => {
                 if (child.type === 'text') {
-                  return <span key={childIndex}>{child.text}</span>
+                  return <span key={childIndex} className='text-white'>{child.text}</span>
                 }
                 return null
               })}
@@ -57,7 +57,7 @@ export async function Footer() {
     return (
       <div className="mt-6 md:mt-0 w-full md:w-[25%]  p-4 rounded-lg border border-gray-600">
         <h3 className="text-white font-bold text-lg mb-2">Subscribe to our Newsletter</h3>
-        <p className="text-gray-400 text-sm mb-3">Stay updated with our latest news and offers</p>
+        <p className="text-white text-sm mb-3">Stay updated with our latest news and offers</p>
         <form className="space-y-2">
           <Input 
             type="email" 
@@ -74,7 +74,7 @@ export async function Footer() {
   }
 
   return (
-    <footer className="p-8 mt-auto border-t border-border dark:bg-car">
+    <footer className="p-8 mt-auto border-t border-border bg-gray-900">
       <div className="py-2 flex flex-col gap-10 items-center md:flex-row md:justify-between md:items-start">
         {/* Left Section: Logo */}
         <div className="flex-shrink-0 w-full md:w-[20%] flex flex-col items-center md:items-start text-center md:text-left">
@@ -85,7 +85,7 @@ export async function Footer() {
               <span className="text-xl font-bold">Logo</span>
             )}
           </Link>
-          <div className="mt-2 text-sm text-gray-400">
+          <div className="mt-2 text-sm text-white">
             {Array.isArray(footerContent) && footerContent.length > 0
               ? renderFooterContent(footerContent)
               : 'Your default description here.'}
@@ -96,7 +96,7 @@ export async function Footer() {
           {navItems.map((item, i) => {
             return (
               <div key={i} className="flex flex-col items-center md:items-start">
-                <h2 className="text-white font-bold text-base hover:text-primary transition">{item.title}</h2>
+                <h2 className="text-white font-bold text-white  transition">{item.title}</h2>
                 {item.subLinks && item.subLinks.length > 0 && (
                   <ul className="mt-3 space-y-2">
                     {item.subLinks.map((subItem, j) => {
@@ -105,7 +105,7 @@ export async function Footer() {
                           {subItem.link && (
                             <CMSLink
                               {...subItem.link}
-                              className="text-sm text-gray-400 hover:text-white transition"
+                              className="text-sm text-white transition"
                             />
                           )}
                         </li>
@@ -180,10 +180,7 @@ export async function Footer() {
         )}
       </div>
 
-      {/* Copyright text */}
-      <div className="text-center text-sm text-gray-400 mt-4">
-        {copyrightData || "© 2024 All rights reserved."}
-      </div>
+     
     </footer>
   )
 }

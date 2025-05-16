@@ -150,7 +150,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
                       <img
                         src={typeof brand.logo === 'string' ? brand.logo : brand.logo.url}
                         alt={brand.name}
-                        className="max-h-full max-w-full object-contain"
+                        className="max-h-full max-w-full object-cover"
                         width="auto"
                         height="auto"
                         style={{ width: '150px', height: '150px' }}

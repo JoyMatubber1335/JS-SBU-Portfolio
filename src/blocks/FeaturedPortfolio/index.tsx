@@ -151,7 +151,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                                   : project.image.url
                               }
                               alt={project.title}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-cover"
                               width="auto"
                               height="auto"
                             />
@@ -224,7 +224,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
                                   : project.image.url
                               }
                               alt={project.title}
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-cover"
                               width="auto"
                               height="auto"
                             />

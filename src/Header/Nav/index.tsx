@@ -219,7 +219,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                           <img
                             src={getImage(sub.image)}
                             alt={subNavItemLabel}
-                            className="w-6 h-6 object-contain rounded-full"
+                            className="w-6 h-6 object-cover rounded-full"
                           />
                         )}
                         <span>{subNavItemLabel}</span>
@@ -267,7 +267,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                             <img
                               src={getImage(sub.image)}
                               alt={subNavItemLabel}
-                              className="w-10 h-10 object-contain rounded-full"
+                              className="w-10 h-10 object-cover rounded-full"
                             />
                           </span>
                           <span className="text-black font-medium flex-1">{subNavItemLabel}</span>
@@ -308,7 +308,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                                   ? (subSub.image.alt as string) || ''
                                   : ''
                               }
-                              className="w-32 h-32 object-contain rounded mb-4 group-hover:scale-105 transition"
+                              className="w-32 h-32 object-cover rounded mb-4 group-hover:scale-105 transition"
                             />
                             <span className="text-base font-semibold">{subSub.link.label}</span>
                           </div>
@@ -327,7 +327,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
       <div className={`${isMobile ? 'mt-4' : ''} rounded-[100px]`}>
         <Link
           href="/contact"
-          className="relative group flex items-center gap-1 px-4 py-2 bg-primary text-black border-radius-full hover:bg-primary/90 transition-colors rounded-[100px]"
+          className="relative group flex items-center gap-1 px-4 py-2  text-black border-radius-full  transition-colors rounded-[100px] bg-gray-100"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>

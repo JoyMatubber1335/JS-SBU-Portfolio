@@ -145,9 +145,9 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
               </div>
               
               {/* Surrounding Skills Circles */}
-              {filteredSkills.slice(0, 6).map((skill, index) => {
+              {filteredSkills.map((skill, index) => {
                 const isActive = activeSkill === skill.id;
-                const angle = (360 / Math.min(filteredSkills.length, 6)) * index;
+                const angle = (360 / filteredSkills.length) * index;
                 const circleColor = circleColors[index % circleColors.length];
                 
                 return (
@@ -188,7 +188,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
                                       src={skill.featuredImage.url}
                                       alt={skill.title}
                                       fill
-                                      className="object-contain p-2"
+                                      className="object-cover p-2"
                                     />
                                   </div>
                                 )}
@@ -301,7 +301,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
                             src={skill.featuredImage.url}
                             alt={skill.title}
                             fill
-                            className="object-contain"
+                            className="object-cover"
                           />
                         </div>
                       ) : (
@@ -459,11 +459,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
         
-        .skill-circle:hover {
-          transform: scale(1.15) !important;
-          z-index: 15;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-        }
+       
         
         .skill-circle.active {
           z-index: 20;
@@ -486,11 +482,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
           transition: all 0.3s ease;
         }
         
-        .skill-circle:hover .skill-subtitle {
-          opacity: 1;
-          max-height: 100px;
-        }
-        
+      
         .skill-connection-line {
           position: absolute;
           top: 50%;
@@ -499,6 +491,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
           height: 2px;
           transform: translateX(-100%) translateY(-50%);
           opacity: 0.5;
+          display: none;
         }
         
         @keyframes pulse {
