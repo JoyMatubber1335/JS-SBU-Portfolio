@@ -40,10 +40,7 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
       // Here you would typically send the form data to an API route
       // For now, we'll just simulate a successful submission
       
-      console.log('Form submitted:', {
-        ...formState,
-        recipient: emailRecipient,
-      })
+   
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000))

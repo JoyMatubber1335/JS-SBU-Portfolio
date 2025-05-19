@@ -13,9 +13,7 @@ import { Input } from '@/components/ui/input'
 
 export async function Footer() {
   const footerData = await getCachedGlobal('footer', 1)()
-  console.log('footerData', footerData)
   const navItems = footerData?.navItems || []
-  console.log('navItems', navItems)
   const footerContent = footerData?.footerContent?.root?.children || []
   const copyrightData = footerData?.copyright
 
