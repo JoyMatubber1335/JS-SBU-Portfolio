@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @next/next/no-img-element */
 'use-client'
 
 import Link from 'next/link'
@@ -20,7 +22,7 @@ function hasSubChildren(
 }
 
 // Helper function to get the URL for a nav item based on its type
-function getNavItemUrl(item: NavItem): string {
+function getNavItemUrl(item: any): string {
   if (item.itemType === 'collection' && item.collection) {
     // Map collection types to their URLs
     const collectionUrls: Record<string, string> = {
@@ -35,7 +37,7 @@ function getNavItemUrl(item: NavItem): string {
     // Handle regular link type
     return `/${
       item.link.link.reference && typeof item.link.link.reference.value === 'object'
-        ? (item.link.link.reference.value as any).slug || ''
+        ? item.link.link.reference.value.slug || ''
         : item.link.link.reference?.value || item.link.link.url || '#'
     }`
   }
@@ -121,9 +123,6 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
 
   // Helper for image
   const getImage = (img: any) => img?.thumbnailURL || img?.url || '/icons/default.svg'
-
-  // Helper for caption
-  const getCaption = (img: any) => img?.caption?.root?.children?.[0]?.children?.[0]?.text || ''
 
   // Handle delayed close
   const handleMouseLeave = () => {
@@ -213,7 +212,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                         key={sub.id ?? subIdx}
                         href={subNavItemUrl}
                         className="flex items-center gap-2 py-2 px-3 border-b border-gray-700"
-                        onClick={(e) => {
+                        onClick={() => {
                           // Close the dropdown after link click
                           setOpenIndex(null)
                         }}
@@ -249,7 +248,6 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
                     style={{ backgroundColor }}
                   >
                     {item.subNavItems?.map((sub, subIdx) => {
-                      const subNavItemUrl = getSubNavItemUrl(sub)
                       const subNavItemLabel = getSubNavItemLabel(sub)
 
                       return (

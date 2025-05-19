@@ -20,14 +20,15 @@ export const NewsletterSubscription: React.FC = () => {
     try {
       // Here you would normally call your API to handle the subscription
       // For now we'll just simulate a successful subscription
-      await new Promise(resolve => setTimeout(resolve, 800))
-      
+      await new Promise((resolve) => setTimeout(resolve, 800))
+
       setEmail('')
       setMessage({
         text: 'Thank you for subscribing!',
         type: 'success',
       })
     } catch (error) {
+      console.log('🚀 ~ handleSubmit ~ error:', error)
       setMessage({
         text: 'Something went wrong. Please try again.',
         type: 'error',
@@ -43,7 +44,7 @@ export const NewsletterSubscription: React.FC = () => {
       <p className="text-muted-foreground text-sm mb-4">
         Stay updated with our latest news and offers
       </p>
-      
+
       <form className="space-y-3" onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -54,21 +55,19 @@ export const NewsletterSubscription: React.FC = () => {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isSubmitting}
         />
-        
-        <Button 
-          type="submit" 
+
+        <Button
+          type="submit"
           className="w-full transition-all hover:shadow-md"
           disabled={isSubmitting}
-          variant={isSubmitting ? "outline" : "default"}
+          variant={isSubmitting ? 'outline' : 'default'}
         >
           {isSubmitting ? 'Subscribing...' : 'Subscribe'}
         </Button>
-        
+
         {message.text && (
-          <p 
-            className={`text-sm mt-2 ${
-              message.type === 'success' ? 'text-success' : 'text-error'
-            }`}
+          <p
+            className={`text-sm mt-2 ${message.type === 'success' ? 'text-success' : 'text-error'}`}
           >
             {message.text}
           </p>
@@ -76,4 +75,4 @@ export const NewsletterSubscription: React.FC = () => {
       </form>
     </div>
   )
-} 
+}

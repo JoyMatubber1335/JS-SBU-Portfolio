@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
@@ -26,15 +28,9 @@ export const HeaderClient: React.FC<HeaderClientProps | any> = ({ data, settings
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const logo = settingsData?.logo
-  const logoUrl =
-    logo?.url ||
-    (logo?.filename ? `/media/${logo.filename}` : null)
+  const logoUrl = logo?.url || (logo?.filename ? `/media/${logo.filename}` : null)
 
-  const {
-    stickyBehavior,
-    headerPaddingTop,
-    headerPaddingBottom,
-  } = data
+  const { stickyBehavior } = data
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -56,7 +52,6 @@ export const HeaderClient: React.FC<HeaderClientProps | any> = ({ data, settings
         ${stickyBehavior === 'Sticky' ? 'sticky top-0 backdrop-blur-sm' : ''}
         md:flex /* Show normally on desktop */
       `}
-   
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div
@@ -72,19 +67,19 @@ export const HeaderClient: React.FC<HeaderClientProps | any> = ({ data, settings
         </Link>
 
         {/* Mobile menu button */}
-        <button 
+        <button
           className="md:hidden ml-auto flex items-center text-white"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             className="w-6 h-6"
           >
             {mobileMenuOpen ? (
