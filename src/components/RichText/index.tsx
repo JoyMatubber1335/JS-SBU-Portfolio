@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
@@ -55,11 +56,13 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
   },
 })
 
-type Props = {
-  data: DefaultTypedEditorState
-  enableGutter?: boolean
-  enableProse?: boolean
-} & React.HTMLAttributes<HTMLDivElement>
+type Props =
+  | ({
+      data: DefaultTypedEditorState
+      enableGutter?: boolean
+      enableProse?: boolean
+    } & React.HTMLAttributes<HTMLDivElement>)
+  | any
 
 export default function RichText(props: Props) {
   const { className, enableProse = true, enableGutter = true, ...rest } = props

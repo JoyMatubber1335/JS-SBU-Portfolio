@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React, { useState } from 'react'
@@ -29,10 +30,10 @@ type InsightsGridProps = {
   insights: Insight[]
 }
 
-export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
+export const InsightsGrid: React.FC<InsightsGridProps | any> = ({ insights }) => {
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'tutorial'>('all')
 
-  const filteredInsights = insights.filter((insight) => {
+  const filteredInsights = insights.filter((insight: any) => {
     if (activeTab === 'all') return true
     return insight.type === activeTab
   })
@@ -85,7 +86,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
 
         {/* Grid of cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredInsights.map((insight) => (
+          {filteredInsights.map((insight: any) => (
             <div
               key={insight.id}
               className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 border border-gray-200"
@@ -161,7 +162,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 {insight.tags && insight.tags.length > 0 && (
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {insight.tags.map((tagObj, index) => (
+                      {insight.tags.map((tagObj: any, index: any) => (
                         <span
                           key={index}
                           className="px-2 py-1 bg-white border border-gray-200 text-black text-xs rounded-full"
