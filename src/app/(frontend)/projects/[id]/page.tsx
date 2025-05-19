@@ -7,18 +7,18 @@ import Link from 'next/link'
 import RichText from '@/components/RichText'
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
-
+  const { id } = await params
   try {
     const project = await payload.findByID({
       collection: 'projects',
-      id: params.id,
+      id: id,
     })
 
     return {
@@ -36,13 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetail({ params }: Props) {
   const payload = await getPayload({ config: configPromise })
-
+  const { id } = await params
   let project
 
   try {
     project = await payload.findByID({
       collection: 'projects',
-      id: params.id,
+      id: id,
     })
   } catch (error) {
     console.log('🚀 ~ ProjectDetail ~ error:', error)
