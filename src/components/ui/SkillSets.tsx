@@ -20,7 +20,7 @@ type SkillSet = {
 }
 
 type SkillSetsProps = {
-  skillSets: SkillSet[]
+  skillSets: SkillSet[] | any
 }
 
 export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
@@ -35,7 +35,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skillSets.map((skill) => (
+          {skillSets.map((skill: any) => (
             <div
               key={skill.id}
               className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105"
@@ -54,21 +54,27 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
 
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{skill.title}</h3>
-                <div className="prose dark:prose-invert prose-sm mb-4" 
-                  dangerouslySetInnerHTML={{ 
-                    __html: typeof skill.description === 'string' 
-                      ? skill.description 
-                      : Array.isArray(skill.description) 
-                        ? skill.description.map(node => node.children?.map(child => child.text).join('')).join('') 
-                        : '' 
-                  }} 
+                <div
+                  className="prose dark:prose-invert prose-sm mb-4"
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      typeof skill.description === 'string'
+                        ? skill.description
+                        : Array.isArray(skill.description)
+                          ? skill.description
+                              .map((node: any) =>
+                                node.children?.map((child: any) => child.text).join(''),
+                              )
+                              .join('')
+                          : '',
+                  }}
                 />
 
                 {skill.technologies && skill.technologies.length > 0 && (
                   <div className="mb-4">
                     <h4 className="text-sm font-semibold mb-2">Technologies:</h4>
                     <div className="flex flex-wrap gap-2">
-                      {skill.technologies.map((tech, index) => (
+                      {skill.technologies.map((tech: any, index: any) => (
                         <span
                           key={index}
                           className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 text-xs rounded-full"
@@ -84,7 +90,7 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
                   <div className="mt-4">
                     <h4 className="text-sm font-semibold mb-2">Related Articles:</h4>
                     <ul className="space-y-1">
-                      {skill.relatedBlogPosts.map((post) => (
+                      {skill.relatedBlogPosts.map((post: any) => (
                         <li key={post.id}>
                           <Link
                             href={`/blog/${post.slug}`}
@@ -106,4 +112,4 @@ export const SkillSets: React.FC<SkillSetsProps> = ({ skillSets }) => {
   )
 }
 
-export default SkillSets 
+export default SkillSets

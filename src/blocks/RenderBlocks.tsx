@@ -10,7 +10,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FeaturedPortfolio } from '@/blocks/FeaturedPortfolio'
 import { TrustedBy } from '@/blocks/TrustedBy'
 
-const blockComponents = {
+const blockComponents: any = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
@@ -39,7 +39,6 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <div key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
                   <Block {...block} disableInnerContainer />
                 </div>
               )

@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
 
-import { ArchiveBlock } from '../ArchiveBlock'
-import { CallToAction } from '../CallToAction'
-import { Content } from '../Content'
-import { MediaBlock } from '../MediaBlock'
-import { FormBlock } from '../Form'
+// import { ArchiveBlock } from '../ArchiveBlock'
+// import { CallToAction } from '../CallToAction'
+// import { Content } from '../Content'
+// import { MediaBlock } from '../MediaBlock'
+// import { FormBlock } from '../Form'
 import { FeaturedPortfolio } from '../FeaturedPortfolio'
 import { TrustedBy } from '../TrustedBy'
 
@@ -31,19 +31,19 @@ export const RenderBlocks: React.FC<{
         blocks.map((block, index) => {
           const { blockType } = block
 
-          const isLastBlock = index === blocks.length - 1
+          // const isLastBlock = index === blocks.length - 1
 
           switch (blockType) {
-            case 'content':
-              return <Content key={index} {...block} />
-            case 'mediaBlock':
-              return <MediaBlock key={index} {...block} />
-            case 'archive':
-              return <ArchiveBlock key={index} {...block} />
-            case 'callToAction':
-              return <CallToAction key={index} {...block} />
-            case 'formBlock':
-              return <FormBlock key={index} {...block} />
+            // case 'content':
+            //   return <Content key={index} {...block} />
+            // case 'mediaBlock':
+            //   return <MediaBlock key={index} {...block} />
+            // case 'archive':
+            //   return <ArchiveBlock key={index} {...block} />
+            // case 'callToAction':
+            //   return <CallToAction key={index} {...block} />
+            // case 'formBlock':
+            //   return <FormBlock key={index} {...block} />
             case 'featuredPortfolio':
               return <FeaturedPortfolio key={index} {...block} />
             case 'trustedBy':

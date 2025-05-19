@@ -6,10 +6,7 @@ type HomeArgs = {
   metaImage: Media
 }
 
-export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  heroImage,
-  metaImage,
-}) => {
+export const home: any = ({ heroImage, metaImage }: any) => {
   return {
     slug: 'home',
     _status: 'published',

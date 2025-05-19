@@ -32,7 +32,6 @@ export async function generateStaticParams() {
     select: {
       slug: true,
     },
-    
   })
 
   const params = pages.docs
@@ -47,20 +46,18 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: Promise<{
-    slug?: string
-  }>
+  params: Promise<{ slug?: string }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
   const payload = await getPayload({ config: configPromise })
   let projects = []
   const { docs: projectDocs } = await payload.find({
-      collection: 'projects',
-      sort: 'order',
-      limit: 3, // Show fewer projects on home page
-    })
-    projects = projectDocs
+    collection: 'projects',
+    sort: 'order',
+    limit: 3, // Show fewer projects on home page
+  })
+  projects = projectDocs
 
   // Fetch skill sets for home page
   let skillSets = []
@@ -127,7 +124,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   // Find the services block in the layout
   const servicesBlock = layout?.find(isServicesBlock)
   const tabs = (servicesBlock as any)?.tabs || []
-  const aboutUsBlock = layout?.find(isAboutUsBlock)
+  const aboutUsBlock: any = layout?.find(isAboutUsBlock)
 
   function isBlogBlock(block: any): block is {
     blockType: 'blog'
@@ -143,7 +140,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     return block.blockType === 'blog'
   }
 
-  const blogBlock = layout?.find(isBlogBlock)
+  const blogBlock: any = layout?.find(isBlogBlock)
 
   // Fetch projects if this is the home page - show exactly 6 projects
   if (slug === 'home') {
@@ -185,14 +182,14 @@ export default async function Page({ params: paramsPromise }: Args) {
                   Areas of expertise and professional capabilities
                 </p>
               </div>
-              <Link 
-                href="/skills" 
+              <Link
+                href="/skills"
                 className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 View All Skills
               </Link>
             </div>
-            
+
             <SkillSets skillSets={skillSets} />
           </div>
         </section>
@@ -209,14 +206,14 @@ export default async function Page({ params: paramsPromise }: Args) {
                   Check out some of my recent work
                 </p>
               </div>
-              <Link 
-                href="/projects" 
+              <Link
+                href="/projects"
                 className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 View All Projects
               </Link>
             </div>
-            
+
             <ProjectsList projects={projects} />
           </div>
         </section>
@@ -233,14 +230,14 @@ export default async function Page({ params: paramsPromise }: Args) {
                   Technical blogs and video tutorials
                 </p>
               </div>
-              <Link 
-                href="/insights" 
+              <Link
+                href="/insights"
                 className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
               >
                 View All Insights
               </Link>
             </div>
-            
+
             <InsightsGrid insights={insights} />
           </div>
         </section>
@@ -248,7 +245,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {blogBlock && (
         <Blog
-          blogs={blogBlock.blogItems.map((item) => ({
+          blogs={blogBlock.blogItems.map((item: any) => ({
             ...item,
             image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
           }))}

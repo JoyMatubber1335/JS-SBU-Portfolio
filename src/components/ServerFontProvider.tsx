@@ -2,7 +2,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { Setting } from '@/payload-types'
 
 export async function ServerFontProvider() {
-  const settingsData = (await getCachedGlobal('settings', 1)()) as Setting
+  const settingsData: any = (await getCachedGlobal('settings', 1)()) as Setting
   const fontFamily = settingsData?.fontFamily || 'Inter, system-ui, sans-serif'
   const baseFontSize = settingsData?.fontSettings?.baseFontSize || 16
   const headingFontSize = settingsData?.fontSettings?.headingFontSize || 24

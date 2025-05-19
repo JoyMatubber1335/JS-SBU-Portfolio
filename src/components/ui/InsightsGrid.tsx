@@ -27,13 +27,13 @@ type Insight = {
 }
 
 type InsightsGridProps = {
-  insights: Insight[]
+  insights: Insight[] | any
 }
 
 export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'tutorial'>('all')
-  
-  const filteredInsights = insights.filter(insight => {
+
+  const filteredInsights = insights.filter((insight: any) => {
     if (activeTab === 'all') return true
     return insight.type === activeTab
   })
@@ -86,13 +86,15 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
 
         {/* Grid of cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredInsights.map((insight) => (
+          {filteredInsights.map((insight: any) => (
             <div
               key={insight.id}
               className="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105"
             >
               {/* For tutorials with video embeds, show the video thumbnail with a play button overlay */}
-              {insight.type === 'tutorial' && insight.videoType === 'embed' && insight.videoEmbed ? (
+              {insight.type === 'tutorial' &&
+              insight.videoType === 'embed' &&
+              insight.videoEmbed ? (
                 <div className="relative h-48 w-full bg-black cursor-pointer group">
                   {insight.featuredImage?.url ? (
                     <>
@@ -118,11 +120,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
                       <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
-                        <svg
-                          className="w-8 h-8 text-white"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
+                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </div>
@@ -156,7 +154,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                     {insight.type === 'blog' ? 'Tech Blog' : 'Tutorial'}
                   </span>
                 </div>
-                
+
                 <h3 className="text-xl font-bold mb-2">{insight.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                   {insight.summary}
@@ -166,7 +164,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 {insight.tags && insight.tags.length > 0 && (
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {insight.tags.map((tagObj, index) => (
+                      {insight.tags.map((tagObj: any, index: any) => (
                         <span
                           key={index}
                           className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
@@ -185,9 +183,11 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                       {new Date(insight.publishedAt).toLocaleDateString()}
                     </span>
                   )}
-                  
+
                   {/* For blogs with external links */}
-                  {insight.type === 'blog' && insight.contentType === 'external' && insight.externalLink ? (
+                  {insight.type === 'blog' &&
+                  insight.contentType === 'external' &&
+                  insight.externalLink ? (
                     <a
                       href={insight.externalLink}
                       target="_blank"
@@ -227,7 +227,8 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
         {filteredInsights.length === 0 && (
           <div className="text-center py-12">
             <p className="text-lg text-gray-500 dark:text-gray-400">
-              No {activeTab === 'all' ? 'insights' : activeTab === 'blog' ? 'blogs' : 'tutorials'} found.
+              No {activeTab === 'all' ? 'insights' : activeTab === 'blog' ? 'blogs' : 'tutorials'}{' '}
+              found.
             </p>
           </div>
         )}
@@ -236,4 +237,4 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
   )
 }
 
-export default InsightsGrid 
+export default InsightsGrid

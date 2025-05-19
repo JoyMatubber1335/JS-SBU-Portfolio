@@ -65,7 +65,7 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
       }
       aria-label="Main navigation"
     >
-      {navItems.map((item, idx) => {
+      {navItems.map((item: any, idx: any) => {
         const isOpen = openIndex === idx && hasChildren(item)
         return (
           <div
@@ -148,40 +148,44 @@ export const HeaderNav: React.FC<{ data: Header; mobile?: boolean }> = ({ data, 
                 {/* Grid: Third Level */}
                 <div className="flex-1 p-4 grid grid-cols-6 gap-2 overflow-y-auto">
                   {item.subNavItems?.[activeSubIndex]?.subSubNavItems?.length ? (
-                    item.subNavItems[activeSubIndex].subSubNavItems!.map((subSub, subSubIdx) => (
-                      <Link
-                        key={subSub.id ?? subSubIdx}
-                        href={`/${
-                          subSub.link.reference && typeof subSub.link.reference.value === 'object'
-                            ? subSub.link.reference.value.slug
-                            : subSub.link.reference?.value || subSub.link.url || '#'
-                        }`}
-                        className="flex flex-col items-center rounded-lg p-2 transition group "
-                        tabIndex={0}
-                      >
-                        <div
-                          className="hover:underline p-4 underline-animation"
-                          style={{ backgroundColor: 'transparent' }}
-                          onMouseOver={(e) => {
-                            ;(e.currentTarget as HTMLElement).style.backgroundColor = secondaryColor
-                          }}
-                          onMouseOut={(e) => {
-                            ;(e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'
-                          }}
+                    item.subNavItems[activeSubIndex].subSubNavItems!.map(
+                      (subSub: any, subSubIdx: any) => (
+                        <Link
+                          key={subSub.id ?? subSubIdx}
+                          href={`/${
+                            subSub.link.reference && typeof subSub.link.reference.value === 'object'
+                              ? subSub.link.reference.value.slug
+                              : subSub.link.reference?.value || subSub.link.url || '#'
+                          }`}
+                          className="flex flex-col items-center rounded-lg p-2 transition group "
+                          tabIndex={0}
                         >
-                          <img
-                            src={getImage(subSub.image)}
-                            alt={
-                              typeof subSub.image === 'object' && subSub.image !== null
-                                ? (subSub.image.alt as string) || ''
-                                : ''
-                            }
-                            className="w-32 h-32 object-cover rounded mb-4 group-hover:scale-105 transition"
-                          />
-                          <span className="text-base font-semibold">{subSub.link.label}</span>
-                        </div>
-                      </Link>
-                    ))
+                          <div
+                            className="hover:underline p-4 underline-animation"
+                            style={{ backgroundColor: 'transparent' }}
+                            onMouseOver={(e) => {
+                              ;(e.currentTarget as HTMLElement).style.backgroundColor =
+                                secondaryColor
+                            }}
+                            onMouseOut={(e) => {
+                              ;(e.currentTarget as HTMLElement).style.backgroundColor =
+                                'transparent'
+                            }}
+                          >
+                            <img
+                              src={getImage(subSub.image)}
+                              alt={
+                                typeof subSub.image === 'object' && subSub.image !== null
+                                  ? (subSub.image.alt as string) || ''
+                                  : ''
+                              }
+                              className="w-32 h-32 object-cover rounded mb-4 group-hover:scale-105 transition"
+                            />
+                            <span className="text-base font-semibold">{subSub.link.label}</span>
+                          </div>
+                        </Link>
+                      ),
+                    )
                   ) : (
                     <span className="col-span-4" style={{ color: primaryColor }}>
                       No items

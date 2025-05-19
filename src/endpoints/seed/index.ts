@@ -49,9 +49,7 @@ export const seed = async ({
     globals.map((global) =>
       payload.updateGlobal({
         slug: global,
-        data: {
-          navItems: [],
-        },
+        data: {},
         depth: 0,
         context: {
           disableRevalidate: true,
@@ -288,7 +286,7 @@ export const seed = async ({
 
   // Create skill sets
   const skillSets = await Promise.all(
-    skillSetsSeed.map(async (skillSet) => {
+    skillSetsSeed.map(async (skillSet: any) => {
       return await payload.create({
         collection: 'skillsets',
         depth: 0,
@@ -297,14 +295,14 @@ export const seed = async ({
           featuredImage: image1Doc.id, // Use an existing image for demo purposes
         },
       })
-    })
+    }),
   )
 
   payload.logger.info(`— Seeding insights...`)
 
   // Create insights
   const insights = await Promise.all(
-    insightsSeed.map(async (insight) => {
+    insightsSeed.map(async (insight: any) => {
       return await payload.create({
         collection: 'insights',
         depth: 0,
@@ -314,7 +312,7 @@ export const seed = async ({
           author: demoAuthor.id, // Set the author to the demo user
         },
       })
-    })
+    }),
   )
 
   // Update header to include skill sets link

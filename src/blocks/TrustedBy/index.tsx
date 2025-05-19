@@ -22,7 +22,7 @@ type Props = {
 
 export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = {}, id }) => {
   // Get global settings for colors
-  const { settings } = useGlobalSettings()
+  const { settings }: { settings: any } = useGlobalSettings()
   const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
   const secondaryColor = settings?.colorScheme?.secondaryColor || '#4b5563'
 

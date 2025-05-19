@@ -19,7 +19,7 @@ interface HeaderClientProps {
   }
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }) => {
+export const HeaderClient: React.FC<HeaderClientProps | any> = ({ data, settingsData }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()

@@ -32,7 +32,7 @@ type Props = {
   id?: string
 }
 
-export const FeaturedPortfolio: React.FC<Props> = ({
+export const FeaturedPortfolio: React.FC<Props | any> = ({
   heading = 'Featured Portfolio Projects',
   description = 'Check out our spotlighted case studies that showcase our expertise and capabilities.',
   projects = [],
@@ -104,7 +104,7 @@ export const FeaturedPortfolio: React.FC<Props> = ({
 
         <div className="flex flex-wrap flex items-start">
           <div className="flex w-full flex-wrap">
-            {projects.slice(0, 5).map((project, index) => {
+            {projects.slice(0, 5).map((project: any, index: any) => {
               // For 4th and 5th items, we need to adjust the layout
               const isSecondRow = index >= 3
 

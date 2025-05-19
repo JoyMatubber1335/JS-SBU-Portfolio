@@ -7,18 +7,18 @@ import InsightDetail from '@/components/ui/InsightDetail'
 import { Metadata } from 'next'
 
 type Props = {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
+  const { slug = 'insights' } = await params
+
   const { docs } = await payload.find({
     collection: 'insights',
     where: {
       slug: {
-        equals: params.slug,
+        equals: slug,
       },
     },
     limit: 1,
@@ -41,12 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function InsightPage({ params }: Props) {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
-  
+  const { slug = 'insights' } = await params
   const { docs } = await payload.find({
     collection: 'insights',
     where: {
       slug: {
-        equals: params.slug,
+        equals: slug,
       },
     },
     draft,
@@ -80,4 +80,4 @@ export async function generateStaticParams() {
   return docs.map((doc) => ({
     slug: doc.slug,
   }))
-} 
+}

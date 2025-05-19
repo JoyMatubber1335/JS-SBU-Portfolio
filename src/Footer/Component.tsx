@@ -10,12 +10,12 @@ import { Logo } from '@/components/Logo/Logo'
 import Image from 'next/image'
 
 export async function Footer() {
-  const footerData: FooterType = await getCachedGlobal('footer', 1)()
+  const footerData: FooterType | any = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
   const footerContent = footerData?.footerContent?.children || []
   const copyrightData = footerData?.copyright
 
-  const settingsData = await getCachedGlobal('settings', 1)()
+  const settingsData: any = await getCachedGlobal('settings', 1)()
   const logo = settingsData?.logo
   // Construct logo URL
   const logoUrl =
@@ -68,7 +68,7 @@ export async function Footer() {
         </div>
 
         <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-0 md:justify-around md:flex-grow">
-          {navItems.map(({ link, subLinks }, i) => (
+          {navItems.map(({ link, subLinks }: any, i: any) => (
             <div key={i} className="flex flex-col items-center md:items-start">
               <CMSLink
                 className="text-white font-bold text-base hover:text-primary transition"
@@ -76,7 +76,7 @@ export async function Footer() {
               />
               {subLinks && subLinks?.length > 0 && (
                 <ul className="mt-3 space-y-2">
-                  {subLinks?.map(({ link: subLink }, j) => (
+                  {subLinks?.map(({ link: subLink }: any, j: any) => (
                     <li key={j}>
                       <CMSLink
                         {...subLink}

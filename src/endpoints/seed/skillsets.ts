@@ -1,6 +1,6 @@
-import { SkillSet } from '../../payload-types'
+// import { SkillSet } from '../../payload-types'
 
-export const skillSetsSeed: Partial<SkillSet>[] = [
+export const skillSetsSeed: any = [
   {
     title: 'Full Stack Development',
     description: [
@@ -133,4 +133,4 @@ export const skillSetsSeed: Partial<SkillSet>[] = [
     ],
     order: 60,
   },
-]; 
+]
