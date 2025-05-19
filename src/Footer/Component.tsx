@@ -1,10 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
-import facebook from '../../public/media/facebook.svg'
-import type { Footer as FooterType } from '@/payload-types'
-
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import Image from 'next/image'
@@ -15,7 +12,6 @@ export async function Footer() {
   const footerData: any = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
   const footerContent = footerData?.footerContent?.root?.children || []
-  const copyrightData = footerData?.copyright
 
   const settingsData: any = await getCachedGlobal('settings', 1)()
   const logo = settingsData?.logo
@@ -96,7 +92,7 @@ export async function Footer() {
           {navItems.map((item: any, i: any) => {
             return (
               <div key={i} className="flex flex-col items-center md:items-start">
-                <h2 className="text-white font-bold text-white  transition">{item.title}</h2>
+                <h2 className="text-white font-bold   transition">{item.title}</h2>
                 {item.subLinks && item.subLinks.length > 0 && (
                   <ul className="mt-3 space-y-2">
                     {item.subLinks.map((subItem: any, j: any) => {

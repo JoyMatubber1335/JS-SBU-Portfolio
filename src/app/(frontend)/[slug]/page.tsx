@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
@@ -260,7 +261,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* SkillSets Section with View All button at top */}
       {slug === 'home' && skillSets.length > 0 && (
-        <section className="py-4 bg-gray-50 bg-white">
+        <section className="py-4 bg-white">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-4">
               <div>

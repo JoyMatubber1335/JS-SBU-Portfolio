@@ -1,4 +1,3 @@
-import { fields } from './../blocks/Form/fields'
 import type { GlobalConfig } from 'payload'
 import { link } from '@/fields/link'
 import { revalidateCopyright } from './hooks/revalidateCopyright'
