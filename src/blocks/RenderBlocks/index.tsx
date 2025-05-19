@@ -19,7 +19,7 @@ export const RenderBlocks: React.FC<{
   blocks: Block[]
   disableBottomPadding?: boolean
 }> = (props) => {
-  const { blocks, disableBottomPadding } = props
+  const { blocks } = props
 
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
@@ -47,7 +47,7 @@ export const RenderBlocks: React.FC<{
             case 'featuredPortfolio':
               return <FeaturedPortfolio key={index} {...block} />
             case 'trustedBy':
-              return <TrustedBy key={index} {...(block as any)} />
+              return <TrustedBy key={index} {...block} />
             default:
               return null
           }
