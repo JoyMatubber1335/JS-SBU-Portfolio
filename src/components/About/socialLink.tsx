@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 export const SocialLink = ({ member, index }: { member: any; index: number }) => {
