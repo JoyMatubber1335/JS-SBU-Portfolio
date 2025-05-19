@@ -32,13 +32,13 @@ function getNavItemUrl(item: any): string {
       posts: '/posts',
       contact: '/contact',
     }
-    return collectionUrls[item.collection.collectionType] || '#'
-  } else if (item.link) {
+    return collectionUrls[item?.collection?.collectionType] || '#'
+  } else if (item?.link) {
     // Handle regular link type
     return `/${
-      item.link.link.reference && typeof item.link.link.reference.value === 'object'
-        ? item.link.link.reference.value.slug || ''
-        : item.link.link.reference?.value || item.link.link.url || '#'
+      item?.link?.link?.reference && typeof item.link.link.reference.value === 'object'
+        ? item?.link?.link?.reference?.value?.slug || ''
+        : item?.link?.link?.reference?.value || item?.link?.link?.url || '#'
     }`
   }
   return '#'
@@ -46,10 +46,10 @@ function getNavItemUrl(item: any): string {
 
 // Helper function to get the label for a nav item based on its type
 function getNavItemLabel(item: NavItem): string {
-  if (item.itemType === 'collection' && item.collection) {
-    return item.collection.label
-  } else if (item.link) {
-    return item.link.link.label
+  if (item?.itemType === 'collection' && item?.collection) {
+    return item?.collection?.label
+  } else if (item?.link) {
+    return item?.link?.link?.label
   }
   return ''
 }
@@ -159,7 +159,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
       aria-label="Main navigation"
     >
       <div className={`${isMobile ? 'w-full' : 'flex gap-2 items-center'}`}>
-        {navItems.map((item: any, idx: any) => {
+        {navItems?.map((item: any, idx: any) => {
           const isOpen = openIndex === idx && hasChildren(item)
           const navItemUrl = getNavItemUrl(item)
           const navItemLabel = getNavItemLabel(item)
