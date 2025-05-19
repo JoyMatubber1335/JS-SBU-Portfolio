@@ -5,6 +5,7 @@ import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
@@ -70,7 +71,19 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Projects, SkillSets, Insights, Contact, About, BlogPosts],
+  collections: [
+    Pages,
+    Posts,
+    Media,
+    Categories,
+    Users,
+    Projects,
+    SkillSets,
+    Insights,
+    Contact,
+    About,
+    BlogPosts,
+  ],
   // todo
   localization: {
     locales: ['en', 'es', 'de'], // required
@@ -81,6 +94,15 @@ export default buildConfig({
   plugins: [
     ...plugins,
     // storage-adapter-placeholder
+    vercelBlobStorage({
+      enabled: true,
+
+      collections: {
+        media: true,
+      },
+
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

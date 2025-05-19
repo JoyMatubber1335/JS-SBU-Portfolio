@@ -109,7 +109,7 @@ function useIsMobile() {
 }
 
 export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
-  const navItems = data.navItems ?? []
+  const navItems: any = data.navItems ?? []
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [activeSubIndex, setActiveSubIndex] = useState(0)
   const closeTimeout = useRef<NodeJS.Timeout | null>(null)
@@ -159,7 +159,7 @@ export const HeaderNav: React.FC<{ data: Header }> = ({ data }) => {
       aria-label="Main navigation"
     >
       <div className={`${isMobile ? 'w-full' : 'flex gap-2 items-center'}`}>
-        {navItems.map((item, idx) => {
+        {navItems.map((item: any, idx: any) => {
           const isOpen = openIndex === idx && hasChildren(item)
           const navItemUrl = getNavItemUrl(item)
           const navItemLabel = getNavItemLabel(item)
