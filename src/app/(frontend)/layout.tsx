@@ -10,8 +10,6 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-import type { Setting } from '@/payload-types'
 import { ServerFontProvider } from '@/components/ServerFontProvider'
 import { FontLoader } from '@/components/FontLoader'
 

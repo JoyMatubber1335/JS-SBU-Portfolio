@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
@@ -64,12 +65,7 @@ export const FeaturedPortfolio: React.FC<Props | any> = ({
   // Use reduced opacity for borders
   const borderColorWithOpacity = hexToRgba(primaryColor, 0.08)
 
-  const {
-    textColor = primaryColor,
-    firstItemTextColor = backgroundColor,
-    cardBackgroundColor = backgroundColor,
-    accentColor = primaryColor,
-  } = appearance || {}
+  const { cardBackgroundColor = backgroundColor } = appearance || {}
 
   if (!projects || projects.length === 0) {
     return (
@@ -90,7 +86,10 @@ export const FeaturedPortfolio: React.FC<Props | any> = ({
         {(heading || description) && (
           <div className="mb-12 text-center">
             {heading && (
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-black" style={{ color: primaryColor }}>
+              <h2
+                className="text-3xl md:text-4xl font-bold mb-4 text-black"
+                style={{ color: primaryColor }}
+              >
                 {heading}
               </h2>
             )}
@@ -102,7 +101,7 @@ export const FeaturedPortfolio: React.FC<Props | any> = ({
           </div>
         )}
 
-        <div className="flex flex-wrap flex items-start">
+        <div className="flex flex-wrap items-start">
           <div className="flex w-full flex-wrap">
             {projects.slice(0, 5).map((project: any, index: any) => {
               // For 4th and 5th items, we need to adjust the layout

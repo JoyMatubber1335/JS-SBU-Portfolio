@@ -11,14 +11,17 @@ interface ContactFormProps {
   emailRecipient?: string
 }
 
-export function ContactForm({ successMessage = 'Thank you for your message. We will get back to you soon!', emailRecipient }: ContactFormProps) {
+export function ContactForm({
+  successMessage = 'Thank you for your message. We will get back to you soon!',
+  emailRecipient,
+}: ContactFormProps) {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     subject: '',
     message: '',
   })
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -39,12 +42,10 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
     try {
       // Here you would typically send the form data to an API route
       // For now, we'll just simulate a successful submission
-      
-   
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // Clear form
       setFormState({
         name: '',
@@ -52,7 +53,7 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
         subject: '',
         message: '',
       })
-      
+
       setIsSubmitted(true)
     } catch (err) {
       console.error('Error submitting form:', err)
@@ -67,8 +68,8 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
       <div className="bg-white p-6 rounded-lg border border-gray-200">
         <h3 className="text-black font-medium text-lg mb-2">Message Sent!</h3>
         <p className="text-black">{successMessage}</p>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="mt-4 text-black border-gray-200 hover:bg-gray-50"
           onClick={() => setIsSubmitted(false)}
         >
@@ -81,17 +82,19 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
   return (
     <div className="p-6 bg-white rounded-lg border border-gray-200">
       <h2 className="text-xl font-semibold mb-3 text-black">Send Us a Message</h2>
-      <p className="text-black mb-6">Fill out the form below and we'll get back to you as soon as possible.</p>
-      
+      <p className="text-black mb-6">{`Fill out the form below and we'll get back to you as soon as possible.`}</p>
+
       {error && (
         <div className="bg-white p-4 rounded-md mb-6 border border-gray-200">
           <p className="text-black">{error}</p>
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="name" className="text-black">Your Name</Label>
+          <Label htmlFor="name" className="text-black">
+            Your Name
+          </Label>
           <Input
             id="name"
             name="name"
@@ -102,9 +105,11 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
-        
+
         <div>
-          <Label htmlFor="email" className="text-black">Email Address</Label>
+          <Label htmlFor="email" className="text-black">
+            Email Address
+          </Label>
           <Input
             id="email"
             name="email"
@@ -116,9 +121,11 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
-        
+
         <div>
-          <Label htmlFor="subject" className="text-black">Subject</Label>
+          <Label htmlFor="subject" className="text-black">
+            Subject
+          </Label>
           <Input
             id="subject"
             name="subject"
@@ -129,9 +136,11 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             className="mt-1 text-black bg-white border-gray-200"
           />
         </div>
-        
+
         <div>
-          <Label htmlFor="message" className="text-black">Message</Label>
+          <Label htmlFor="message" className="text-black">
+            Message
+          </Label>
           <Textarea
             id="message"
             name="message"
@@ -142,11 +151,15 @@ export function ContactForm({ successMessage = 'Thank you for your message. We w
             className="mt-1 min-h-[120px] text-black bg-white border-gray-200"
           />
         </div>
-        
-        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={isSubmitting}>
+
+        <Button
+          type="submit"
+          className="w-full bg-black text-white hover:bg-gray-800"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
     </div>
   )
-} 
+}

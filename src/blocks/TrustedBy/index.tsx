@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
@@ -20,7 +22,7 @@ type Props = {
   id?: string
 }
 
-export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = {}, id }) => {
+export const TrustedBy: React.FC<Props | any> = ({ heading, brands = [], appearance = {}, id }) => {
   // Get global settings for colors
   const { settings }: { settings: any } = useGlobalSettings()
   const primaryColor = settings?.colorScheme?.primaryColor || '#334155'
@@ -42,12 +44,7 @@ export const TrustedBy: React.FC<Props> = ({ heading, brands = [], appearance = 
   // Generate secondary color with opacity
   const secondaryColorWithOpacity = hexToRgba(secondaryColor, 0.3)
 
-  const {
-    backgroundColor = primaryColor,
-    textColor = primaryColor,
-    hoverBackgroundColor = '#ffffff',
-    scrollSpeed = 5,
-  } = appearance || {}
+  const { hoverBackgroundColor = '#ffffff', scrollSpeed = 5 } = appearance || {}
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [isPaused, setIsPaused] = useState(false)
