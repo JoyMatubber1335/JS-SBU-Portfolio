@@ -1,6 +1,4 @@
-import { Insight } from '../../payload-types'
-
-export const insightsSeed: any = [
+export const insightsSeed = [
   {
     title: 'Modern Web Performance Optimization Techniques',
     type: 'blog',
