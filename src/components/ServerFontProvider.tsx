@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { Setting } from '@/payload-types'
 

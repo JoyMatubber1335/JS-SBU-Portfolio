@@ -21,10 +21,6 @@ type BlogProps = {
   blogs: BlogItem[]
 }
 
-function truncateText(text: string, maxLength: number) {
-  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text
-}
-
 export const Blog: React.FC<BlogProps> = ({ blogs }) => {
   // Get global settings for colors
   const { settings } = useGlobalSettings()
@@ -69,8 +65,8 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
         {featuredBlog && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             {/* Featured Image with Link Wrapper */}
-            <Link 
-              href={getBlogUrl(featuredBlog)} 
+            <Link
+              href={getBlogUrl(featuredBlog)}
               className="md:col-span-1 h-64 sm:h-72 md:h-80 overflow-hidden rounded-lg block"
             >
               <Image
@@ -89,8 +85,8 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
               style={{ backgroundColor, borderColor: borderColorWithOpacity }}
             >
               {/* Full overlay link */}
-              <Link 
-                href={getBlogUrl(featuredBlog)} 
+              <Link
+                href={getBlogUrl(featuredBlog)}
                 className="absolute inset-0 z-10"
                 aria-label={`Read article: ${featuredBlog.title}`}
               />
@@ -147,12 +143,12 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
               style={{ backgroundColor, borderColor: borderColorWithOpacity }}
             >
               {/* Full card clickable overlay */}
-              <Link 
-                href={getBlogUrl(blog)} 
+              <Link
+                href={getBlogUrl(blog)}
                 className="absolute inset-0 z-10"
                 aria-label={`Read article: ${blog.title}`}
               />
-              
+
               {/* Image Container */}
               <div className="relative h-32 sm:h-40">
                 <Image
