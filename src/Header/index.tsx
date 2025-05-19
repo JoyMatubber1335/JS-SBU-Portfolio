@@ -1,4 +1,4 @@
-import { Header } from './Component';
-import { HeaderClient } from './HeaderClient';
+import { Header } from './Component'
+import { HeaderClientWrapper } from './HeaderClient'
 
-export { Header, HeaderClient }; 
+export { Header, HeaderClientWrapper }
