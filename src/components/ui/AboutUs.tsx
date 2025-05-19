@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 import { motion } from 'framer-motion'
 
 type Feature = {
@@ -35,25 +35,26 @@ function extractTextFromDescription(desc: any): string {
   return ''
 }
 
-export const AboutUs: React.FC<AboutUsProps> = ({ 
-  heading, 
-  description, 
-  features, 
-  logo
-}) => {
-  const [activeFeature, setActiveFeature] = useState<number | null>(null)
-  
-  // Get global settings for colors
-  const { settings } = useGlobalSettings()
-
+export const AboutUs: React.FC<AboutUsProps> = ({ heading, description, features, logo }) => {
   return (
     <section className="py-8 relative overflow-hidden bg-gradient-to-br from-white to-gray-50">
       {/* Background pattern */}
       <div className="absolute inset-0 overflow-hidden opacity-5">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="hexagons" width="50" height="43.4" patternUnits="userSpaceOnUse" patternTransform="scale(2) rotate(0)">
-              <path d="M25,3.4 L44.6,15 L44.6,38.4 L25,50 L5.4,38.4 L5.4,15 L25,3.4 z" fill="none" stroke="black" strokeWidth="1" />
+            <pattern
+              id="hexagons"
+              width="50"
+              height="43.4"
+              patternUnits="userSpaceOnUse"
+              patternTransform="scale(2) rotate(0)"
+            >
+              <path
+                d="M25,3.4 L44.6,15 L44.6,38.4 L25,50 L5.4,38.4 L5.4,15 L25,3.4 z"
+                fill="none"
+                stroke="black"
+                strokeWidth="1"
+              />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#hexagons)" />
@@ -61,7 +62,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center mb-8"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,10 +72,10 @@ export const AboutUs: React.FC<AboutUsProps> = ({
           {logo?.url && (
             <div className="flex justify-center mb-4">
               <div className="p-2 bg-white rounded-2xl shadow-xl">
-                <Image 
-                  src={logo.url} 
-                  alt="Company Logo" 
-                  width={140} 
+                <Image
+                  src={logo.url}
+                  alt="Company Logo"
+                  width={140}
                   height={140}
                   className="rounded-xl"
                 />
@@ -95,7 +96,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
             <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-indigo-600 rounded-full"></span>
           </h3>
         </div>
-        
+
         {/* Features/Services Section - Card Design */}
         <div className="relative">
           {/* Desktop Layout */}
@@ -111,18 +112,16 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   viewport={{ once: true }}
-                  onMouseEnter={() => setActiveFeature(i)}
-                  onMouseLeave={() => setActiveFeature(null)}
                 >
                   <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col transform hover:-translate-y-2">
                     {/* Icon with Circle */}
                     <div className="flex justify-center mt-4">
                       <div className="w-40 h-40 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-4 shadow-md">
                         {feature.icon?.url ? (
-                          <Image 
-                            src={feature.icon.url} 
-                            alt={feature.title || `Service ${i + 1}`} 
-                            width={100} 
+                          <Image
+                            src={feature.icon.url}
+                            alt={feature.title || `Service ${i + 1}`}
+                            width={100}
                             height={100}
                             className="transition-all duration-500 group-hover:scale-110"
                           />
@@ -131,7 +130,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="p-8 pt-8 flex-grow text-center">
                       <h4 className="text-2xl font-semibold mb-4 text-gray-900">
                         {feature.title || `Service ${i + 1}`}
@@ -142,7 +141,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                         </p>
                       )}
                     </div>
-                    
+
                     {/* Bottom accent */}
                     <div className="h-1.5 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full"></div>
                   </div>
@@ -170,10 +169,10 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                   <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
                     <div className="w-20 h-20 flex items-center justify-center bg-white rounded-full border-2 border-indigo-500 p-3 shadow-md">
                       {feature.icon?.url ? (
-                        <Image 
-                          src={feature.icon.url} 
-                          alt={feature.title || `Service ${i + 1}`} 
-                          width={36} 
+                        <Image
+                          src={feature.icon.url}
+                          alt={feature.title || `Service ${i + 1}`}
+                          width={36}
                           height={36}
                         />
                       ) : (
@@ -181,7 +180,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="text-center pt-10">
                     <h4 className="text-xl font-semibold mb-3 text-gray-900">
                       {feature.title || `Service ${i + 1}`}
@@ -192,7 +191,7 @@ export const AboutUs: React.FC<AboutUsProps> = ({
                       </p>
                     )}
                   </div>
-                  
+
                   {/* Bottom accent */}
                   <div className="h-1 bg-gradient-to-r from-indigo-400 to-indigo-600 w-full absolute bottom-0 left-0 rounded-b-xl"></div>
                 </motion.div>
@@ -202,28 +201,35 @@ export const AboutUs: React.FC<AboutUsProps> = ({
         </div>
 
         {/* Call to Action */}
-        <motion.div 
+        <motion.div
           className="mt-12 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <a 
-            href="/contact" 
+          <Link
+            href="/contact"
             className="inline-flex items-center gap-2 px-10 py-4 rounded-full text-lg font-medium bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:from-indigo-600 hover:to-indigo-700 transition-colors duration-300 shadow-lg group"
           >
-            Get in Touch
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-5 w-5 group-hover:translate-x-1 transition-transform" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </a>
+            <span className="flex items-center">
+              Get in Touch
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </span>
+          </Link>
         </motion.div>
       </div>
     </section>
