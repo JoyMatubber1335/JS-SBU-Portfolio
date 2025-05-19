@@ -1,6 +1,6 @@
-import { About } from '../../payload-types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const aboutSeed: Partial<About> = {
+export const aboutSeed: any = {
   title: 'About Us',
   aboutCompany: {
     heading: 'About JS SBU',
@@ -63,7 +63,7 @@ export const aboutSeed: Partial<About> = {
       {
         name: 'John Smith',
         position: 'Founder & CEO',
-        bio: 'With over 15 years of experience in software development and technology leadership, John founded JS SBU with a vision to create impactful digital solutions. He holds a Master\'s degree in Computer Science and is passionate about emerging technologies.',
+        bio: "With over 15 years of experience in software development and technology leadership, John founded JS SBU with a vision to create impactful digital solutions. He holds a Master's degree in Computer Science and is passionate about emerging technologies.",
         socialLinks: {
           linkedin: 'https://linkedin.com/in/johnsmith',
           twitter: 'https://twitter.com/johnsmith',
@@ -90,4 +90,4 @@ export const aboutSeed: Partial<About> = {
       },
     ],
   },
-} 
+}

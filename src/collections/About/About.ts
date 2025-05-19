@@ -1,8 +1,8 @@
-import type { CollectionConfig } from 'payload/types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { slugField } from '@/fields/slug'
 import { populatePublishedDate } from '@/hooks/populatePublishedDate'
 
-export const About: CollectionConfig = {
+export const About: any = {
   slug: 'about',
   admin: {
     useAsTitle: 'title',
@@ -174,4 +174,4 @@ export const About: CollectionConfig = {
       ],
     },
   ],
-} 
+}

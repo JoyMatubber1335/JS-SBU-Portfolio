@@ -1,8 +1,8 @@
-import type { CollectionConfig } from 'payload/types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { slugField } from '@/fields/slug'
 import { populatePublishedDate } from '@/hooks/populatePublishedDate'
 
-export const Contact: CollectionConfig = {
+export const Contact: any = {
   slug: 'contact',
   admin: {
     useAsTitle: 'title',
@@ -75,7 +75,7 @@ export const Contact: CollectionConfig = {
           min: 1,
           max: 20,
           defaultValue: 14,
-        }
+        },
       ],
     },
     {
@@ -94,7 +94,7 @@ export const Contact: CollectionConfig = {
           type: 'email',
           label: 'Form Submission Email Recipient',
           admin: {
-            condition: (_, siblingData) => siblingData?.enableContactForm,
+            condition: (_: any, siblingData: any) => siblingData?.enableContactForm,
           },
         },
         {
@@ -103,7 +103,7 @@ export const Contact: CollectionConfig = {
           label: 'Success Message',
           defaultValue: 'Thank you for your message. We will get back to you soon!',
           admin: {
-            condition: (_, siblingData) => siblingData?.enableContactForm,
+            condition: (_: any, siblingData: any) => siblingData?.enableContactForm,
           },
         },
       ],
@@ -165,7 +165,7 @@ export const Contact: CollectionConfig = {
           type: 'text',
           label: 'Opening Time',
           admin: {
-            condition: (_, siblingData) => siblingData?.isOpen,
+            condition: (_: any, siblingData: any) => siblingData?.isOpen,
           },
         },
         {
@@ -173,10 +173,10 @@ export const Contact: CollectionConfig = {
           type: 'text',
           label: 'Closing Time',
           admin: {
-            condition: (_, siblingData) => siblingData?.isOpen,
+            condition: (_: any, siblingData: any) => siblingData?.isOpen,
           },
         },
       ],
-    }
+    },
   ],
-} 
+}

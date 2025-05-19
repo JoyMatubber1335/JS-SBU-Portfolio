@@ -1,8 +1,8 @@
-import type { CollectionConfig } from 'payload/types'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { slugField } from '@/fields/slug'
 import { populatePublishedDate } from '@/hooks/populatePublishedDate'
 
-export const BlogPosts: CollectionConfig = {
+export const BlogPosts: any = {
   slug: 'blog-posts',
   admin: {
     useAsTitle: 'title',
@@ -95,7 +95,7 @@ export const BlogPosts: CollectionConfig = {
       type: 'relationship',
       relationTo: 'blog-posts',
       hasMany: true,
-      filterOptions: ({ id }) => {
+      filterOptions: ({ id }: any) => {
         return {
           id: {
             not_in: [id],
@@ -104,4 +104,4 @@ export const BlogPosts: CollectionConfig = {
       },
     },
   ],
-} 
+}
