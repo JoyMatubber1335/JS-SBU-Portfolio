@@ -8,11 +8,15 @@ import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export async function Footer() {
-  const footerData: FooterType = await getCachedGlobal('footer', 1)()
+  const footerData = await getCachedGlobal('footer', 1)()
+  console.log('footerData', footerData)
   const navItems = footerData?.navItems || []
-  const footerContent = footerData?.footerContent?.children || []
+  console.log('navItems', navItems)
+  const footerContent = footerData?.footerContent?.root?.children || []
   const copyrightData = footerData?.copyright
 
   const settingsData = await getCachedGlobal('settings', 1)()
@@ -20,7 +24,7 @@ export async function Footer() {
   // Construct logo URL
   const logoUrl =
     logo?.url ||
-    (logo?.filename ? `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/media/${logo.filename}` : null)
+    (logo?.filename ? `/media/${logo.filename}` : null)
   const socialLinks = settingsData?.socialMediaLinks || {}
 
   // Render the footer content
@@ -34,9 +38,9 @@ export async function Footer() {
         case 'paragraph':
           return (
             <p key={index}>
-              {block.children.map((child: any, childIndex: number) => {
+              {block.children?.map((child: any, childIndex: number) => {
                 if (child.type === 'text') {
-                  return <span key={childIndex}>{child.text}</span>
+                  return <span key={childIndex} className='text-white'>{child.text}</span>
                 }
                 return null
               })}
@@ -48,8 +52,29 @@ export async function Footer() {
     })
   }
 
+  // Newsletter component
+  const NewsletterSubscription = () => {
+    return (
+      <div className="mt-6 md:mt-0 w-full md:w-[25%]  p-4 rounded-lg border border-gray-600">
+        <h3 className="text-white font-bold text-lg mb-2">Subscribe to our Newsletter</h3>
+        <p className="text-white text-sm mb-3">Stay updated with our latest news and offers</p>
+        <form className="space-y-2">
+          <Input 
+            type="email" 
+            placeholder="Your email address" 
+            className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
+            required 
+          />
+          <Button type="submit" className="w-full">
+            Subscribe
+          </Button>
+        </form>
+      </div>
+    )
+  }
+
   return (
-    <footer className="p-8 mt-auto border-t border-border dark:bg-car">
+    <footer className="p-8 mt-auto border-t border-border bg-gray-900">
       <div className="py-2 flex flex-col gap-10 items-center md:flex-row md:justify-between md:items-start">
         {/* Left Section: Logo */}
         <div className="flex-shrink-0 w-full md:w-[20%] flex flex-col items-center md:items-start text-center md:text-left">
@@ -60,40 +85,41 @@ export async function Footer() {
               <span className="text-xl font-bold">Logo</span>
             )}
           </Link>
-          <div className="mt-2 text-sm text-gray-400">
-            {footerContent && footerContent?.length > 0
-              ? renderFooterContent(footerContent as any)
+          <div className="mt-2 text-sm text-white">
+            {Array.isArray(footerContent) && footerContent.length > 0
+              ? renderFooterContent(footerContent)
               : 'Your default description here.'}
           </div>
         </div>
 
-        <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-0 md:justify-around md:flex-grow">
-          {navItems.map(({ link, subLinks }, i) => (
-            <div key={i} className="flex flex-col items-center md:items-start">
-              <CMSLink
-                className="text-white font-bold text-base hover:text-primary transition"
-                {...link}
-              />
-              {subLinks && subLinks?.length > 0 && (
-                <ul className="mt-3 space-y-2">
-                  {subLinks?.map(({ link: subLink }, j) => (
-                    <li key={j}>
-                      <CMSLink
-                        {...subLink}
-                        className="text-sm text-gray-400 hover:text-white transition"
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
+        <div className="flex flex-col gap-6 w-full md:w-auto md:flex-row md:gap-6 md:justify-around md:flex-grow">
+          {navItems.map((item, i) => {
+            return (
+              <div key={i} className="flex flex-col items-center md:items-start">
+                <h2 className="text-white font-bold text-white  transition">{item.title}</h2>
+                {item.subLinks && item.subLinks.length > 0 && (
+                  <ul className="mt-3 space-y-2">
+                    {item.subLinks.map((subItem, j) => {
+                      return (
+                        <li key={j}>
+                          {subItem.link && (
+                            <CMSLink
+                              {...subItem.link}
+                              className="text-sm text-white transition"
+                            />
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Right Section: Theme Selector */}
-        {/* <div className="flex justify-center md:justify-end w-full md:w-[20%] mt-6 md:mt-0">
-          <ThemeSelector />
-        </div> */}
+        {/* Newsletter Subscription */}
+        <NewsletterSubscription />
       </div>
       {/* social media icon */}
       <div className="flex justify-center space-x-3 mt-8 md:mt-2 mb-4 md:mb-2">
@@ -153,6 +179,8 @@ export async function Footer() {
           </a>
         )}
       </div>
+
+     
     </footer>
   )
 }

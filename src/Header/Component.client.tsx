@@ -23,21 +23,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const logo = settingsData?.logo
   const logoUrl =
     logo?.url ||
-    (logo?.filename ? `${process.env.NEXT_PUBLIC_PAYLOAD_URL}/media/${logo.filename}` : null)
+    (logo?.filename ? `/media/${logo.filename}` : null)
 
   const {
     stickyBehavior,
-    headerBgColor,
-    headerTextColor,
-    headerFontSize,
     headerPaddingTop,
     headerPaddingBottom,
-    blurAmount,
-    transparentHeader,
   } = data
 
   useEffect(() => {
@@ -48,34 +44,78 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, settingsData }
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
   }, [headerTheme])
 
+  // Close mobile menu when changing routes
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
   return (
     <header
       className={`
-        z-50 w-full transition-all duration-300
+        z-50 w-full transition-all duration-300 bg-white shadow-md 
         ${stickyBehavior === 'Sticky' ? 'sticky top-0 backdrop-blur-sm' : ''}
+        md:flex /* Show normally on desktop */
       `}
-      style={{
-        background: 'rgba(0,0,0,0.3)',
-        color: '#fff',
-        paddingTop: '0.25rem',
-        paddingBottom: '0.25rem',
-        fontSize: '16px',
-      }}
+   
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div
-        className="w-full max-w-screen-xl mx-auto flex items-center p-4"
+        className="w-full max-w-screen-xl mx-auto flex items-center justify-between p-4"
         style={{ minHeight: 48 }}
       >
-        <Link href="/" className="flex items-center gap-2 mr-8 w-[10%]">
+        <Link href="/" className="flex items-center gap-2">
           {logoUrl ? (
             <Logo src={logoUrl} alt={logo?.alt || 'Logo'} className="h-[60px] w-auto" />
           ) : (
             <span className="text-2xl font-bold">Logo</span>
           )}
         </Link>
-        <HeaderNav data={data} />
+
+        {/* Mobile menu button */}
+        <button 
+          className="md:hidden ml-auto flex items-center text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            className="w-6 h-6"
+          >
+            {mobileMenuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </>
+            )}
+          </svg>
+        </button>
+
+        {/* Desktop Navigation - Only visible on md screens and up */}
+        <div className="hidden md:block flex-1 w-full">
+          <HeaderNav data={data} />
+        </div>
       </div>
+
+      {/* Mobile menu - Only visible when toggled on mobile */}
+      {mobileMenuOpen && (
+        <div className="md:hidden w-full animate-slide-down">
+          <div className="p-4 bg-black bg-opacity-90 mobile-menu-container">
+            <HeaderNav data={data} />
+          </div>
+        </div>
+      )}
     </header>
   )
 }

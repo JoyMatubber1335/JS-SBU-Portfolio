@@ -67,7 +67,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { docs: skillSetDocs } = await payload.find({
     collection: 'skillsets',
     sort: 'order',
-    limit: 3, // Show just 3 skill sets on the home page
+    // Show just 3 skill sets on the home page
     depth: 2, // Include related blog posts
   })
   skillSets = skillSetDocs
@@ -138,12 +138,92 @@ export default async function Page({ params: paramsPromise }: Args) {
       image?: Media
       date?: string
       author?: string
+      link?: {
+        type?: 'reference' | 'custom'
+        reference?: {
+          relationTo: string
+          value: any
+        }
+        url?: string
+        label: string
+      }
     }[]
   } {
     return block.blockType === 'blog'
   }
 
-  const blogBlock = layout?.find(isBlogBlock)
+  const blogBlock = layout?.find(isBlogBlock) as {
+    blockType: 'blog'
+    blogItems: Array<{
+      title: string
+      description: string
+      tag: string
+      image?: Media
+      date?: string
+      author?: string
+      link?: {
+        type?: 'reference' | 'custom'
+        reference?: {
+          relationTo: string
+          value: any
+        }
+        url?: string
+        label: string
+      }
+    }>
+  } | undefined;
+  
+  // Fetch real blog posts if this is the blog block
+  let blogPostsForBlock: Array<{
+    title: string;
+    description: string;
+    tag: string;
+    image?: any;
+    date?: string;
+    author?: string;
+    slug?: string;
+    url?: string;
+  }> = [];
+
+  if (blogBlock) {
+    try {
+      const { docs: blogPostDocs } = await payload.find({
+        collection: 'blog-posts',
+        limit: 100, // Increased limit to show more posts
+        depth: 2,
+        sort: '-publishedDate',
+      })
+      
+      // If we have real blog posts, use them instead of the static content
+      if (blogPostDocs && blogPostDocs.length > 0) {
+        blogPostsForBlock = blogPostDocs.map(post => ({
+          title: post.title,
+          description: post.summary || '',
+          tag: post.category || 'Blog',
+          image: post.featuredImage,
+          date: post.publishedDate || undefined,
+          author: typeof post.author === 'object' ? post.author.name : (post.author as string || 'Author'),
+          slug: post.slug,
+          url: `/blog/${post.slug}`
+        }))
+      } else if (blogBlock.blogItems) {
+        // Fallback to original items if no posts found
+        blogPostsForBlock = blogBlock.blogItems.map((item: any) => ({
+          ...item,
+          image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching blog posts:', error)
+      // Fallback to original items if error
+      if (blogBlock.blogItems) {
+        blogPostsForBlock = blogBlock.blogItems.map((item: any) => ({
+          ...item,
+          image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
+        }));
+      }
+    }
+  }
 
   // Fetch projects if this is the home page - show exactly 6 projects
   if (slug === 'home') {
@@ -176,12 +256,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* SkillSets Section with View All button at top */}
       {slug === 'home' && skillSets.length > 0 && (
-        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+        <section className="py-4 bg-gray-50 bg-white">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">My Skill Sets</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">Our Skill Sets</h2>
+                <p className="text-lg text-black  mt-2">
                   Areas of expertise and professional capabilities
                 </p>
               </div>
@@ -200,12 +280,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* Projects Section with View All button at top */}
       {slug === 'home' && projects.length > 0 && (
-        <section className="py-12 bg-gray-50 dark:bg-gray-900">
+        <section className="py-4   bg-white">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">My Projects</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">My Projects</h2>
+                <p className="text-lg text-gray-600  mt-2">
                   Check out some of my recent work
                 </p>
               </div>
@@ -224,12 +304,12 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {/* Insights section with View All button */}
       {slug === 'home' && insights.length > 0 && (
-        <section className="py-12 bg-white dark:bg-gray-800">
+        <section className="py-4 bg-white ">
           <div className="container mx-auto px-4">
-            <div className="flex justify-between items-center mb-12">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold">Insights</h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-black">Insights</h2>
+                <p className="text-lg text-gray-600 mt-2">
                   Technical blogs and video tutorials
                 </p>
               </div>
@@ -248,10 +328,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       {blogBlock && (
         <Blog
-          blogs={blogBlock.blogItems.map((item) => ({
+          blogs={blogPostsForBlock.length > 0 ? blogPostsForBlock : (blogBlock.blogItems || []).map((item: any) => ({
             ...item,
             image: item.image && item.image.url ? { url: item.image.url || '' } : undefined,
-          }))}
+          }))} as any
         />
       )}
 

@@ -75,6 +75,9 @@ export interface Config {
     projects: Project;
     skillsets: Skillset;
     insights: Insight;
+    contact: Contact;
+    about: About;
+    'blog-posts': BlogPost;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +97,9 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skillsets: SkillsetsSelect<false> | SkillsetsSelect<true>;
     insights: InsightsSelect<false> | InsightsSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -200,6 +206,14 @@ export interface Page {
               | ({
                   relationTo: 'insights';
                   value: string | Insight;
+                } | null)
+              | ({
+                  relationTo: 'about';
+                  value: string | About;
+                } | null)
+              | ({
+                  relationTo: 'blog-posts';
+                  value: string | BlogPost;
                 } | null);
             url?: string | null;
             label: string;
@@ -358,6 +372,14 @@ export interface Page {
                   | ({
                       relationTo: 'insights';
                       value: string | Insight;
+                    } | null)
+                  | ({
+                      relationTo: 'about';
+                      value: string | About;
+                    } | null)
+                  | ({
+                      relationTo: 'blog-posts';
+                      value: string | BlogPost;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -758,6 +780,149 @@ export interface Insight {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: string;
+  title: string;
+  publishedDate?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  aboutCompany: {
+    heading: string;
+    description: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    image?: (string | null) | Media;
+  };
+  visionMission: {
+    heading: string;
+    vision: {
+      heading: string;
+      description: {
+        root: {
+          type: string;
+          children: {
+            type: string;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      };
+    };
+    mission: {
+      heading: string;
+      description: {
+        root: {
+          type: string;
+          children: {
+            type: string;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      };
+    };
+  };
+  team: {
+    heading: string;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    members?:
+      | {
+          name: string;
+          position: string;
+          bio?: string | null;
+          photo: string | Media;
+          socialLinks?: {
+            linkedin?: string | null;
+            twitter?: string | null;
+            github?: string | null;
+            website?: string | null;
+          };
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: string;
+  title: string;
+  publishedDate?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  category: 'technology' | 'business' | 'design' | 'development' | 'news';
+  featuredImage: string | Media;
+  summary: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  author: string | User;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  relatedPosts?: (string | BlogPost)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -801,6 +966,14 @@ export interface CallToActionBlock {
             | ({
                 relationTo: 'insights';
                 value: string | Insight;
+              } | null)
+            | ({
+                relationTo: 'about';
+                value: string | About;
+              } | null)
+            | ({
+                relationTo: 'blog-posts';
+                value: string | BlogPost;
               } | null);
           url?: string | null;
           label: string;
@@ -863,6 +1036,14 @@ export interface ContentBlock {
             | ({
                 relationTo: 'insights';
                 value: string | Insight;
+              } | null)
+            | ({
+                relationTo: 'about';
+                value: string | About;
+              } | null)
+            | ({
+                relationTo: 'blog-posts';
+                value: string | BlogPost;
               } | null);
           url?: string | null;
           label: string;
@@ -1124,6 +1305,47 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: string;
+  title: string;
+  publishedDate?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  email: string;
+  phone: string;
+  address: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom?: number | null;
+  };
+  contactFormSettings?: {
+    enableContactForm?: boolean | null;
+    emailRecipient?: string | null;
+    formSuccessMessage?: string | null;
+  };
+  socialLinks?: {
+    facebook?: string | null;
+    twitter?: string | null;
+    instagram?: string | null;
+    linkedin?: string | null;
+  };
+  businessHours?:
+    | {
+        day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+        isOpen?: boolean | null;
+        openTime?: string | null;
+        closeTime?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1325,6 +1547,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'insights';
         value: string | Insight;
+      } | null)
+    | ({
+        relationTo: 'contact';
+        value: string | Contact;
+      } | null)
+    | ({
+        relationTo: 'about';
+        value: string | About;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: string | BlogPost;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1913,6 +2147,135 @@ export interface InsightsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  title?: T;
+  publishedDate?: T;
+  slug?: T;
+  slugLock?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  location?:
+    | T
+    | {
+        latitude?: T;
+        longitude?: T;
+        zoom?: T;
+      };
+  contactFormSettings?:
+    | T
+    | {
+        enableContactForm?: T;
+        emailRecipient?: T;
+        formSuccessMessage?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        facebook?: T;
+        twitter?: T;
+        instagram?: T;
+        linkedin?: T;
+      };
+  businessHours?:
+    | T
+    | {
+        day?: T;
+        isOpen?: T;
+        openTime?: T;
+        closeTime?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  title?: T;
+  publishedDate?: T;
+  slug?: T;
+  slugLock?: T;
+  aboutCompany?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+      };
+  visionMission?:
+    | T
+    | {
+        heading?: T;
+        vision?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+            };
+        mission?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+            };
+      };
+  team?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        members?:
+          | T
+          | {
+              name?: T;
+              position?: T;
+              bio?: T;
+              photo?: T;
+              socialLinks?:
+                | T
+                | {
+                    linkedin?: T;
+                    twitter?: T;
+                    github?: T;
+                    website?: T;
+                  };
+              id?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  title?: T;
+  publishedDate?: T;
+  slug?: T;
+  slugLock?: T;
+  category?: T;
+  featuredImage?: T;
+  summary?: T;
+  content?: T;
+  author?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  relatedPosts?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -2171,82 +2534,95 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
-  menuAnimation?: ('None' | 'Underline' | 'Fade' | 'Scale') | null;
-  enableHoverEffect?: boolean | null;
-  transparentHeader?: boolean | null;
-  blurAmount?: number | null;
-  showSearch?: boolean | null;
   stickyBehavior?: ('None' | 'Sticky') | null;
-  /**
-   * Pick a background color for the header
-   */
-  headerBgColor?: string | null;
-  /**
-   * Pick a text color for the header
-   */
-  headerTextColor?: string | null;
-  /**
-   * Set the font size for the header text (in px)
-   */
-  headerFontSize?: number | null;
   headerPaddingTop?: number | null;
   headerPaddingBottom?: number | null;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null)
-            | ({
-                relationTo: 'projects';
-                value: string | Project;
-              } | null)
-            | ({
-                relationTo: 'skillsets';
-                value: string | Skillset;
-              } | null)
-            | ({
-                relationTo: 'insights';
-                value: string | Insight;
-              } | null);
-          url?: string | null;
+        itemType?: ('link' | 'collection') | null;
+        link?: {
+          link: {
+            type?: ('reference' | 'custom') | null;
+            newTab?: boolean | null;
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null)
+              | ({
+                  relationTo: 'projects';
+                  value: string | Project;
+                } | null)
+              | ({
+                  relationTo: 'skillsets';
+                  value: string | Skillset;
+                } | null)
+              | ({
+                  relationTo: 'insights';
+                  value: string | Insight;
+                } | null)
+              | ({
+                  relationTo: 'about';
+                  value: string | About;
+                } | null)
+              | ({
+                  relationTo: 'blog-posts';
+                  value: string | BlogPost;
+                } | null);
+            url?: string | null;
+            label: string;
+          };
+        };
+        collection?: {
+          collectionType: 'projects' | 'insights' | 'skills' | 'posts' | 'contact' | 'about';
           label: string;
         };
         subNavItems?:
           | {
-              link: {
-                type?: ('reference' | 'custom') | null;
-                newTab?: boolean | null;
-                reference?:
-                  | ({
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null)
-                  | ({
-                      relationTo: 'posts';
-                      value: string | Post;
-                    } | null)
-                  | ({
-                      relationTo: 'projects';
-                      value: string | Project;
-                    } | null)
-                  | ({
-                      relationTo: 'skillsets';
-                      value: string | Skillset;
-                    } | null)
-                  | ({
-                      relationTo: 'insights';
-                      value: string | Insight;
-                    } | null);
-                url?: string | null;
+              itemType?: ('link' | 'collection') | null;
+              link?: {
+                link: {
+                  type?: ('reference' | 'custom') | null;
+                  newTab?: boolean | null;
+                  reference?:
+                    | ({
+                        relationTo: 'pages';
+                        value: string | Page;
+                      } | null)
+                    | ({
+                        relationTo: 'posts';
+                        value: string | Post;
+                      } | null)
+                    | ({
+                        relationTo: 'projects';
+                        value: string | Project;
+                      } | null)
+                    | ({
+                        relationTo: 'skillsets';
+                        value: string | Skillset;
+                      } | null)
+                    | ({
+                        relationTo: 'insights';
+                        value: string | Insight;
+                      } | null)
+                    | ({
+                        relationTo: 'about';
+                        value: string | About;
+                      } | null)
+                    | ({
+                        relationTo: 'blog-posts';
+                        value: string | BlogPost;
+                      } | null);
+                  url?: string | null;
+                  label: string;
+                };
+              };
+              collection?: {
+                collectionType: 'projects' | 'insights' | 'skills' | 'posts' | 'contact' | 'about';
                 label: string;
               };
               image?: (string | null) | Media;
@@ -2275,6 +2651,14 @@ export interface Header {
                         | ({
                             relationTo: 'insights';
                             value: string | Insight;
+                          } | null)
+                        | ({
+                            relationTo: 'about';
+                            value: string | About;
+                          } | null)
+                        | ({
+                            relationTo: 'blog-posts';
+                            value: string | BlogPost;
                           } | null);
                       url?: string | null;
                       label: string;
@@ -2300,33 +2684,7 @@ export interface Footer {
   id: string;
   navItems?:
     | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null)
-            | ({
-                relationTo: 'projects';
-                value: string | Project;
-              } | null)
-            | ({
-                relationTo: 'skillsets';
-                value: string | Skillset;
-              } | null)
-            | ({
-                relationTo: 'insights';
-                value: string | Insight;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
+        title: string;
         subLinks?:
           | {
               link: {
@@ -2352,6 +2710,14 @@ export interface Footer {
                   | ({
                       relationTo: 'insights';
                       value: string | Insight;
+                    } | null)
+                  | ({
+                      relationTo: 'about';
+                      value: string | About;
+                    } | null)
+                  | ({
+                      relationTo: 'blog-posts';
+                      value: string | BlogPost;
                     } | null);
                 url?: string | null;
                 label: string;
@@ -2472,6 +2838,14 @@ export interface Copyright {
             | ({
                 relationTo: 'insights';
                 value: string | Insight;
+              } | null)
+            | ({
+                relationTo: 'about';
+                value: string | About;
+              } | null)
+            | ({
+                relationTo: 'blog-posts';
+                value: string | BlogPost;
               } | null);
           url?: string | null;
           label: string;
@@ -2487,30 +2861,14 @@ export interface Copyright {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  menuAnimation?: T;
-  enableHoverEffect?: T;
-  transparentHeader?: T;
-  blurAmount?: T;
-  showSearch?: T;
   stickyBehavior?: T;
-  headerBgColor?: T;
-  headerTextColor?: T;
-  headerFontSize?: T;
   headerPaddingTop?: T;
   headerPaddingBottom?: T;
   navItems?:
     | T
     | {
+        itemType?: T;
         link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        subNavItems?:
           | T
           | {
               link?:
@@ -2520,6 +2878,36 @@ export interface HeaderSelect<T extends boolean = true> {
                     newTab?: T;
                     reference?: T;
                     url?: T;
+                    label?: T;
+                  };
+            };
+        collection?:
+          | T
+          | {
+              collectionType?: T;
+              label?: T;
+            };
+        subNavItems?:
+          | T
+          | {
+              itemType?: T;
+              link?:
+                | T
+                | {
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          newTab?: T;
+                          reference?: T;
+                          url?: T;
+                          label?: T;
+                        };
+                  };
+              collection?:
+                | T
+                | {
+                    collectionType?: T;
                     label?: T;
                   };
               image?: T;
@@ -2554,15 +2942,7 @@ export interface FooterSelect<T extends boolean = true> {
   navItems?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
+        title?: T;
         subLinks?:
           | T
           | {

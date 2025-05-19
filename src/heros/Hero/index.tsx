@@ -543,7 +543,7 @@ export const Hero: React.FC<Page['hero']> = ({
                         {currentSlide.productImage && (
                           <div className="product-image">
                             <Media
-                              imgClassName="w-full h-screen object-contain"
+                              imgClassName="w-full h-screen object-cover"
                               resource={currentSlide.productImage}
                             />
                           </div>
