@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Media } from '@/payload-types'
-import VideoEmbed from './VideoEmbed'
 
 type Insight = {
   id: string
@@ -27,13 +26,13 @@ type Insight = {
 }
 
 type InsightsGridProps = {
-  insights: Insight[] | any
+  insights: Insight[]
 }
 
 export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'tutorial'>('all')
 
-  const filteredInsights = insights.filter((insight: any) => {
+  const filteredInsights = insights.filter((insight) => {
     if (activeTab === 'all') return true
     return insight.type === activeTab
   })
@@ -86,7 +85,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
 
         {/* Grid of cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredInsights.map((insight: any) => (
+          {filteredInsights.map((insight) => (
             <div
               key={insight.id}
               className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 border border-gray-200"
@@ -162,7 +161,7 @@ export const InsightsGrid: React.FC<InsightsGridProps> = ({ insights }) => {
                 {insight.tags && insight.tags.length > 0 && (
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {insight.tags.map((tagObj: any, index: any) => (
+                      {insight.tags.map((tagObj, index) => (
                         <span
                           key={index}
                           className="px-2 py-1 bg-white border border-gray-200 text-black text-xs rounded-full"
