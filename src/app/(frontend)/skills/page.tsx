@@ -5,7 +5,7 @@ import { SkillSets } from '@/components/ui/SkillSets'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'My Skill Sets',
+  title: 'Our Skill Sets',
   description: 'Explore my areas of expertise and professional capabilities',
 }
 

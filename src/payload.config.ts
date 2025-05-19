@@ -21,6 +21,9 @@ import { Copyright } from './Copyright/config'
 import { Projects } from './collections/Projects/Projects'
 import { SkillSets } from './collections/SkillSets/SkillSets'
 import { Insights } from './collections/Insights/Insights'
+import { Contact } from './collections/Contact'
+import { About } from './collections/About'
+import { BlogPosts } from './collections/BlogPosts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -67,7 +70,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Projects, SkillSets, Insights],
+  collections: [Pages, Posts, Media, Categories, Users, Projects, SkillSets, Insights, Contact, About, BlogPosts],
   // todo
   localization: {
     locales: ['en', 'es', 'de'], // required

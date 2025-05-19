@@ -9,6 +9,7 @@ import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { FeaturedPortfolio } from '@/blocks/FeaturedPortfolio'
 import { TrustedBy } from '@/blocks/TrustedBy'
+import { Blog } from '@/components/ui/Blog'
 
 const blockComponents: any = {
   archive: ArchiveBlock,
@@ -18,6 +19,7 @@ const blockComponents: any = {
   mediaBlock: MediaBlock,
   featuredPortfolio: FeaturedPortfolio,
   trustedBy: TrustedBy,
+  blog: Blog,
 }
 
 export const RenderBlocks: React.FC<{

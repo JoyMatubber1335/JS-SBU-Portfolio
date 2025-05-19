@@ -49,65 +49,17 @@ export function FooterClient({ footerContent, copyrightContent }: FooterClientPr
   return (
     <>
       <div
-        style={{
-          backgroundColor: footerStyles.footer.background,
-          color: footerStyles.footer.color,
-          borderColor: footerStyles.footer.borderColor,
-        }}
-        className="footer-wrapper mt-8"
+       
       >
         {footerContent}
       </div>
       <div
-        style={{
-          backgroundColor: footerStyles.copyright.background,
-          color: footerStyles.copyright.color,
-          borderColor: footerStyles.copyright.borderColor,
-        }}
-        className="copyright-wrapper"
+       
       >
         {copyrightContent}
       </div>
 
-      {/* CSS styles to override the footer styles */}
-      <style jsx global>{`
-        .footer-wrapper footer {
-          background-color: ${footerStyles.footer.background} !important;
-          color: ${footerStyles.footer.color} !important;
-          border: 1px solid ${footerStyles.footer.borderColorWithOpacity} !important;
-        }
-
-        .footer-wrapper .text-white {
-          color: ${footerStyles.mainLinks.color} !important;
-        }
-
-        .footer-wrapper .hover\\:text-primary:hover {
-          color: ${footerStyles.mainLinks.hoverColor} !important;
-        }
-
-        .footer-wrapper .text-gray-400 {
-          color: ${footerStyles.subLinks.color} !important;
-        }
-
-        .footer-wrapper .hover\\:text-white:hover {
-          color: ${footerStyles.mainLinks.color} !important;
-        }
-
-        .footer-wrapper .border-gray-300 {
-          border-color: ${footerStyles.socialIcons.borderColor} !important;
-        }
-
-        .copyright-wrapper div {
-          background-color: ${footerStyles.copyright.background} !important;
-          color: ${footerStyles.copyright.color} !important;
-          border-color: ${footerStyles.copyright.borderColor} !important;
-        }
-
-        .copyright-wrapper .text-black,
-        .copyright-wrapper .dark\\:text-white {
-          color: ${footerStyles.copyrightLinks.color} !important;
-        }
-      `}</style>
+     
     </>
   )
 }

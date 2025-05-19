@@ -2,6 +2,7 @@
 
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 type BlogItem = {
@@ -13,6 +14,7 @@ type BlogItem = {
   author?: string
   featured?: boolean
   url?: string
+  slug?: string
 }
 
 type BlogProps = {
@@ -47,19 +49,30 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
   // Use reduced opacity for borders
   const borderColorWithOpacity = hexToRgba(primaryColor, 0.08)
 
-  if (!blogs || blogs.length === 0) return <div>No blogs found.</div>
+  if (!blogs || blogs.length === 0) return <div></div>
 
   // Featured blog and remaining blogs
   const [featuredBlog, ...remainingBlogs] = blogs
 
+  // Get blog URL (use slug or fallback to url property)
+  const getBlogUrl = (blog: BlogItem) => {
+    if (blog.slug) {
+      return `/blog/${blog.slug}`
+    }
+    return blog.url || '#'
+  }
+
   return (
     <div>
-      <div className="w-full max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-12 md:px-6">
+      <div className="w-full max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-4 md:px-6">
         {/* Featured Blog Section */}
         {featuredBlog && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            {/* Featured Image */}
-            <div className="md:col-span-1 h-64 sm:h-72 md:h-80 overflow-hidden rounded-lg">
+            {/* Featured Image with Link Wrapper */}
+            <Link 
+              href={getBlogUrl(featuredBlog)} 
+              className="md:col-span-1 h-64 sm:h-72 md:h-80 overflow-hidden rounded-lg block"
+            >
               <Image
                 src={featuredBlog.image?.url || '/no-image.png'}
                 alt={featuredBlog.title}
@@ -68,16 +81,23 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 priority
               />
-            </div>
+            </Link>
 
             {/* Featured Content */}
             <div
-              className="md:col-span-2 rounded-lg p-4 sm:p-6 flex flex-col justify-between h-64 sm:h-72 md:h-80 shadow-sm hover:shadow-md transition-shadow duration-300 border"
+              className="md:col-span-2 rounded-lg p-4 sm:p-6 flex flex-col justify-between h-64 sm:h-72 md:h-80 shadow-sm hover:shadow-md transition-shadow duration-300 border relative"
               style={{ backgroundColor, borderColor: borderColorWithOpacity }}
             >
+              {/* Full overlay link */}
+              <Link 
+                href={getBlogUrl(featuredBlog)} 
+                className="absolute inset-0 z-10"
+                aria-label={`Read article: ${featuredBlog.title}`}
+              />
+
               <div>
                 <span
-                  className="inline-block text-xs font-semibold rounded mb-2 uppercase tracking-wide py-1 px-2 shadow-sm"
+                  className="inline-block text-xs font-semibold rounded mb-2 uppercase tracking-wide py-1 px-2 shadow-sm relative z-20"
                   style={{ backgroundColor: 'white', color: primaryColor }}
                 >
                   {featuredBlog.tag}
@@ -96,14 +116,15 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between text-xs sm:text-sm">
-                <a
-                  href={featuredBlog.url || '#'}
+              <div className="flex items-center justify-between text-xs sm:text-sm relative z-20">
+                <Link
+                  href={getBlogUrl(featuredBlog)}
                   className="underline font-semibold hover:opacity-80 transition-opacity"
                   style={{ color: primaryColor }}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   Read More
-                </a>
+                </Link>
                 {featuredBlog.date && (
                   <span style={{ color: secondaryColor }}>
                     {new Date(featuredBlog.date).toLocaleDateString('en-US', {
@@ -122,9 +143,16 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
           {remainingBlogs.map((blog, idx) => (
             <div
               key={idx}
-              className="rounded-lg overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 h-64 sm:h-72 border"
+              className="rounded-lg overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow duration-300 h-64 sm:h-72 border relative"
               style={{ backgroundColor, borderColor: borderColorWithOpacity }}
             >
+              {/* Full card clickable overlay */}
+              <Link 
+                href={getBlogUrl(blog)} 
+                className="absolute inset-0 z-10"
+                aria-label={`Read article: ${blog.title}`}
+              />
+              
               {/* Image Container */}
               <div className="relative h-32 sm:h-40">
                 <Image
@@ -132,10 +160,10 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
                   alt={blog.title}
                   width={400}
                   height={250}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
                 <span
-                  className="absolute top-2 left-2 text-xs font-semibold rounded uppercase tracking-wide shadow py-1 px-2"
+                  className="absolute top-2 left-2 text-xs font-semibold rounded uppercase tracking-wide shadow py-1 px-2 z-20"
                   style={{ backgroundColor: 'white', color: primaryColor }}
                 >
                   {blog.tag}
@@ -151,14 +179,15 @@ export const Blog: React.FC<BlogProps> = ({ blogs }) => {
                   {blog.title}
                 </h3>
 
-                <div className="flex items-center justify-between text-xs mt-auto">
-                  <a
-                    href={blog.url || '#'}
+                <div className="flex items-center justify-between text-xs mt-auto relative z-20">
+                  <Link
+                    href={getBlogUrl(blog)}
                     className="underline font-semibold hover:opacity-80 transition-opacity"
                     style={{ color: primaryColor }}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     Read More
-                  </a>
+                  </Link>
                   {blog.date && (
                     <span style={{ color: secondaryColor }}>
                       {new Date(blog.date).toLocaleDateString('en-US', {

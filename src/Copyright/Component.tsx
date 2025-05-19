@@ -12,7 +12,7 @@ export async function Copyright() {
   const copyrightLinks = copyrightData?.copyrightLinks || []
 
   return (
-    <div className="p-4 border-t border-border bg-gray-100 text-black dark:bg-card dark:text-white">
+    <div className="p-4 border-t border-border bg-gray-600 text-white  ">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-center md:text-left">
         {/* Left: Copyright */}
         <div className="w-full md:w-1/3 text-center md:text-left font-medium">{copyrightText}</div>
@@ -25,7 +25,7 @@ export async function Copyright() {
           {copyrightLinks?.map(({ link }, index) => (
             <React.Fragment key={index}>
               {index > 0 && <span className="mx-1">|</span>}
-              <CMSLink {...link} className="hover:underline text-black dark:text-white" />
+              <CMSLink {...link} className="hover:underline text-white dark:text-white" />
             </React.Fragment>
           ))}
         </div>

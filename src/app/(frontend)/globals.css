@@ -101,6 +101,27 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+/* Mobile header styling */
+@media (max-width: 768px) {
+  header {
+    /* Center logo on mobile */
+    text-align: center;
+    display: block !important; /* Ensure header is visible */
+  }
+  
+  header > div {
+    justify-content: center !important;
+  }
+  
+  /* Adjust logo size for mobile */
+  header .logo-container img,
+  header a img {
+    max-height: 50px;
+  }
+}
+
+/* Underline animation for nav links */
 .underline-animation {
   position: relative;
   display: inline-block;
@@ -119,4 +140,86 @@ html[data-theme='light'] {
 
 .group:hover .underline-animation::after {
   width: 100%;
+}
+
+/* Animations for mobile menu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+  }
+  to {
+    max-height: 1000px;
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out forwards;
+  overflow: hidden;
+}
+
+/* Mobile menu styling */
+@media (max-width: 768px) {
+  .mobile-menu-container {
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  /* Improve mobile navigation styling */
+  header nav {
+    width: 100%;
+  }
+  
+  header nav a {
+    padding: 0.75rem 1rem;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+  
+  /* Add visual indicator for links */
+  header nav a::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 0.35rem 0 0.35rem 0.35rem;
+    border-color: transparent transparent transparent rgba(255,255,255,0.5);
+  }
+  
+  /* Remove arrow from parent links that have dropdown buttons */
+  header nav > div > div > a::after {
+    display: none;
+  }
+  
+  /* Remove arrow from links inside dropdowns to prevent double arrows */
+  header .animate-slide-down a::after {
+    right: 0.5rem;
+    border-width: 0.25rem 0 0.25rem 0.25rem;
+  }
+  
+  header .animate-slide-down {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    background-color: rgba(0,0,0,0.2);
+  }
 }

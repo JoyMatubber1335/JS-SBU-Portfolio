@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import './Services.css'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
+import Link from 'next/link'
 
 export default function Services({ tabs }) {
   const panelRefs = useRef([])
@@ -63,7 +64,7 @@ export default function Services({ tabs }) {
   return (
     <div className="marketing-tabs__container" style={{ background: backgroundColor }}>
       <div
-        className="marketing-tabs__inner container max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-12 md:px-6"
+        className="marketing-tabs__inner container max-w-7xl mx-auto sm:py-6 sm:px-3 md:py-4 md:px-6"
         style={{ background: backgroundColor, color: primaryColor }}
       >
         <h2 className="marketing-tabs__headline" style={{ color: primaryColor }}>
@@ -105,7 +106,7 @@ export default function Services({ tabs }) {
                     {tab.links &&
                       tab.links.map((link) => (
                         <li key={link.text}>
-                          <a
+                          <Link
                             href={link.href}
                             className="services__link"
                             style={{ color: secondaryColor }}
@@ -114,7 +115,7 @@ export default function Services({ tabs }) {
                               <ArrowIcon />
                             </span>
                             <span>{link.text}</span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                   </ul>
@@ -131,6 +132,7 @@ export default function Services({ tabs }) {
                             ''
                       }
                       alt={tab.title}
+                      className="object-cover"
                       style={{ boxShadow: `0 4px 32px rgba(0, 0, 0, 0.15)` }}
                     />
                   )}

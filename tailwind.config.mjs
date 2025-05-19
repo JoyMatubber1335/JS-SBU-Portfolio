@@ -25,6 +25,8 @@ const config = {
     'bg-success/30',
     'border-warning',
     'bg-warning/30',
+    'animate-fade-in',
+    'animate-slide-down',
   ],
   theme: {
     container: {
@@ -49,6 +51,8 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in': 'fadeIn 0.3s ease-out forwards',
+        'slide-down': 'slideDown 0.3s ease-out forwards',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -105,6 +109,14 @@ const config = {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
+        },
+        'fadeIn': {
+          from: { opacity: '0', transform: 'translateY(-10px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        'slideDown': {
+          from: { maxHeight: '0', opacity: '0' },
+          to: { maxHeight: '1000px', opacity: '1' },
         },
       },
       typography: () => ({

@@ -11,6 +11,8 @@ import { post2 } from './post-2'
 import { post3 } from './post-3'
 import { skillSetsSeed } from './skillsets'
 import { insightsSeed } from './insights'
+import { aboutSeed } from './about'
+import { blogPostsSeed } from './blog-posts'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -22,6 +24,9 @@ const collections: CollectionSlug[] = [
   'search',
   'projects',
   'skillsets',
+  'insights',
+  'about',
+  'blog-posts',
 ]
 const globals: GlobalSlug[] = ['header', 'footer']
 
@@ -315,6 +320,47 @@ export const seed = async ({
     }),
   )
 
+  payload.logger.info(`— Seeding about section...`)
+
+  // Create about section with team members
+  const aboutData = {
+    ...aboutSeed,
+    aboutCompany: {
+      ...aboutSeed.aboutCompany,
+      image: image1Doc.id, // Use an existing image for the company image
+    },
+    team: {
+      ...aboutSeed.team,
+      members: aboutSeed.team?.members?.map((member, index) => ({
+        ...member,
+        photo: index % 2 === 0 ? image1Doc.id : image2Doc.id, // Alternate between images for team photos
+      })) || [],
+    },
+  }
+  
+  const aboutPage = await payload.create({
+    collection: 'about',
+    depth: 0,
+    data: aboutData,
+  })
+
+  payload.logger.info(`— Seeding blog posts...`)
+
+  // Create blog posts
+  const blogPosts = await Promise.all(
+    blogPostsSeed.map(async (post, index) => {
+      return await payload.create({
+        collection: 'blog-posts',
+        depth: 0,
+        data: {
+          ...post,
+          featuredImage: index % 3 === 0 ? image1Doc.id : (index % 3 === 1 ? image2Doc.id : image3Doc.id), // Alternate between images
+          author: demoAuthor.id, // Set the author to the demo user
+        },
+      })
+    })
+  )
+
   // Update header to include skill sets link
   await payload.updateGlobal({
     slug: 'header',
@@ -346,6 +392,20 @@ export const seed = async ({
             type: 'custom',
             label: 'Insights',
             url: '/insights',
+          },
+        },
+        {
+          link: {
+            type: 'custom',
+            label: 'Blog',
+            url: '/blog',
+          },
+        },
+        {
+          link: {
+            type: 'custom',
+            label: 'About',
+            url: '/about',
           },
         },
         {

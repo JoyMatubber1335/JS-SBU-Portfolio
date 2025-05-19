@@ -5,22 +5,29 @@ import React from 'react'
 
 import type { Page, Post } from '@/payload-types'
 
-type CMSLinkType =
-  | {
-      appearance?: 'inline' | ButtonProps['variant']
-      children?: React.ReactNode
-      className?: string
-      label?: string | null
-      newTab?: boolean | null
-      reference?: {
-        relationTo: 'pages' | 'posts'
-        value: Page | Post | string | number
-      } | null
-      size?: ButtonProps['size'] | null
-      type?: 'custom' | 'reference' | null
-      url?: string | null
-    }
-  | any
+type CMSLinkType = {
+  appearance?: 'inline' | ButtonProps['variant']
+  children?: React.ReactNode
+  className?: string
+  label?: string | null
+  newTab?: boolean | null
+  reference?: {
+    relationTo:
+      | 'pages'
+      | 'posts'
+      | 'projects'
+      | 'media'
+      | 'users'
+      | 'insights'
+      | 'skillsets'
+      | 'about'
+      | 'blog-posts'
+    value: Page | Post | any | any | any | any | any | any | any
+  } | null
+  size?: ButtonProps['size'] | null
+  type?: 'custom' | 'reference' | null
+  url?: string | null
+}
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
   const {
@@ -35,14 +42,36 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  const href =
-    type === 'reference' && typeof reference?.value === 'object' && reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
-      : url
+  let href = url || ''
 
-  if (!href) return null
+  if (type === 'reference' && reference) {
+    const { relationTo, value } = reference
+
+    // Map collection names to URL paths
+    const getUrlPath = (collection: string): string => {
+      // Special case for blog posts - use '/blog/' instead of '/blog-posts/'
+      if (collection === 'blog-posts') return '/blog'
+
+      // For other collections, use the collection name
+      return collection !== 'pages' ? `/${collection}` : ''
+    }
+
+    if (typeof value === 'object') {
+      if (value.slug) {
+        href = `${getUrlPath(relationTo)}/${value.slug}`
+      } else if (value.id) {
+        // If there's no slug but there is an ID, use ID in the URL
+        href = `${getUrlPath(relationTo)}/${value.id}`
+      }
+    } else if (typeof value === 'string' || typeof value === 'number') {
+      href = `${getUrlPath(relationTo)}/${value}`
+    }
+  }
+
+  // Add a fallback URL if href is still empty
+  if (!href && label) {
+    href = `#${label.toLowerCase().replace(/\s+/g, '-')}`
+  }
 
   const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}
@@ -50,7 +79,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+      <Link className={cn(className)} href={href} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>
@@ -59,7 +88,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+      <Link className={cn(className)} href={href} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>
