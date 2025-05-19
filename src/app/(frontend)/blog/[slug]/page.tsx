@@ -9,19 +9,18 @@ import Link from 'next/link'
 import RichText from '@/components/RichText'
 
 interface BlogPostPageProps {
-  params: {
-    slug: string
-  }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
+  const { slug = 'blog' } = await params
 
   const { docs } = await payload.find({
     collection: 'blog-posts',
     where: {
       slug: {
-        equals: params.slug,
+        equals: slug,
       },
     },
     limit: 1,
@@ -44,12 +43,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const payload = await getPayload({ config: configPromise })
+  const { slug = 'blog' } = await params
 
   const { docs } = await payload.find({
     collection: 'blog-posts',
     where: {
       slug: {
-        equals: params.slug,
+        equals: slug,
       },
     },
     limit: 1,
