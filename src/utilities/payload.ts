@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -37,4 +38,4 @@ export const payload = {
     const client = await getPayloadClient()
     return client.delete(args)
   },
-} 
+}
