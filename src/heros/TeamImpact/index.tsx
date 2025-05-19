@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 
@@ -5,7 +6,6 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
-import RichText from '@/components/RichText'
 import { useGlobalSettings } from '@/hooks/useGlobalSettings'
 
 // Define slide types
@@ -47,7 +47,6 @@ type Slide = {
 export const Hero: React.FC<Page['hero']> = ({
   links,
   media,
-  richText,
   testimonials,
   testimonialStyle,
   teamContent,
@@ -82,18 +81,20 @@ export const Hero: React.FC<Page['hero']> = ({
   // Default styling values
   const textSize = testimonialStyle?.textSize || 'base'
   const textColor = settings?.colorScheme?.primaryColor || '#334155'
-  const backgroundColor =
-    testimonialStyle?.backgroundColor || settings?.colorScheme?.backgroundColor || '#ffffff'
+
   const borderColor = testimonialStyle?.borderColor || '#1e3a8a'
   const transitionDuration = testimonialStyle?.transitionDuration || '500'
   const autoplay = testimonialStyle?.autoplay ?? true
   const interval = (testimonialStyle?.interval || 5) * 1000
 
-  // Define default slide
-  const defaultSlide: Slide = {
-    slideType: 'motto',
-    motto: 'Empowering Your Business with Top Talent',
-  }
+  // Define default slide using useMemo to keep reference stable
+  const defaultSlide = React.useMemo<Slide>(
+    () => ({
+      slideType: 'motto',
+      motto: 'Empowering Your Business with Top Talent',
+    }),
+    [],
+  )
 
   // Prepare slides array
   const allSlides: Slide[] = React.useMemo(() => {
@@ -124,7 +125,7 @@ export const Hero: React.FC<Page['hero']> = ({
       return validSlides.length > 0 ? validSlides : [defaultSlide]
     }
     return [defaultSlide]
-  }, [testimonials])
+  }, [defaultSlide, testimonials])
 
   // State for the current slide index and animation
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -153,22 +154,6 @@ export const Hero: React.FC<Page['hero']> = ({
         return 'text-xl'
       default:
         return 'text-base'
-    }
-  }
-
-  // Get heading size class
-  const getHeadingSizeClass = (size?: string | null): string => {
-    switch (size) {
-      case '3xl':
-        return 'text-3xl lg:text-3xl'
-      case '4xl':
-        return 'text-3xl lg:text-4xl'
-      case '5xl':
-        return 'text-4xl lg:text-5xl'
-      case '6xl':
-        return 'text-5xl lg:text-6xl'
-      default:
-        return 'text-4xl lg:text-5xl'
     }
   }
 
