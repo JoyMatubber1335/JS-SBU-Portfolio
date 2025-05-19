@@ -1,6 +1,6 @@
 // import { SkillSet } from '../../payload-types'
 
-export const skillSetsSeed: any = [
+export const skillSetsSeed = [
   {
     title: 'Full Stack Development',
     description: [
